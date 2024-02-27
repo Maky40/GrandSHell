@@ -1,0 +1,26 @@
+git pull :
+MAJ branch
+
+git branch -a :
+affiche les branches
+
+git branch [nom] :
+creer une branch avec le [nom] copie du master
+
+git checkout [nom] :
+permet de se deplacer sur la branch [nom]
+
+git branch -D [nom] :
+supprime la branche locale [nom]
+
+git push [origin] --delete [nom] :
+supprime la branche distante [nom]
+
+git fetch --prune :
+MAJ les branches distantes si elles ont ete supprimees par un collegue
+
+git log :
+affiche les logs des derniers commits
+
+git merge [nom] : permet de merge une branche. Toujours etre sur le master quand on merge!!
+
