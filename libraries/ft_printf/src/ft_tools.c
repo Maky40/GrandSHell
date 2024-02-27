@@ -60,7 +60,7 @@ int	ft_putnbr_unsigned(unsigned int n)
 		ft_putnbr(n / 10);
 		ft_putnbr(n % 10);
 	}
-	if (n >= 0 && n <= 9)
+	if (n <= 9)
 		ft_putchar(n + '0');
 	return (ft_len_unsigned_putnbr(n));
 }
@@ -72,7 +72,7 @@ int	ft_puthex(unsigned long n, const char *base)
 		ft_puthex(n / 16, base);
 		ft_puthex(n % 16, base);
 	}
-	if (n >= 0 && n <= 15)
+	if (n <= 15)
 		ft_putchar(base[n]);
 	return (ft_len_hexa(n));
 }

@@ -12,8 +12,18 @@
 
 #include "../include/minishell.h"
 
-int main()
+int	main(int argc, char **argv, char **envp)
 {
-	ft_printf("lalala");
-	return (0);
+	t_data	data;
+	(void)argv;
+	(void)envp;
+	if (argc != 1)
+		return (ft_printf("Error, no argument needed\n"),1);
+	while (1)
+	{
+		data.line = readline("minishell> ");
+		if (data.line && *data.line)
+			add_history(data.line);
+		free(data.line);
+	}
 }

@@ -54,7 +54,7 @@ printf:
 
 $(NAME): lib gnl printf $(OBJ)
 	@echo "\033[0;33m\nCOMPILING minishell...\n"
-	$(CC) $(OBJ) $(LIBFT_LIB) $(GNL_LIB) $(PRINTF_LIB) -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT_LIB) $(GNL_LIB) $(PRINTF_LIB) -lreadline -o $(NAME)
 	@echo "\033[1;32m./minishell created\n"
 
 clean:
