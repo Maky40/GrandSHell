@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/26 11:56:27 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/27 14:09:59 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ typedef struct s_table_command
 	t_command *commands;
 	int num_commands;
 }	t_table;
+
+char	**dup_env(char **envp);
+void	free_dup_env(char **dup_env);
 
 #endif
