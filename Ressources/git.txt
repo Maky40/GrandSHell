@@ -22,5 +22,6 @@ MAJ les branches distantes si elles ont ete supprimees par un collegue
 git log :
 affiche les logs des derniers commits
 
-git merge [nom] : permet de merge une branche. Toujours etre sur le master quand on merge!!
+git merge [nom] :
+permet de merge une branche. Toujours etre sur le master quand on merge!!
 
