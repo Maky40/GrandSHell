@@ -22,7 +22,7 @@ GNL_FILE	=	gnl.a
 
 GNL_LIB	=	$(addprefix $(GNL_PATH), $(GNL_FILE))
 
-C_FILE		=	main.c
+C_FILE		=	main.c dup_env.c
 
 SRC_DIR		=	./src/
 
