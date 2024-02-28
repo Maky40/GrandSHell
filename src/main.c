@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
+	data.env = dup_env(envp);
 	while (1)
 	{
 		data.line = readline("minishell> ");
