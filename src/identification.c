@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identification.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 09:17:53 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/28 13:48:53 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ void	define_commands(t_table *all_commands, char **split)
 
 void	identify_line(t_data *data)
 {
-	t_table	all_commands;
+	//t_table	all_commands;
 	char	**split;
 
 	data -> line = skip_whitespace(data -> line);
-	split = ft_split(data -> line, ' ');
-	define_commands(&all_commands, split);
+	split = ft_split_command(data -> line, ' ');
+	free(split);
+	//define_commands(&all_commands, split);
 }
+

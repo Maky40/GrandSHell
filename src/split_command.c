@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:19:41 by xav               #+#    #+#             */
-/*   Updated: 2024/02/28 12:21:48 by xav              ###   ########.fr       */
+/*   Updated: 2024/02/28 17:16:53 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_free_command(char **split, int word)
 	return (0);
 }
 
-int	count_words_command(const char *str, char charset)
+int	count_words_command(const char *str, char charset) 
 {
 	int	i;
 	int	words;
@@ -119,8 +119,8 @@ int	write_split_command(char **split, const char *str, char charset)
 			}
 			split[word] = (char *)malloc(sizeof(char) * (j + 1));
 			if (split[word] == NULL)
-				return (ft_free(split, word));
-			write_word(split[word], str + i, charset);
+				return (ft_free_command(split, word));
+			write_word_command(split[word], str + i, charset);
 			i = i + j;
 			word++;
 		}
@@ -135,13 +135,20 @@ char	**ft_split_command(char *str, char c)
 
 	if (!str)
 		return (NULL);
-	words = count_words(str, c);
+	words = count_words_command(str, c);
 	split = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!split)
 		return (NULL);
 	split[words] = 0;
-	if (write_split(split, str, c) == 0)
+	if (write_split_command(split, str, c) == 0)
 		return (NULL);
 	free(str);
+	int i = 0; 
+	while(split[i])
+	{
+		ft_printf("Mot %d : %s\n", (i + 1), split[i]);
+		i++;
+	}
 	return (split);
 }
+
