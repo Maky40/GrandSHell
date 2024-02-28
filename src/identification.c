@@ -6,90 +6,93 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 09:17:53 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/28 15:10:58 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*skip_whitespace(char *str)
+void	skip_whitespace(t_data *data, char *str, int j)
 {
-	char	*new_str;
-	int		len;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	i = 0;
-	len = ft_strlen(str);
-	while (str[i] >= 7 && str[i] <= 13 && str[i])
-		i++;
-	new_str = malloc(sizeof(char) * (len - i + 1));
-	len = 0;
-	while (str[i + len])
-	{
-		new_str[len] = str[i + len];
-		len++;
-	}
-	new_str[len] = '\0';
-	free (str);
-	return (new_str);
+	while ((str[j] >= 7 && str[j] <= 13) || str[j] == ' ')
+		j++;
+	data -> index_line = j;
+	return ;
 }
 
-int		search_operators(char *str)
+int		search_operators(char c)
 {
-	if (str[0] == '|' && str[1] == '\0')
-		return (1);
-	if ((ft_strchr(str, "&&") || ft_strchr(str, "||")) && ft_strlen(str) == 2)
+	if (c == '|' || c == '>' || c == '<' || c == '&' || c == ' ' || c == '\0')
 		return (1);
 	return (0);
 }
+void	str_operators(t_data *data, int j, int i)
+{
+	while (data -> line[j] != '|' && data -> line[j] != '>' && \
+	data -> line[j] != '<' && data -> line[j] != '&' && data -> line[j] && \
+	data -> line[j] != ' ' && data -> line[j] != '"' && data -> line[j] != 39)
+		j++;
+	if (data -> line[j] == '"' || data -> line[j] == 39)
+		str_quotes(data, j, i);
+	add_node(data, i, j - 1);
+	if (data -> line[j] == '|')
+		add_node(data, i, j - 1);
+	if (data -> line[j] == '>')
+		add_node(data, i, j - 1);
+	if (data -> line[j] == '<')
+		add_node(data, i, j - 1);
+	if (data -> line[j] == '&')
+		add_node(data, i, j - 1);
+	if (data -> line[j] == ' ')
+		add_node(data, i, j - 1);
 
-void	set_commands(char **split, t_table *all_commands)
+}
+void	str_quotes(t_data *data, int j, int i)
+{
+	if (data -> line[j] == '"')
+	{
+		while (data -> line[j] && data -> line[j] != '"')
+			j++;
+		if (data -> line[j] == '\0')
+			finish_quote();
+		// add_node(*data, i, j);
+		j++;
+		data -> index_line = j;
+	}
+	if (data -> line[j] == 39)
+	{
+		while (data -> line[j] && data -> line[j] != 39)
+			j++;
+		if (data -> line[j] == '\0')
+			finish_quote();
+		// add_node(data, i, j);
+		j++;
+		data -> index_line = j;
+	}
+	if (data ->line[j] && search_operators(data ->line[j]) == 0)
+		str_operators(data, j, i);
+	if (search_operators(data ->line[j]) == 1)
+		add_node(data, j, i);
+	return ;
+}
+void	identify_line(t_data *data, t_lexer *lexer)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < all_commands -> num_commands)
+	while (data -> line[j])
 	{
-		all_commands -> commands[i].command = ft_strdup(split[j]);
-		ft_printf("command %d = %s\n", i, all_commands -> commands[i].command);
-		while (split[j] && search_operators(split[j]) != 1)
-			j++;
-		j++;
-		i++;
+		skip_whitespaces(data, data -> line, j);
+		j = data -> index_line;
+		i = j;
+		str_quotes(data, j, i);
+		j = data -> index_line;
+		i = j;
+		str_operators(data, j, i);
 	}
 	return ;
 }
-
-void	define_commands(t_table *all_commands, char **split)
-{
-	int	i;
-	int	nb;
-
-	i = 0;
-	nb = 1;
-	while (split[i])
-	{
-		if (search_operators(split[i]) == 1 && split[i + 1])
-			nb++;
-		i++;
-	}
-	ft_printf("nombre = %d\n", nb);
-	all_commands -> commands = malloc(sizeof(t_command) * nb);
-	all_commands -> num_commands = nb;
-	set_commands(split, all_commands);
-	return ;
-}
-
-void	identify_line(t_data *data)
-{
-	t_table	all_commands;
-	char	**split;
-
-	data -> line = skip_whitespace(data -> line);
-	split = ft_split(data -> line, ' ');
-	define_commands(&all_commands, split);
-}
+// revoir la structure de ta fct identify_line + creer les fonctions add_nodes
+//  ajouter les returns quand tu creer des nodes
