@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 15:10:58 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/28 15:16:57 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	str_operators(t_data *data, int j, int i)
 		str_quotes(data, j, i);
 	add_node(data, i, j - 1);
 	if (data -> line[j] == '|')
-		add_node(data, i, j - 1);
+		add_node(data, i, j);
 	if (data -> line[j] == '>')
-		add_node(data, i, j - 1);
+		add_node(data, i, j);
 	if (data -> line[j] == '<')
-		add_node(data, i, j - 1);
+		add_node(data, i, j);
 	if (data -> line[j] == '&')
-		add_node(data, i, j - 1);
+		add_node(data, i, j);
 	if (data -> line[j] == ' ')
-		add_node(data, i, j - 1);
+		add_node(data, i, j);
 
 }
 void	str_quotes(t_data *data, int j, int i)
