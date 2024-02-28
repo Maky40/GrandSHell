@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/27 16:43:12 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/28 12:48:52 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ typedef enum s_tokens
 	OR,
 	PARENTHESIS,
 	WILDCARD,
+	COMMAND, 
+	ARGS,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
 }	t_tokens;
 
 typedef struct s_lexer
@@ -43,8 +47,11 @@ typedef struct s_lexer
 	char	*str;
 	t_tokens token;
 	int	index;
+	int command;
+	int	args; 
 	struct s_lexer *next;
 	struct s_lexer *prev;
+	int nb_command;
 }	t_lexer;
 
 typedef struct s_command

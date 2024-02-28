@@ -19,7 +19,7 @@ SRC				=	$(addprefix $(CFILE_DIR), $(C_FILE))
 
 INCLUDE_DIR		=	./include/
 
-FLAG			=	-Wall -Wextra -Werror
+FLAG			=	-Wall -Wextra -Werror 
 
 INCLUDE			=	libft.h
 

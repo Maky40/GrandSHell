@@ -2,7 +2,7 @@ NAME		=	minishell
 
 CC			=	cc
 
-FLAG		=	-Wall -Wextra -Werror
+FLAG		=	-Wall -Wextra -Werror -g
 
 LIBFT_PATH	=	./libraries/libft/
 
