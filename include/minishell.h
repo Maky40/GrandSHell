@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 12:48:52 by xav              ###   ########.fr       */
+/*   Updated: 2024/02/28 13:01:12 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum s_tokens
 	ARGS,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	EXPANSION,
 }	t_tokens;
 
 typedef struct s_lexer
