@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xberger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:27:16 by xberger           #+#    #+#             */
-/*   Updated: 2023/11/26 15:11:57 by xberger          ###   ########.fr       */
+/*   Updated: 2024/02/28 09:03:53 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	execute(char *cmd, char **envp)
 	char	**cmds;
 	char	*path;
 	int		i;
+	int		j;
+
+	j = 0;
 
 	i = -1;
 	cmds = ft_split(cmd, ' ');
@@ -58,6 +61,11 @@ void	execute(char *cmd, char **envp)
 		free(cmds);
 		perror("Command not found");
 		exit(EXIT_FAILURE);
+	}
+	while (cmds[j])
+	{
+		printf("%s\n", cmds[j]);
+		j++;
 	}
 	if (execve(path, cmds, envp) == -1)
 	{

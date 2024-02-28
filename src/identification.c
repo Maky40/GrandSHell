@@ -6,11 +6,35 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/27 17:55:20 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/28 09:17:53 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	*skip_whitespace(char *str)
+{
+	char	*new_str;
+	int		len;
+	int		i;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	len = ft_strlen(str);
+	while (str[i] >= 7 && str[i] <= 13 && str[i])
+		i++;
+	new_str = malloc(sizeof(char) * (len - i + 1));
+	len = 0;
+	while (str[i + len])
+	{
+		new_str[len] = str[i + len];
+		len++;
+	}
+	new_str[len] = '\0';
+	free (str);
+	return (new_str);
+}
 
 int		search_operators(char *str)
 {
@@ -65,6 +89,7 @@ void	identify_line(t_data *data)
 	t_table	all_commands;
 	char	**split;
 
+	data -> line = skip_whitespace(data -> line);
 	split = ft_split(data -> line, ' ');
 	define_commands(&all_commands, split);
 }
