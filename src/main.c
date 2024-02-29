@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 13:28:45 by xav              ###   ########.fr       */
+/*   Updated: 2024/02/29 15:04:29 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 		data.line = readline("minishell> ");
 		if (data.line && *data.line)
 			add_history(data.line);
+		check_line(&data);
 		identify_line(&data);
 		// free(data.line);
 	}

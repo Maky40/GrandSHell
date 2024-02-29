@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_command.c                                    :+:      :+:    :+:   */
+/*   split_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 12:19:41 by xav               #+#    #+#             */
-/*   Updated: 2024/02/29 11:00:10 by xav              ###   ########.fr       */
+/*   Created: 2024/02/29 13:58:31 by xav               #+#    #+#             */
+/*   Updated: 2024/02/29 14:58:15 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_free_command(char **split, int word)
+
+int	ft_free_pipe(char **split, int word)
 {
 	while (word != -1)
 	{
@@ -22,51 +23,41 @@ int	ft_free_command(char **split, int word)
 	return (0);
 }
 
-int	count_words_command(const char *str, char charset) 
+int	count_words_pipe(const char *str, char charset)
 {
 	int	i;
 	int	words;
-	int inside_quotes;
-	char quote_type;
-
-	inside_quotes = 0;
+	char	quote_type;
+	 
+	quote_type = '\0';
 	words = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\'' || str[i] == '"')
+		if ((str[i] == '\'' || str[i] == '"'))
 		{
-			if (!inside_quotes)
-			{
-				inside_quotes = 1;
-				quote_type = str[i];
-			}
-			else if(str[i] == quote_type)
-			{
-				inside_quotes = 0;
-				quote_type = '\0';
-				words++;
-			}
+			quote_type = str[i++];
+			while (str[i] != quote_type && str[i])
+				i++;
 		}
-		else if ((str[i + 1] == charset || str[i + 1] == '\0') \
-		&& (str[i] != charset && str[i] != '\0' && !inside_quotes))
+		if ((str[i + 1] == charset || str[i + 1] == '\0') \
+		&& (str[i] != charset && str[i] != '\0'))
 			words++;
 		i++;
 	}
-	printf("Nombre de mots : %d\n", words);
-	printf(" Inside quotes : %d\n", inside_quotes);
+	printf("Nb words : %d\n", words);
 	return (words);
 }
 
-void	write_word_command(char *dest, const char *from, char charset)
+void	write_word_pipe(char *dest, const char *from, char charset)
 {
-	int		i;
-	int		inside_quotes;
-	char	quote_type;
+	int	i;
+	char quote_type;
+	int inside_quotes;
 
 	inside_quotes = 0;
-	i = 0;
 	quote_type = '\0';
+	i = 0;
 	while ((from[i] != charset || inside_quotes) && from[i] != '\0')
 	{
 		if (!inside_quotes && (from[i] == '\'' || from[i] == '"'))
@@ -83,21 +74,18 @@ void	write_word_command(char *dest, const char *from, char charset)
 		i++;
 	}
 	dest[i] = '\0';
-	ft_printf("%s\n", dest);
 }
 
-int	write_split_command(char **split, const char *str, char charset)
+int	write_split_pipe(char **split, const char *str, char charset)
 {
 	int		i;
 	int		j;
 	int		word;
-	int 	inside_quotes;
 	char	quote_type;
 
-	inside_quotes = 0;
+	quote_type = '\0';
 	word = 0;
 	i = 0;
-	quote_type = '\0';
 	while (str[i] != '\0')
 	{
 		if (str[i] == charset)
@@ -105,24 +93,21 @@ int	write_split_command(char **split, const char *str, char charset)
 		else
 		{
 			j = 0;
-			while ((str[i + j] != charset || inside_quotes) && str[i + j] != '\0')
+			while (str[i + j] != charset && str[i + j] != '\0')
 			{
-				if (!inside_quotes && (str[i + j] == '\'' || str[i + j] == '"'))
-				{
-					inside_quotes = 1; 
+				if ((str[i + j] == '\'' || str[i + j] == '"'))
+				{ 
 					quote_type = str[i + j];
-				}
-				else if (str[i + j] == quote_type)
-				{
-					inside_quotes = 0; 
-					quote_type = '\0';
-				}
+					j++;
+					while (str[i + j] != quote_type)
+						j++;
+				}				
 				j++;
 			}
 			split[word] = (char *)malloc(sizeof(char) * (j + 1));
 			if (split[word] == NULL)
-				return (ft_free_command(split, word));
-			write_word_command(split[word], str + i, charset);
+				return (ft_free_pipe(split, word));
+			write_word_pipe(split[word], str + i, charset);
 			i = i + j;
 			word++;
 		}
@@ -130,22 +115,22 @@ int	write_split_command(char **split, const char *str, char charset)
 	return (1);
 }
 
-char	**ft_split_command(char *str, char c)
+char	**ft_split_pipe(char *str, char c)
 {
 	char	**split;
 	int		words;
 
 	if (!str)
 		return (NULL);
-	words = count_words_command(str, c);
+	words = count_words_pipe(str, c);
 	split = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!split)
 		return (NULL);
 	split[words] = 0;
-	if (write_split_command(split, str, c) == 0)
+	if (write_split_pipe(split, str, c) == 0)
 		return (NULL);
 	free(str);
-	int i = 0; 
+	int i = 0;
 	while(split[i])
 	{
 		ft_printf("Mot %d : %s\n", (i), split[i]);
@@ -153,4 +138,3 @@ char	**ft_split_command(char *str, char c)
 	}
 	return (split);
 }
-

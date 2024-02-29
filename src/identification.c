@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 13:48:53 by xav              ###   ########.fr       */
+/*   Updated: 2024/02/29 16:04:23 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,18 @@ void	define_commands(t_table *all_commands, char **split)
 
 void	identify_line(t_data *data)
 {
-	//t_table	all_commands;
+
 	char	**split;
+	//t_table all_commands;
 
 	data -> line = skip_whitespace(data -> line);
-	split = ft_split_command(data -> line, ' ');
+	split = ft_split_pipe(data -> line, '|');
+	//while (split[all_commands.num_commands])
+		//all_commands.num_commands++;
+	//all_commands.commands = malloc(sizeof(t_command) * all_commands.num_commands);
+	
+	
+	
 	free(split);
 	//define_commands(&all_commands, split);
 }
