@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 13:35:55 by mnie             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:25:48 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ typedef struct s_data
 {
 	char	*line;
 	char	**env;
-	int	exit_status;
-	int	index_line;
+	int		exit_status;
+	int		index_line;
+	int		*quote_space;
 }	t_data;
 
 typedef struct s_table_command
@@ -72,5 +73,6 @@ typedef struct s_table_command
 char	**dup_env(char **envp);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer *lexer);
+void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer);
 
 #endif
