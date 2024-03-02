@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 12:02:44 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 17:38:17 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ int		search_operators(char c)
 		return (1);
 	return (0);
 }
-void	str_operators(t_data *data, int j, int i, t_lexer *lexer)
+void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
 	if (data -> line[j] == '"' || data -> line[j] == 39)
 		j++;
 	while (data -> line[j] != '|' && data -> line[j] != '>' && \
 	data -> line[j] != '<' && data -> line[j] != '&' && data -> line[j] && \
-	data -> line[j] != ' ' && data -> line[j] != '"' && data -> line[j] != 39)
+	data -> line[j] != ' ' && data -> line[j] != '"' && data -> line[j] != 39 &&\
+	data -> line[j])
 		j++;
 	if (data -> line[j] == '"' || data -> line[j] == 39)
 	{
@@ -72,34 +73,39 @@ void	str_operators(t_data *data, int j, int i, t_lexer *lexer)
 	else
 	{
 		ft_printf("------dans str_operators, j'ajoute un noeud pour i = %d et j - 1 = %d\n", i, j - 1);
+		add_node(data, i, j - 1, lexer);
 		i = j;
-		// add_node(data, i, j - 1);
+		data -> index_line = j;
+		if (data -> line[j] == '\0')
+			return ;
 		if (data -> line[j] == '|')
 		{
 			ft_printf("------dans str_operators, j'ajoute un noeud avec | pour i = %d et j = %d \n", i, j);
-			// add_node(data, i, j);
+			add_node(data, i, j, lexer);
 		}
 		if (data -> line[j] == '>')
 		{
 			ft_printf("------dans str_operators, j'ajoute un noeud avec > pour i = %d et j = %d \n", i, j);
-			// add_node(data, i, j);
+			add_node(data, i, j, lexer);
 		}
 		if (data -> line[j] == '<')
 		{
 			ft_printf("------dans str_operators, j'ajoute un noeud avec < pour i = %d et j = %d \n", i, j);
-			// add_node(data, i, j);
+			add_node(data, i, j, lexer);
 		}
 		if (data -> line[j] == '&')
 		{
 			ft_printf("------dans str_operators, j'ajoute un noeud avec & pour i = %d et j = %d \n", i, j);
-			// add_node(data, i, j);
+			add_node(data, i, j, lexer);
 		}
+		j = data -> index_line;
 		j++;
+		ft_printf ("j = %d, new j = %d\n", j - 1, j);
 		data -> index_line = j;
 		return ;
 	}
 }
-void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer)
+void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
 	static int	k = 1;
 	static int	l = 1;
@@ -119,7 +125,7 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer)
 		{
 			ft_printf("------J'ajoute un node pour i = %d et j = %d\n", i, j);
 			ft_printf("------NODE : i = %c -- j = %c\n", data -> line[i], data -> line[j]);
-			// add_node(*data, i, j);
+			add_node(data, i, j, lexer);
 			j++;
 			data -> index_line = j;
 			i = j;
@@ -140,7 +146,7 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer)
 		if (search_operators(data ->line[j + 1]) == 1)
 		{
 			ft_printf("------J'ajoute un node pour i = %d et j = %d\n", i, j);
-			// add_node(*data, i, j);
+			add_node(data, i, j, lexer);
 			j++;
 			data -> index_line = j;
 			i = j;
@@ -160,14 +166,14 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer)
 		if (data -> line[j] == '\0' || data -> line[j] == ' ')
 			return ;
 		ft_printf("------j'ajoute un noeud ca on a la lettre %c \n", data ->line[j]);
-		// add_node(data, j, i);
+		add_node(data, i, j, lexer);
 		j++;
 		data -> index_line = j;
 		i = j;
 	}
 	return ;
 }
-void	identify_line(t_data *data, t_lexer *lexer)
+void	identify_line(t_data *data, t_lexer **lexer)
 {
 	int	i;
 	int	j;

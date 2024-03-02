@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/28 13:11:57 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 17:40:05 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	t_lexer	lexer;
+	t_lexer	*lexer;
 	(void)argv;
 	(void)envp;
+	lexer = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);

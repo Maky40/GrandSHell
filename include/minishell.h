@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 12:02:41 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 17:38:56 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum s_tokens
 	WILDCARD,
 	ARG,
 	COMMANDE,
-	FD
+	FD,
+	NUL,
 }	t_tokens;
 
 typedef struct s_lexer
@@ -75,7 +76,7 @@ typedef struct s_table_command
 
 char	**dup_env(char **envp);
 void	free_dup_env(char **dup_env);
-void	identify_line(t_data *data, t_lexer *lexer);
-void	str_quotes_operators(t_data *data, int j, int i, t_lexer *lexer);
-
+void	identify_line(t_data *data, t_lexer **lexer);
+void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
+void	add_node(t_data *data, int i, int j, t_lexer **lexer);
 #endif

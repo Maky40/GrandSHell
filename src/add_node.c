@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 12:02:46 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 17:35:13 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_lexer	*lstlast(t_lexer *lst)
 {
+	if (!lst)
+		return (NULL);
 	while (lst -> next)
 		lst = lst -> next;
 	return (lst);
@@ -25,7 +27,7 @@ void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
 
 	if (!new)
 		return ;
-	if (!*lst)
+	if (!(*lst))
 	{
 		new -> prev = NULL;
 		new -> next = NULL;
@@ -35,9 +37,10 @@ void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
 	last = lstlast(*lst);
 	last -> next = new;
 	new -> prev = last;
+	new -> next = NULL;
 }
 
-void	identify_type_operators_2(t_data *data, int i, int j, t_lexer *node)
+void	identify_type_operators_2(t_data *data, int j, t_lexer *node)
 {
 	if (data -> line[j] == '>')
 	{
@@ -45,9 +48,10 @@ void	identify_type_operators_2(t_data *data, int i, int j, t_lexer *node)
 		{
 			node -> token = APPEND;
 			j++;
+			data -> index_line = j;
 		}
 		else
-			node -> token = PIPE;
+			node -> token = OUTPUT;
 	}
 	if (data -> line[j] == '&')
 	{
@@ -55,58 +59,75 @@ void	identify_type_operators_2(t_data *data, int i, int j, t_lexer *node)
 		{
 			node -> token = AND;
 			j++;
+			data -> index_line = j;
 		}
 		else
 			ft_printf("ERROR");
 	}
-	data -> index_line = j;
 }
-void	identify_type_operators(t_data *data, int i, int j, t_lexer *node)
+void	identify_type_operators(t_data *data, int j, t_lexer *node)
 {
 	if (data -> line[j] == '|')
-	{
-		if (data -> line[j] == '|')
-		{
-			node -> token = OR;
-			j++;
-		}
-		else
-			node -> token = PIPE;
-	}
+		node -> token = PIPE;
 	if (data -> line[j] == '<')
 	{
 		if (data -> line[j] == '<')
 		{
 			node -> token = HEREDOC;
 			j++;
+			data -> index_line = j;
 		}
 		else
 			node -> token = INPUT;
 	}
-	data -> index_line = j;
 }
-void	identify_type_command(t_data *data, int i, int j, t_lexer **lexer)
+void	identify_type_command(t_lexer *node)
 {
-	t_lexer	*node;
-
-	if (node -> token != NULL)
+	ft_printf("2\n");
+	if (node -> token != NUL)
 		return ;
-	node = lstlast(*lexer);
-	if (node -> prev == NULL || node -> prev -> token == PIPE \
-	|| node -> prev -> token == OR || node -> prev -> token == AND)
-		node -> token == COMMANDE;
-	if (node -> prev ==)
+	ft_printf("3\n");
+	if (node -> prev == NULL || node -> prev -> token == PIPE)
+	{
+		node -> token = COMMANDE;
+		return ;
+	}
+	ft_printf("4\n");
+	if (node -> prev != NULL || node -> prev -> token == COMMANDE \
+	|| node -> prev -> token == ARG)
+		node -> token = ARG;
+	ft_printf("5\n");
+	if (node -> prev != NULL || node -> prev -> token == HEREDOC \
+	|| node -> prev -> token == INPUT || node -> prev -> token == OUTPUT \
+	|| node -> prev -> token == APPEND || node -> prev -> token == FD)
+		node -> token = FD;
 }
 
 void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 {
 	t_lexer	*node;
+	t_lexer *print;
+	int		k;
 
-	node -> token = NULL;
+	k = 0;
 	node = malloc(sizeof(t_lexer));
 	if (!node)
-		return (NULL);
+		return ;
+	node -> token = NUL;
+	node -> str = malloc(sizeof(char) * (j - i + 2));
+	while (k <= j - i)
+	{
+		node -> str[k] = data -> line[i + k];
+		k++;
+	}
+	node -> str[k] = '\0';
 	add_node_to_lexer(lexer, node);
-	identify_type_operators(data, i, j, node);
-	identify_type_command(data, i, j, lexer);
+	identify_type_operators(data, j, node);
+	identify_type_command(node);
+	print = *lexer;
+	while(print)
+	{
+		ft_printf("%s\n");
+		print = print -> next;
+	}
 }
