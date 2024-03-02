@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 19:21:16 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 19:44:00 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
 
 void	identify_type_operators_2(t_data *data, int j, t_lexer *node)
 {
+	if (node -> token != NUL)
+		return ;
 	if (data -> line[j] == '>')
 	{
-		if (data -> line[j] == '>')
+		if (data -> line[j + 1] == '>')
 		{
 			node -> token = APPEND;
 			j++;
@@ -71,7 +73,7 @@ void	identify_type_operators(t_data *data, int j, t_lexer *node)
 		node -> token = PIPE;
 	if (data -> line[j] == '<')
 	{
-		if (data -> line[j] == '<')
+		if (data -> line[j + 1] == '<')
 		{
 			node -> token = HEREDOC;
 			j++;
@@ -83,20 +85,16 @@ void	identify_type_operators(t_data *data, int j, t_lexer *node)
 }
 void	identify_type_command(t_lexer *node)
 {
-	ft_printf("2\n");
 	if (node -> token != NUL)
 		return ;
-	ft_printf("3\n");
 	if (node -> prev == NULL || node -> prev -> token == PIPE)
 	{
 		node -> token = COMMANDE;
 		return ;
 	}
-	ft_printf("4\n");
 	if (node -> prev != NULL || node -> prev -> token == COMMANDE \
 	|| node -> prev -> token == ARG)
 		node -> token = ARG;
-	ft_printf("5\n");
 	if (node -> prev != NULL || node -> prev -> token == HEREDOC \
 	|| node -> prev -> token == INPUT || node -> prev -> token == OUTPUT \
 	|| node -> prev -> token == APPEND || node -> prev -> token == FD)
@@ -123,11 +121,13 @@ void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 	node -> str[k] = '\0';
 	add_node_to_lexer(lexer, node);
 	identify_type_operators(data, j, node);
+	identify_type_operators_2(data, j, node);
 	identify_type_command(node);
+	j = data -> index_line;
 	print = *lexer;
 	while(print)
 	{
-		ft_printf("%s\n", print -> str);
+		ft_printf("str = %s, type = %d\n", print -> str, print -> token);
 		print = print -> next;
 	}
 }
