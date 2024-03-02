@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 17:35:13 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 18:00:18 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
 
 	if (!new)
 		return ;
-	if (!(*lst))
+	if (*lst == NULL)
 	{
 		new -> prev = NULL;
 		new -> next = NULL;
