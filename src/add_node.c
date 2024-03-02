@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 18:00:18 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 19:21:16 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 	print = *lexer;
 	while(print)
 	{
-		ft_printf("%s\n");
+		ft_printf("%s\n", print -> str);
 		print = print -> next;
 	}
 }

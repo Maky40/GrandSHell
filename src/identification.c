@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 17:38:17 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 19:18:48 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ void	identify_line(t_data *data, t_lexer **lexer)
 
 	i = 0;
 	j = 0;
-	lexer = NULL;
 	data -> quote_space = NULL;
 	while (data -> line[j])
 	{
