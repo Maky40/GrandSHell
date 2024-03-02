@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/29 15:54:34 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 12:02:46 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	identify_type_operators_2(t_data *data, int i, int j, t_lexer *node)
 		else
 			ft_printf("ERROR");
 	}
+	data -> index_line = j;
 }
 void	identify_type_operators(t_data *data, int i, int j, t_lexer *node)
 {
@@ -82,16 +83,30 @@ void	identify_type_operators(t_data *data, int i, int j, t_lexer *node)
 		else
 			node -> token = INPUT;
 	}
+	data -> index_line = j;
+}
+void	identify_type_command(t_data *data, int i, int j, t_lexer **lexer)
+{
+	t_lexer	*node;
 
+	if (node -> token != NULL)
+		return ;
+	node = lstlast(*lexer);
+	if (node -> prev == NULL || node -> prev -> token == PIPE \
+	|| node -> prev -> token == OR || node -> prev -> token == AND)
+		node -> token == COMMANDE;
+	if (node -> prev ==)
 }
 
 void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 {
 	t_lexer	*node;
 
+	node -> token = NULL;
 	node = malloc(sizeof(t_lexer));
 	if (!node)
 		return (NULL);
 	add_node_to_lexer(lexer, node);
 	identify_type_operators(data, i, j, node);
+	identify_type_command(data, i, j, lexer);
 }

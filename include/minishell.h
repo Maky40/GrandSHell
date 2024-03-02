@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/29 15:25:48 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 12:02:41 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef enum s_tokens
 	OR,
 	PARENTHESIS,
 	WILDCARD,
+	ARG,
+	COMMANDE,
+	FD
 }	t_tokens;
 
 typedef struct s_lexer
