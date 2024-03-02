@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/29 15:04:29 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/02 15:54:29 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
-	data.index = 0;
 	while (1)
 	{
+		data.valid_line = 0;
 		data.line = readline("minishell> ");
-		if (data.line && *data.line)
+		check_invalid_line(&data);
+		if (data.line && *data.line && data.valid_line == 0)
+		{
 			add_history(data.line);
-		check_line(&data);
-		identify_line(&data);
+			identify_line(&data);
+		}
 		// free(data.line);
 	}
 }

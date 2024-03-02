@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/29 16:02:33 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/02 15:46:31 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_data
 	char	**env;
 	int		index; 
 	int	exit_status;
+	int	valid_line;
 }	t_data;
 
 typedef struct s_table_command
@@ -83,4 +84,5 @@ void	identify_line(t_data *data);
 char	**ft_split_command(char *str, char c);
 char	**ft_split_pipe(char *str, char c);
 void check_line(t_data *data);
+void check_invalid_line(t_data *data);
 #endif
