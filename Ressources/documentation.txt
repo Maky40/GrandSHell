@@ -5,6 +5,14 @@ Operateurs en premier sur la ligne de commande :
 > fichier.txt va ecraser le contenu du fichier, le fichier deviendra vide.. 
 >> fichier.txt laissera le fichier intact
 
+SIGNAUX : 
+Ctrl-c affiche un nouveau prompt et clear le buffer de readline. 
+Ctrl-c dans une commande comme cat quitte la commande et affiche un nouveau prompt 
+Ctrl -D quitte le terminal si la ligne est vide, autrement il ne fait rien.
+Ctrl -D quitte les commandes comme cat et affiche un nouveau prompt 
+Ctrl-\ ne fait rien.
+Ctrl-\ quitte egalement les commandes comme cat et affiche un nouveau prompt.
+
 PIPE : 
 Dans le cas ou une commande ne marche pas mais qu'il y'a des pipes elle redirigera juste un output vide dans le pipe puis imprime un message d'erreur dans l'entree d'erreur. 
 Exemple :
