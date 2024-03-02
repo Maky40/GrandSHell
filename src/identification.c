@@ -6,12 +6,28 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 19:39:20 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/02 20:42:13 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+
+void	free_lexer(t_lexer **lexer)
+{
+	t_lexer *lst;
+
+	if (!lexer || !(*lexer))
+		return ;
+	lst = *lexer;
+	while (*lexer)
+	{
+		lst = (*lexer) -> next;
+		free (*lexer);
+		*lexer = lst;
+	}
+	*lexer = NULL;
+}
 
 int		*add_quote_space(t_data *data, int j)
 {
@@ -100,7 +116,7 @@ void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 		}
 		j = data -> index_line;
 		j++;
-		ft_printf ("j = %d, new j = %d\n", j - 1, j);
+		ft_printf ("///////////j = %d, new j = %d\n", j - 1, j);
 		data -> index_line = j;
 		return ;
 	}
@@ -167,6 +183,7 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer)
 			return ;
 		ft_printf("------j'ajoute un noeud ca on a la lettre %c \n", data ->line[j]);
 		add_node(data, i, j, lexer);
+		j = data -> index_line;
 		j++;
 		data -> index_line = j;
 		i = j;
@@ -194,6 +211,8 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		j = data -> index_line;
 		i = j;
 	}
+	data -> index_line = 0;
+	free_lexer(lexer);
 }
 // revoir la structure de ta fct identify_line + creer les fonctions add_nodes
 //  ajouter les returns quand tu creer des nodes
