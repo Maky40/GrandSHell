@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 11:51:51 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/04 17:02:08 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
+int	do_func = 1;
 
 typedef enum s_tokens
 {
