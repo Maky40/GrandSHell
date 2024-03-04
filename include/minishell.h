@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 15:46:31 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/04 09:31:10 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data);
 char	**ft_split_command(char *str, char c);
 char	**ft_split_pipe(char *str, char c);
-void check_line(t_data *data);
+void check_line(t_data *data, int i);
 void check_invalid_line(t_data *data);
 #endif

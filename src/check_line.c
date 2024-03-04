@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:40:16 by xav               #+#    #+#             */
-/*   Updated: 2024/03/02 15:53:16 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/04 09:30:49 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void check_whitespace(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data->line)
+		return ; 
 	while ((data->line[i] >= 9 && data->line[i] <= 13) || (data->line[i] == ' ' && data->line[i] != '\0'))
 		i++;
 	if (data->line[i] == '\0' || data->line[i] == '|')
@@ -30,13 +32,11 @@ void check_whitespace(t_data *data)
 
 
 
-void check_line(t_data *data)
+void check_line(t_data *data, int i)
 {
-	int	i; 
 	int inside_quotes = 0; 
 	char quote_type = '\0';
 	
-	i = -1;
 	inside_quotes = 0;
 	quote_type = '\0';
 	while(data->line[++i])
@@ -61,13 +61,21 @@ void check_line(t_data *data)
 
 void check_invalid_line(t_data *data)
 {
+	int i; 
+
+	i = -1;
+	if (!data->line)
+	{
+		data->exit_status = 0;
+		return ; 
+	}
 	check_whitespace(data);
 	if (data->valid_line == 1)
 	{
 		data->exit_status = 0;
 		return ; 
 	}
-	check_line(data);
+	check_line(data, i);
 	if (data->valid_line == 1)
 	{
 		data->exit_status = 127;

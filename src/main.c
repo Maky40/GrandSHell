@@ -6,13 +6,20 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 15:54:29 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/04 09:39:11 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
+void display_prompt (t_data *data)
+{
+	data->valid_line = 0;
+	data->line = readline("minishell> ");
+	if (data->line && *data->line)
+		add_history(data->line);
+	check_invalid_line(data);
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -23,15 +30,9 @@ int	main(int argc, char **argv, char **envp)
 	data.env = dup_env(envp);
 	while (1)
 	{
-		data.valid_line = 0;
-		data.line = readline("minishell> ");
-		check_invalid_line(&data);
-		if (data.line && *data.line && data.valid_line == 0)
-		{
-			add_history(data.line);
+		display_prompt(&data);
+		if (data.valid_line == 0)
 			identify_line(&data);
-		}
-		// free(data.line);
 	}
 }
 //int main(int argc, char **argv, char **envp)

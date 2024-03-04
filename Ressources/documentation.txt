@@ -6,11 +6,11 @@ Operateurs en premier sur la ligne de commande :
 >> fichier.txt laissera le fichier intact
 
 SIGNAUX : 
-Ctrl-c affiche un nouveau prompt et clear le buffer de readline. 
+Ctrl-c affiche un nouveau prompt et clear le buffer de readline.Signal SIGINT 
 Ctrl-c dans une commande comme cat quitte la commande et affiche un nouveau prompt 
-Ctrl -D quitte le terminal si la ligne est vide, autrement il ne fait rien.
+Ctrl -D quitte le terminal si la ligne est vide, autrement il ne fait rien. SIGNAL SIGSEGV
 Ctrl -D quitte les commandes comme cat et affiche un nouveau prompt 
-Ctrl-\ ne fait rien.
+Ctrl-\ ne fait rien. SIGNAL SIGQUIT
 Ctrl-\ quitte egalement les commandes comme cat et affiche un nouveau prompt.
 
 PIPE : 
@@ -34,6 +34,7 @@ Succes = 0
 Chemin introuvable = 127 
 Fichier trouve mais non executable = 126
 Ctrl-c pendant l'execution d'une commande = 130
+Ctrl-\ dans une commande comme cat = 131 
 Argument invalide = 2 
 
 Expansions : 
@@ -54,3 +55,21 @@ Here_doc (<<) a la priorite absolue sur tous les autres operateurs.
 Parser :
 Stocke commande par commande (soit dans une table de commande soit dans un AST) 
 Verifie que l'ensemble soit coherent et applique la priorite des operateurs. Envoie les commandes a l'executeur
+
+
+BUILT-IN : 
+
+echo affiche une string  -n supprime le retour a la ligne.
+Par exemple : 
+echo "bonjour "
+echo "test"
+bonjour test
+Pour faire un retour a la ligne dans bash faire ctrl + v suivi de ctrl + j 
+
+cd permet de changer de direction avec un chemin relatif ou un chemin absolu. regarder fonction chdir 
+chemin absolu : /home/user/Documents
+chemin relatif :  dossier1/dossier2/fichier.txt, .. , ../dossier1/fichier.txt
+
+pwd = print working directory cf fonction getcwd.
+
+export declare une nouvelle variable d'environnement ou modifie la valeur d'une variable d'environnement qui existe deja
