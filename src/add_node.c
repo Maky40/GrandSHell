@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 19:44:00 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/04 13:17:46 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,19 @@ void	identify_type_command(t_lexer *node)
 		node -> token = COMMANDE;
 		return ;
 	}
-	if (node -> prev != NULL || node -> prev -> token == COMMANDE \
-	|| node -> prev -> token == ARG)
+	if (node -> prev != NULL && (node -> prev -> token == COMMANDE \
+	|| node -> prev -> token == ARG))
 		node -> token = ARG;
-	if (node -> prev != NULL || node -> prev -> token == HEREDOC \
+	if (node -> prev != NULL && (node -> prev -> token == HEREDOC \
 	|| node -> prev -> token == INPUT || node -> prev -> token == OUTPUT \
-	|| node -> prev -> token == APPEND || node -> prev -> token == FD)
+	|| node -> prev -> token == APPEND || node -> prev -> token == FD))
 		node -> token = FD;
 }
 
 void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 {
 	t_lexer	*node;
-	t_lexer *print;
+	//t_lexer *print;
 	int		k;
 
 	k = 0;
@@ -124,10 +124,12 @@ void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 	identify_type_operators_2(data, j, node);
 	identify_type_command(node);
 	j = data -> index_line;
+	/*
 	print = *lexer;
 	while(print)
 	{
 		ft_printf("str = %s, type = %d\n", print -> str, print -> token);
 		print = print -> next;
 	}
+	*/
 }

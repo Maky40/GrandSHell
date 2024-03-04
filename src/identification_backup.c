@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   identification.c                                   :+:      :+:    :+:   */
+/*   identification_backup.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 13:21:19 by xav              ###   ########.fr       */
+/*   Created: 2024/03/04 10:26:15 by xav               #+#    #+#             */
+/*   Updated: 2024/03/04 13:23:03 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
+/*
 void	free_lexer(t_lexer **lexer)
 {
 	t_lexer *lst;
@@ -74,7 +74,6 @@ int		search_operators(char c)
 }
 void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
-	
 	if (data -> line[j] == '"' || data -> line[j] == 39)
 		j++;
 	while (data -> line[j] != '|' && data -> line[j] != '>' && \
@@ -83,32 +82,97 @@ void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 	data -> line[j])
 		j++;
 	if (data -> line[j] == '"' || data -> line[j] == 39)
+	{
+		ft_printf("Je sui dans str_operators et je repars dans quotes avec i = %d, j = %d\n", i, j);
 		str_quotes_operators(data, j, i, lexer);
+	}
 	else
 	{
+		ft_printf("------dans str_operators, j'ajoute un noeud pour i = %d et j - 1 = %d\n", i, j - 1);
 		add_node(data, i, j - 1, lexer);
 		i = j;
 		data -> index_line = j;
 		if (data -> line[j] == '\0')
 			return ;
-		if (data -> line[j] == '|' || data -> line[j] == '>' )
+		if (data -> line[j] == '|')
+		{
+			ft_printf("------dans str_operators, j'ajoute un noeud avec | pour i = %d et j = %d \n", i, j);
 			add_node(data, i, j, lexer);
-		if (data -> line[j] == '<' || data -> line[j] == '&')
+		}
+		if (data -> line[j] == '>')
+		{
+			ft_printf("------dans str_operators, j'ajoute un noeud avec > pour i = %d et j = %d \n", i, j);
 			add_node(data, i, j, lexer);
+		}
+		if (data -> line[j] == '<')
+		{
+			ft_printf("------dans str_operators, j'ajoute un noeud avec < pour i = %d et j = %d \n", i, j);
+			add_node(data, i, j, lexer);
+		}
+		if (data -> line[j] == '&')
+		{
+			ft_printf("------dans str_operators, j'ajoute un noeud avec & pour i = %d et j = %d \n", i, j);
+			add_node(data, i, j, lexer);
+		}
 		j = data -> index_line;
 		j++;
+		ft_printf ("///////////j = %d, new j = %d\n", j - 1, j);
 		data -> index_line = j;
+		return ;
 	}
 }
 
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
+	static int	k = 1;
+	static int	l = 1;
+
 	if (data -> line[j] == '"')
-		process_double_quotes(data, &j, i, lexer);
+	{
+		ft_printf("%d fois boucle double quotes\n", k);
+		j++;
+		while (data -> line[j] && data -> line[j] != '"')
+			j++;
+		if (data -> line[j] == '\0')
+		{
+			// finish_quote();
+			ft_printf("QUOTE PAS FINI JE DEMANDE DE TERMINER\n");
+		}
+		if (search_operators(data ->line[j + 1]) == 1)
+		{
+			ft_printf("------J'ajoute un node pour i = %d et j = %d\n", i, j);
+			ft_printf("------NODE : i = %c -- j = %c\n", data -> line[i], data -> line[j]);
+			add_node(data, i, j, lexer);
+			j++;
+			data -> index_line = j;
+			i = j;
+		}
+		k++;
+	}
 	if (data -> line[j] == 39)
-		process_single_quotes(data, &j, i, lexer);
+	{
+		ft_printf("%d fois boucle simple quote\n", l);
+		j++;
+		while (data -> line[j] && data -> line[j] != 39)
+			j++;
+		if (data -> line[j] == '\0')
+		{
+			// finish_quote();
+			ft_printf("QUOTE PAS FINI JE DEMANDE DE TERMINER\n");
+		}
+		if (search_operators(data ->line[j + 1]) == 1)
+		{
+			ft_printf("------J'ajoute un node pour i = %d et j = %d\n", i, j);
+			add_node(data, i, j, lexer);
+			j++;
+			data -> index_line = j;
+			i = j;
+		}
+		l++;
+	}
 	if (data ->line[j] && search_operators(data ->line[j]) == 0)
 	{
+		ft_printf ("je vais dans str_operators pour i = %d, j = %d\n", i, j);
 		str_operators(data, j, i, lexer);
 		j = data -> index_line;
 		i = j;
@@ -118,12 +182,14 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer)
 	{
 		if (data -> line[j] == '\0' || data -> line[j] == ' ')
 			return ;
+		ft_printf("------j'ajoute un noeud ca on a la lettre %c \n", data ->line[j]);
 		add_node(data, i, j, lexer);
 		j = data -> index_line;
 		j++;
 		data -> index_line = j;
 		i = j;
 	}
+	return ;
 }
 void	identify_line(t_data *data, t_lexer **lexer)
 {
@@ -135,9 +201,11 @@ void	identify_line(t_data *data, t_lexer **lexer)
 	data -> quote_space = NULL;
 	while (data -> line[j])
 	{
+		ft_printf("je rentre dans identify line, i = %d, j = %d\n", i, j);
 		skip_whitespace(data, data -> line, j);
 		j = data -> index_line;
 		i = j;
+		ft_printf("je skip whitespace, i = %d, j = %d\n", i, j);
 		if (data -> line[j] == '\0')
 			break ;
 		str_quotes_operators(data, j, i, lexer);
@@ -145,14 +213,6 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		i = j;
 	}
 	data -> index_line = 0;
-	t_lexer *print;
-	print = *lexer;
-	while(print)
-	{
-		ft_printf("str = %s, type = %d\n", print -> str, print -> token);
-		print = print -> next;
-	}
 	free_lexer(lexer);
 }
-// revoir la structure de ta fct identify_line + creer les fonctions add_nodes
-//  ajouter les returns quand tu creer des nodes
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 17:38:56 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/04 11:51:51 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,7 @@ void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
 void	add_node(t_data *data, int i, int j, t_lexer **lexer);
+void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
+void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
+int		search_operators(char c);
 #endif
