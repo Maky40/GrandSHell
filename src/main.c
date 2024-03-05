@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 17:39:57 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/05 10:09:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void display_prompt (t_data *data)
+{
+	data->valid_line = 0;
+	data->line = readline("minishell> ");
+	if (data->line && *data->line)
+		add_history(data->line);
+	check_invalid_line(data);
+}
 
 void	handler_sig(int signal)
 {
@@ -38,15 +47,13 @@ int	main(int argc, char **argv, char **envp)
 	data.env = dup_env(envp);
 	while (1)
 	{
-		do_func = 1;
+		//do_func = 1;
 		signal(SIGINT, handler_sig);
 		signal(SIGSEGV, handler_sig);
 		signal(SIGQUIT, SIG_IGN);
-		data.line = readline("minishell> ");
-		if (data.line && *data.line)
-			add_history(data.line);
-		identify_line(&data, &lexer);
-		// free(data.line);
+		display_prompt(&data);
+		if (data.valid_line == 0)
+			identify_line(&data, &lexer);
 	}
 }
 //int main(int argc, char **argv, char **envp)

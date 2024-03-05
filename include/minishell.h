@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 17:02:08 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/05 10:05:35 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	do_func = 1;
+//int	do_func = 1;
 
 typedef enum s_tokens
 {
@@ -68,6 +68,7 @@ typedef struct s_data
 	int		exit_status;
 	int		index_line;
 	int		*quote_space;
+	int	valid_line;
 }	t_data;
 
 typedef struct s_table_command
@@ -83,5 +84,6 @@ void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
 void	add_node(t_data *data, int i, int j, t_lexer **lexer);
 void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
+void	check_invalid_line(t_data *data);
 int		search_operators(char c);
 #endif
