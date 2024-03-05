@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 10:05:35 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/05 16:20:58 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ typedef struct s_command
 {
 	char 	*command;
 	char	**arguments;
+	char	**fd;
 	char	*input_file;
 	char	*output_file;
+	int		pipe_bef;
 }	t_command;
 
 typedef struct s_data
