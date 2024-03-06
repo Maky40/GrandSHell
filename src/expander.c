@@ -6,11 +6,12 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/03/05 17:19:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/06 16:25:42 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 char *ft_strcat(char *dest, const char *src)
 {
@@ -26,23 +27,17 @@ char *ft_strcat(char *dest, const char *src)
 }
 
 
-char	*ft_strncpy(char *dest, char *src, size_t n)
+char *ft_strcpy(char *dest, const char *src)
 {
-	size_t	i;
-
-	i = 0;
-	while (src[i] != '\0' && i < n)
-	{
-		dest[i] = src[i];
-		++i;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
+    char *ptr = dest;
+    while (*src)
+    {
+        *ptr++ = *src++;
+    }
+    *ptr = '\0';
+    return dest;
 }
+
 
 void expand_variable(t_data *data, t_lexer *dup)
 {
@@ -50,15 +45,18 @@ void expand_variable(t_data *data, t_lexer *dup)
     char *var_start;
     char *var_end;
     char *var_name;
+	char *var_value;
     size_t var_len;
 
-    (void)data;
     ptr = dup->str;
     while (*ptr)
-    {
-        if (*ptr == '$' && ptr[1] != '\0')
+    {	
+        if (*ptr == '$' && (ptr[1] != '\0' && ptr[1] != ' ' && ptr[1] != '.'))
         {
-            var_start = ptr + 1;
+			if (ptr[1] > '0' && ptr[1] <= '9')
+				var_start = ptr + 2;
+			else	
+            	var_start = ptr + 1;
             var_end = var_start;
             while(*var_end != ' ' && *var_end != '$' && *var_end && *var_end != '"') 
                 var_end++;
@@ -66,34 +64,47 @@ void expand_variable(t_data *data, t_lexer *dup)
             var_name = malloc(var_len + 1);
             if (var_name)
             {
-                memcpy(var_name, var_start, var_len);
+                ft_memcpy(var_name, var_start, var_len);
                 var_name[var_len] = '\0';    
             }
-            char *var_value = getenv(var_name); // Récupérer la valeur de la variable d'environnement
-            printf("Env : %s\n", var_value);
+			printf("var name : %s\n", var_name);
+			if (var_name[0] == '?')
+				var_value = ft_itoa(data->exit_status);
+			else if(var_name[0] > '0' && var_name[0] <= '9')
+			{
+				printf("je suis var_name number\n");
+			}
+			else
+				var_value = getenv(var_name);
 			if (var_value != NULL)
             {
-                size_t str_len = strlen(dup->str);
+                size_t str_len = ft_strlen(dup->str);
                 size_t var_start_index = var_start - dup->str - 1;
                 size_t var_end_index = var_end - dup->str;
-                size_t new_len = str_len - var_len + strlen(var_value);
+                size_t new_len = str_len - var_len + ft_strlen(var_value);
                 char *new_str = malloc(new_len + 1);
                 if (new_str)
                 {
                     ft_memcpy(new_str, dup->str, var_start_index); // Copier la partie avant la variable
-                    strcpy(new_str + var_start_index, var_value); // Concaténer la valeur de la variable
-                    strcat(new_str, dup->str + var_end_index); // Concaténer la partie après la variable
+                    ft_strcpy(new_str + var_start_index, var_value); // Concaténer la valeur de la variable
+                    ft_strcat(new_str, dup->str + var_end_index); // Concaténer la partie après la variable
                     free(dup->str); // Libérer l'ancien contenu de dup->str
                     dup->str = new_str; // Remplacer le contenu de dup->str par le nouveau tampon
-                   // printf("%s\n", dup->str);
                     ptr = new_str;
                 }
+			/*
+			else
+			{
+				delete_expand();
+			}
             }
+			*/
             free(var_name);
         }
-        ptr++;
-    }
-		printf("%s\n", dup->str);
+    	}
+    ptr++;
+	}
+	printf("%s\n", dup->str);
 }
 
 
