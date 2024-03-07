@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 11:33:41 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/07 12:28:31 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,15 @@ typedef struct s_data
 	int		*quote_space;
 	int	valid_line;
 }	t_data;
+
+typedef struct s_expander
+{
+	char	*start;
+	char	*end;
+	char	*value;
+	char	*name;
+	size_t	len;
+}	t_expander;
 
 typedef struct s_table_command
 {
