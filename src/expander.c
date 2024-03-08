@@ -6,12 +6,12 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/03/07 15:16:29 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/08 11:34:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+// retourne la valeur de la variable d'environnement
 char	*get_env_value(char **envp, char *var_name)
 {
 	while (*envp != NULL)
@@ -23,7 +23,7 @@ char	*get_env_value(char **envp, char *var_name)
 	}
 	return (NULL);
 }
-
+// calcule la taille du nom de l'expansion pour pouvoir ensuite malloc expander->name qui recevra par exemple USER ou encore PATH.
 void	find_expander_len(char *ptr, t_expander *expander)
 {
 	if (ptr[1] > '0' && ptr[1] <= '9')
@@ -34,11 +34,11 @@ void	find_expander_len(char *ptr, t_expander *expander)
 	while (*expander->end != ' ' && *expander->end != '$'
 		&& *expander->end && *expander->end != '"')
 		expander->end++;
+	expander->len = expander->end - expander->start;
 }
-
+// on copie a l'aide de memcpy le nom de l'expansion et on la traite selon 3 cas differents : variable environnement, chiffres, ou $?
 void	get_value(t_data *data, t_lexer *dup, t_expander *expander, char **ptr)
 {
-	expander->len = expander->end - expander->start;
 	expander->name = malloc(sizeof(char *) * (expander->len + 1));
 	if (expander->name)
 	{
@@ -59,8 +59,10 @@ void	get_value(t_data *data, t_lexer *dup, t_expander *expander, char **ptr)
 		new_str_number(dup, expander, ptr);
 	else
 		new_str(dup, expander, ptr);
+	if (expander->name[0] == '?')
+		free(expander->value);
 }
-
+// check noeud par noeud la valeur de l'expansion ou des expansions
 void	expand_variable(t_data *data, t_lexer *dup)
 {
 	char		*ptr;
@@ -73,6 +75,7 @@ void	expand_variable(t_data *data, t_lexer *dup)
 		{
 			find_expander_len(ptr, &expander);
 			get_value(data, dup, &expander, &ptr);
+			free(expander.name);
 			if (expander.value == NULL)
 			{
 				if (dup->str[0] == '"')
