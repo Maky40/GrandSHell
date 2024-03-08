@@ -6,12 +6,14 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 17:00:12 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/05 17:07:59 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+// permet de determiner s'il y a un fichier d'input ou d'output
+// si il y a plusieurs FD apres un '>' ou '<' on prend en compte uniquement le premier.
 t_lexer	*add_input_output(t_command *cmd, t_lexer *lst, int i)
 {
 	if (lst -> token == INPUT || lst -> token == OUTPUT)
@@ -31,8 +33,8 @@ t_lexer	*add_input_output(t_command *cmd, t_lexer *lst, int i)
 			cmd[i].output_file = ft_strdup(lst -> str);
 		}
 		lst = lst -> next;
-		if (lst -> token == FD)
-			ft_error();
+		while (lst -> token == FD)
+			lst = lst -> next;
 	}
 	return (lst);
 }
