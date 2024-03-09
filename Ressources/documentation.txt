@@ -1,0 +1,76 @@
+Operateurs en premier sur la ligne de commande : 
+| ne marche pas et renvoie une erreur de commande 2
+<< LIMITER marchera et affichera sur la sortie standarde le resultat 
+< fichier.txt va rediriger l'input dans le vide, rien ne sera afficher et un nouveau prompt pourra s'afficher la ligne en dessous
+> fichier.txt va ecraser le contenu du fichier, le fichier deviendra vide.. 
+>> fichier.txt laissera le fichier intact
+
+SIGNAUX : 
+Ctrl-c affiche un nouveau prompt et clear le buffer de readline.Signal SIGINT 
+Ctrl-c dans une commande comme cat quitte la commande et affiche un nouveau prompt 
+Ctrl -D quitte le terminal si la ligne est vide, autrement il ne fait rien. SIGNAL SIGSEGV
+Ctrl -D quitte les commandes comme cat et affiche un nouveau prompt 
+Ctrl-\ ne fait rien. SIGNAL SIGQUIT
+Ctrl-\ quitte egalement les commandes comme cat et affiche un nouveau prompt.
+
+PIPE : 
+Dans le cas ou une commande ne marche pas mais qu'il y'a des pipes elle redirigera juste un output vide dans le pipe puis imprime un message d'erreur dans l'entree d'erreur. 
+Exemple :
+erngkjdnsreg | echo bonjour | rev  
+Output = ruojnob 
+
+Pipe avec un heredoc :
+cat documentation.txt |cat << EOF |  grep ":"
+La commande cat va s'executer puis rediriger dans le pipe son resultat qui va etre ecraser lors de lacreation du heredoc. Donc seul le contenu du heredoc sera renvoye dans le prochain pipe. 
+
+Quotes : 
+Pas besoin d'enlever manuellement les quotes dans les commandes et arguments du moment qu'elles sont valides l'execution marchera quand meme avec l'exemple suivant :
+./pipex toto.txt "c"a"t" "gr""ep toto" o"u"tp"u"t.txt (exemple de commande avec programme pipex)
+Un espace dans une commande avec des quotes ne devrait pas executer la commande par exemple " echo" ou "echo " devra renvoyer une erreur command not found.
+
+Code de sortie de commande : 
+Quand on execute une commande, on doit stocker un int selon si la commande a ete un succes ou selon l'erreur. 
+Succes = 0
+Chemin introuvable = 127 
+Fichier trouve mais non executable = 126
+Ctrl-c pendant l'execution d'une commande = 130
+Ctrl-\ dans une commande comme cat = 131 
+Argument invalide = 2 
+
+Expansions : 
+https://www.gnu.org/software/bash/manual/bash.html#Shell-Expansions (manuel officiel de bash)
+
+Les deux seules expansions requises a priori par le sujet sont l'expansion de variable d'environnement($USER) et l'expansion $? qui renvoie le code de status de la derniere commande
+(cf code de sortie de commande au dessus)
+
+Pour le code de status de la derniere commande, si on a par exemple la commande suivante : cat Makefile | grep "toto" | wc -l 
+Le dernier code de commande est wc -l, le statut de chaque commande entre pipe doit etre mis a jour. 
+
+Pour ce qui concerne les variables d'environnement, soit parcourir le tableau copie des variables d'environnement et renvoye la variable demande ou utiliser getenv peut etre. 
+
+Priorite des operateurs : 
+Here_doc (<<) a la priorite absolue sur tous les autres operateurs.
+
+
+Parser :
+Stocke commande par commande (soit dans une table de commande soit dans un AST) 
+Verifie que l'ensemble soit coherent et applique la priorite des operateurs. Envoie les commandes a l'executeur
+
+
+BUILT-IN : 
+
+echo affiche une string  -n supprime le retour a la ligne.
+Par exemple : 
+echo "bonjour "
+echo "test"
+bonjour test
+Pour faire un retour a la ligne dans bash faire ctrl + v suivi de ctrl + j 
+
+cd permet de changer de direction avec un chemin relatif ou un chemin absolu. regarder fonction chdir 
+chemin absolu : /home/user/Documents
+chemin relatif :  dossier1/dossier2/fichier.txt, .. , ../dossier1/fichier.txt
+
+pwd = print working directory cf fonction getcwd.
+
+export declare une nouvelle variable d'environnement ou modifie la valeur d'une variable d'environnement qui existe deja
+
