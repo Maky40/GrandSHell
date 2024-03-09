@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 10:30:07 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/09 10:36:50 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
+	data.exit_status = 0;
 	while (1)
 	{
 		//do_func = 1;
