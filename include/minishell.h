@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 16:20:58 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/08 17:10:10 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,18 @@ typedef struct s_lexer
 	struct s_lexer *prev;
 }	t_lexer;
 
+typedef struct s_fd
+{
+	char		*str;
+	t_tokens	token;
+	int			last;
+}	t_fd;
+
 typedef struct s_command
 {
 	char 	*command;
 	char	**arguments;
-	char	**fd;
+	t_fd	*fd;
 	char	*input_file;
 	char	*output_file;
 	int		pipe_bef;
@@ -87,5 +94,8 @@ void	add_node(t_data *data, int i, int j, t_lexer **lexer);
 void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
+void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 int		search_operators(char c);
+int		len_tab_tab(char **tab);
+int		is_last_fd(t_fd *fd, int j, int len);
 #endif

@@ -6,35 +6,60 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 17:07:59 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/08 17:10:11 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// permet de determiner s'il y a un fichier d'input ou d'output
-// si il y a plusieurs FD apres un '>' ou '<' on prend en compte uniquement le premier.
+
+void	add_fd(t_command cmd, t_lexer *lst)
+{
+	t_lexer *lst2;
+	int		i;
+
+	lst2 = lst;
+	cmd.fd = malloc_fd(sizeof(t_fd) * i);
+	i = 0;
+	lst2 = lst;
+	while (lst2 && lst2 -> token == INPUT && lst2 -> token == OUTPUT \
+	&& lst2 -> token == FD)
+	{
+		if (lst2 -> token == FD)
+		{
+			cmd.fd[i].last = 0;
+			cmd.fd[i].token = lst2 -> prev -> token;
+			cmd.fd[i].str = ft_strdup(lst2 -> str);
+			i++;
+		}
+		lst2 = lst2 -> next;
+	}
+	cmd.fd[i].last = 1;
+}
+
 t_lexer	*add_input_output(t_command *cmd, t_lexer *lst, int i)
 {
+	int	len;
+	int	j;
+
+	j = 0;
 	if (lst -> token == INPUT || lst -> token == OUTPUT)
 	{
-		if (lst -> token == INPUT)
+		add_fd(cmd[i], lst);
+		len = len_fd(cmd[i].fd);
+		while (j < len)
 		{
-			lst = lst -> next;
-			if (lst -> token != FD)
-				ft_error();
-			cmd[i].input_file = ft_strdup(lst -> str);
-		}
-		else if (lst -> token == OUTPUT)
-		{
-			lst = lst -> next;
-			if (lst -> token != FD)
-				ft_error();
-			cmd[i].output_file = ft_strdup(lst -> str);
+			if ((cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT) \
+			&& is_last_fd(cmd[i].fd, j, len) == 1)
+			{
+				if (cmd[i].fd[j].token == INPUT)
+					cmd[i].input_file = ft_strdup(cmd[i].fd[j].str);
+				else
+					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
+			}
+			j++;
 		}
 		lst = lst -> next;
-		while (lst -> token == FD)
-			lst = lst -> next;
 	}
 	return (lst);
 }
@@ -86,22 +111,6 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 		i++;
 	}
 }
-void	nb_command(t_table *tab_cmds, t_lexer **lexer)
-{
-	int		i;
-	t_lexer	*lst;
-
-	i = 0;
-	lst = *lexer;
-	while(lst)
-	{
-		if (lst -> token == COMMANDE)
-			i++;
-		lst = lst -> next;
-	}
-	tab_cmds -> num_commands = i;
-	return ;
-}
 
 void	table_command(t_lexer **lexer, t_data *data)
 {
@@ -109,6 +118,9 @@ void	table_command(t_lexer **lexer, t_data *data)
 
 	tab_cmds = malloc(sizeof(t_table));
 	nb_command(tab_cmds, lexer);
-	tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
-	add_commands(tab_cmds, lexer);
+	if (tab_cmds -> num_commands > 0)
+	{
+		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
+		add_commands(tab_cmds, lexer);
+	}
 }
