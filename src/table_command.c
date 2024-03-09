@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/08 17:10:11 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/09 10:26:25 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	add_fd(t_command cmd, t_lexer *lst)
 	t_lexer *lst2;
 	int		i;
 
-	lst2 = lst;
-	cmd.fd = malloc_fd(sizeof(t_fd) * i);
+	cmd.fd = malloc_fd(lst);
 	i = 0;
 	lst2 = lst;
 	while (lst2 && lst2 -> token == INPUT && lst2 -> token == OUTPUT \
@@ -88,7 +87,6 @@ t_lexer	*add_args(char **args, t_lexer *lst)
 void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 {
 	int		i;
-	int		j;
 	t_lexer	*lst;
 
 	i = 0;
@@ -102,7 +100,6 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 			tab_cmds -> commands[i].pipe_bef = 0;
 		if (lst -> token == COMMANDE)
 		{
-			j = 0;
 			tab_cmds -> commands[i].command = ft_strdup(lst -> str);
 			lst = lst -> next;
 			lst = add_args(tab_cmds -> commands[i].arguments, lst);
@@ -112,7 +109,7 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 	}
 }
 
-void	table_command(t_lexer **lexer, t_data *data)
+void	table_command(t_lexer **lexer)
 {
 	t_table	*tab_cmds;
 
@@ -123,4 +120,5 @@ void	table_command(t_lexer **lexer, t_data *data)
 		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
 		add_commands(tab_cmds, lexer);
 	}
+	ft_printf("%s\n", tab_cmds -> commands[0].command);
 }

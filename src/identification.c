@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identification.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 13:21:19 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/09 10:19:35 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		search_operators(char c)
 }
 void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
-	
+
 	if (data -> line[j] == '"' || data -> line[j] == 39)
 		j++;
 	while (data -> line[j] != '|' && data -> line[j] != '>' && \
@@ -152,6 +152,7 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		ft_printf("str = %s, type = %d\n", print -> str, print -> token);
 		print = print -> next;
 	}
+	table_command(lexer);
 	free_lexer(lexer);
 }
 // revoir la structure de ta fct identify_line + creer les fonctions add_nodes

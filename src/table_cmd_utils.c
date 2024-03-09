@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/08 17:10:08 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/09 10:30:09 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_last_fd(t_fd *fd, int j, int len)
 {
-	int	token;
+	t_tokens	token;
 
 	token = fd[j].token;
 	j++;
