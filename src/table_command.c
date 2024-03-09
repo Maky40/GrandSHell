@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 10:26:25 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/09 10:58:51 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_lexer	*add_args(char **args, t_lexer *lst)
 
 	i = 0;
 	lst2 = lst;
-	while (lst2 -> token == ARG)
+	while (lst2 && lst2 -> token == ARG)
 	{
 		i++;
 		lst2 = lst2 -> next;

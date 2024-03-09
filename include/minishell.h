@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 10:39:05 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/09 10:41:26 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
 void	expander(t_data *data, t_lexer **lexer);
-void new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
 void	table_command(t_lexer **lexer);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 int		search_operators(char c);
