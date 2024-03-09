@@ -6,11 +6,24 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/08 16:00:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/09 10:51:47 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int check_command(char *str, char *cmd)
+{
+	while (*str)
+	{
+		if (*str == '"' || *str == '\'')
+			str++; 
+		if (*str != *cmd)
+			return (1);
+		str++;
+	}
+	return (0);
+}
 
 void execute(t_command *cmd, t_data *data)
 {
@@ -21,16 +34,39 @@ void execute(t_command *cmd, t_data *data)
 
 void	built_in_execute(t_command *cmd, t_data *data)
 {
-	(void)cmd;
-	(void)data;
-	printf("je suis built_in execute\n");
+	if (check_command(cmd, "echo"))
+		echo();
+	else if (check_command(cmd, "unset"))
+		unset();
+	else if (check_command(cmd, "cd"))
+		cd();
+	else if (check_command(cmd, "exit"))
+		ft_exit();
+	else if (check_command(cmd, "pwd"))
+		pwd();
+	else if (check_command(cmd, "env"))
+		env();
+	else if (check_command(cmd, "export"))
+		export();
 }
 
 int	is_builtin(char *cmd)
 {
-	(void)cmd;
-	printf("Je suis is_builtin\n");
-	return (0);
+	if (check_command(cmd, "echo"))
+		return (0);
+	else if (check_command(cmd, "unset"))
+		return (0);
+	else if (check_command(cmd, "cd"))
+		return (0);
+	else if (check_command(cmd, "exit"))
+		return (0);
+	else if (check_command(cmd, "pwd"))
+		return (0);
+	else if (check_command(cmd, "env"))
+		return (0);
+	else if (check_command(cmd, "export"))
+		return (0);
+	return (1);
 }
 
 void executor(t_table *tab_cmds, t_data *data)
