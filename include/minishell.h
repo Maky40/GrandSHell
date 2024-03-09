@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/08 14:05:54 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/09 09:57:34 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ typedef struct s_lexer
 	struct s_lexer *prev;
 }	t_lexer;
 
+typedef struct s_fd
+{
+	char		*str;
+	t_tokens	token;
+	int			last;
+}	t_fd;
+
 typedef struct s_command
 {
 	char 	*command;
@@ -60,6 +67,7 @@ typedef struct s_command
 	char	*input_file;
 	char	*output_file;
 	int		pipe_bef;
+	t_fd	*fd;
 }	t_command;
 
 typedef struct s_data
