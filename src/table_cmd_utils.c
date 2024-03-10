@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 10:30:09 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/10 20:44:15 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,4 @@ void	nb_command(t_table *tab_cmds, t_lexer **lexer)
 	}
 	tab_cmds -> num_commands = i;
 	return ;
-}
-
-int	len_fd(t_fd *fd)
-{
-	int	i;
-
-	i = 0;
-	while (fd[i].last != 1)
-		i++;
-	return (i);
-}
-
-t_fd	*malloc_fd(t_lexer *lst)
-{
-	t_lexer *lst2;
-	int		i;
-	t_fd	*fd;
-
-	lst2 = lst;
-	i = 0;
-	while (lst2 && lst2 -> token == INPUT && lst2 -> token == OUTPUT \
-	&& lst2 -> token == FD)
-	{
-		if (lst2 -> token == FD)
-			i++;
-		lst2 = lst2 -> next;
-	}
-	fd = malloc(sizeof(t_fd) * i);
-	return (fd);
 }

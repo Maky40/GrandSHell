@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/09 10:51:47 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/09 12:41:16 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int check_command(char *str, char *cmd)
 	while (*str)
 	{
 		if (*str == '"' || *str == '\'')
-			str++; 
+			str++;
 		if (*str != *cmd)
 			return (1);
 		str++;
@@ -71,7 +71,7 @@ int	is_builtin(char *cmd)
 
 void executor(t_table *tab_cmds, t_data *data)
 {
-	int	i; 
+	int	i;
 
 	i = 0;
 

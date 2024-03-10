@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 11:03:12 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/10 20:45:28 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_command
 	t_fd	*fd;
 	char	*input_file;
 	char	*output_file;
-	int		pipe_bef;
 }	t_command;
 
 typedef struct s_data
@@ -112,5 +111,4 @@ void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 int		search_operators(char c);
 int		len_fd(t_fd *fd);
 int		is_last_fd(t_fd *fd, int j, int len);
-t_fd	*malloc_fd(t_lexer *lst);
 #endif

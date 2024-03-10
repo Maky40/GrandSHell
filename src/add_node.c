@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/04 13:17:46 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/09 12:18:04 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void	identify_type_command(t_lexer *node)
 		return ;
 	}
 	if (node -> prev != NULL && (node -> prev -> token == COMMANDE \
-	|| node -> prev -> token == ARG))
+	|| node -> prev -> token == ARG || node -> prev -> token == FD))
 		node -> token = ARG;
 	if (node -> prev != NULL && (node -> prev -> token == HEREDOC \
 	|| node -> prev -> token == INPUT || node -> prev -> token == OUTPUT \
-	|| node -> prev -> token == APPEND || node -> prev -> token == FD))
+	|| node -> prev -> token == APPEND))
 		node -> token = FD;
 }
 
