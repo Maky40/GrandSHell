@@ -6,11 +6,30 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/11 13:31:28 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 14:17:35 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int open_input(t_command *command)
+{
+	int i = 0;
+	int fd; 
+
+	while (!&command->fd[i] && command->fd->last != 1)
+	{
+		if (command->fd[i].token == 2)
+		{
+			fd = open(command->fd[i].str, O_RDONLY);
+			if (fd < 0)
+			{
+				printf("bash: unknown: No such file or directory\n");
+				return (1);
+			}
+		}
+	}
+}
 
 int check_command(char *str, char *cmd)
 {
@@ -76,25 +95,16 @@ void executor(t_table *tab_cmds, t_data *data)
 	int 	fd[2];
 	pid_t	child;
 
-	i = 0;
-	if (tab_cmds->num_commands == 1)
-	{
-		if (tab_cmds->commands[0].input_file == NULL)
-			tab_cmds->commands[0].input_file = STDIN_FILENO;
-		if (tab_cmds->commands[0].output_file == NULL)
-			tab_cmds->commands[0].input_file = STDOUT_FILENO;
-	}
-	else if (tab_cmds->num_commands > 1)
-	{
-		if (tab_cmds->commands[tab_cmds->num_commands - 1].output_file ==  NULL)
-			tab_cmds->commands[tab_cmds->num_commands - 1].output_file = STDOUT_FILENO;
-			
-	}
+
 	while (i < tab_cmds->num_commands)
 	{
+		while (open_input(&tab_cmds->commands[i]) != 0)
+			i++;	
 		if (is_builtin(tab_cmds->commands[i].command) == 0)
 			built_in_execute(&tab_cmds->commands[i], data);
 		else
 			execute(&tab_cmds->commands[i], data);
+		
+		i++;
 	}
 }
