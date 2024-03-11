@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/09 13:14:59 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 13:31:28 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ int	is_builtin(char *cmd)
 
 void executor(t_table *tab_cmds, t_data *data)
 {
-	int	i; 
+	int		i;
+	int 	fd[2];
+	pid_t	child;
 
 	i = 0;
 	if (tab_cmds->num_commands == 1)
