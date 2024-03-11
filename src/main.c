@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:29:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 16:57:58 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		display_prompt(&data);
 		if (data.valid_line == 0)
+		{
 			identify_line(&data, &lexer);
-		tab_cmds = table_command(&lexer);
-		free_lexer(&lexer);
-		executor(tab_cmds, &data);
+			tab_cmds = table_command(&lexer);
+			free_lexer(&lexer);
+			executor(tab_cmds, &data);
+		}
 	}
 }
 //int main(int argc, char **argv, char **envp)

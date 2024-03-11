@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:22:12 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 16:40:00 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct s_command
 	char	**arguments;
 	char	*input_file;
 	char	*output_file;
+	int		input_file_fd;
+	int		output_file_fd;
 	int		pipe_bef;
 	t_fd	*fd;
 }	t_command;

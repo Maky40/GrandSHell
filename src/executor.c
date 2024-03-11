@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/11 15:26:26 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 17:13:48 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,41 @@ int open_input(t_command *command)
 	int i = 0;
 	int fd; 
 
-	while (!&command->fd[i] && command->fd->last != 1)
+	while (command->fd[i].last != 1)
 	{
 		if (command->fd[i].token == 2)
 		{
+			printf("Input file :%s\n", command->fd[i].str);
 			fd = open(command->fd[i].str, O_RDONLY);
 			if (fd < 0)
 			{
 				printf("bash: unknown: No such file or directory\n");
 				return (1);
 			}
+			if (command->fd[i].str == command->input_file)
+				command->input_file_fd = fd;
+			else
+				close(fd);
 		}
+		else if ((command->fd[i].token == 3))
+		{
+			printf("Output file :%s\n", command->fd[i].str);
+			fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0777);
+			if (command->fd[i].str == command->output_file)
+				command->output_file_fd = fd;
+			else
+				close(fd);
+		}
+		else if (command->fd[i].token == 4)
+		{
+			printf("Append file :%s\n", command->fd[i].str);
+			fd = open(command->fd[i].str, O_CREAT | O_RDWR, 0777);
+			if (command->fd[i].str == command->output_file)
+				command->output_file_fd = fd;
+			else
+				close(fd);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -92,20 +116,19 @@ int	is_builtin(char *cmd)
 
 void executor(t_table *tab_cmds, t_data *data)
 {
-	int		i;
-	//int 	fd[2];
-	//pid_t	child;
+	int i = 0;
 
-	i = 0;
 	while (i < tab_cmds->num_commands)
 	{
-		while (open_input(&tab_cmds->commands[i]) != 0)
-			i++;	
-		if (is_builtin(tab_cmds->commands[i].command) == 0)
-			built_in_execute(&tab_cmds->commands[i], data);
-		else
-			execute(&tab_cmds->commands[i], data);
-		
+		if (open_input(&tab_cmds->commands[i]) == 0)
+		{
+			if (is_builtin(tab_cmds->commands[i].command) == 0)
+				built_in_execute(&tab_cmds->commands[i], data);
+			else
+				execute(&tab_cmds->commands[i], data);
+		}
 		i++;
 	}
 }
+
+
