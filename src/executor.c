@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/11 14:17:35 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 14:48:15 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int open_input(t_command *command)
 			}
 		}
 	}
+	return (0);
 }
 
 int check_command(char *str, char *cmd)
@@ -92,8 +93,8 @@ int	is_builtin(char *cmd)
 void executor(t_table *tab_cmds, t_data *data)
 {
 	int		i;
-	int 	fd[2];
-	pid_t	child;
+	//int 	fd[2];
+	//pid_t	child;
 
 
 	while (i < tab_cmds->num_commands)
