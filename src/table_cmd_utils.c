@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 12:11:13 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 13:49:30 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	set_input_output(t_command *cmd, int i, int len)
 	{
 		while(j < len)
 		{
-			if (cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT)
+			if (cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT || cmd[i].fd[j].token == APPEND)
 			{
 				if (cmd[i].fd[j].token == INPUT)
 					cmd[i].input_file = ft_strdup(cmd[i].fd[j].str);
 				if (cmd[i].fd[j].token == OUTPUT)
+					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
+				if (cmd[i].fd[j].token == APPEND)
 					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
 			}
 			j++;
@@ -82,11 +84,11 @@ void	nb_command(t_table *tab_cmds, t_lexer **lexer)
 	int		i;
 	t_lexer	*lst;
 
-	i = 0;
+	i = 1;
 	lst = *lexer;
 	while(lst)
 	{
-		if (lst -> token == COMMANDE)
+		if (lst -> token == PIPE)
 			i++;
 		lst = lst -> next;
 	}

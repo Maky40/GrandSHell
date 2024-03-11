@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 12:11:14 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 14:05:19 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	add_input_output(t_command *cmd, t_lexer *lst, int i)
 	if (len == 0)
 	{
 		cmd[i].fd = NULL;
+		cmd[i].input_file = NULL;
+		cmd[i].output_file = NULL;
 		return ;
 	}
 	add_fd(cmd, lst, i, len);
@@ -88,14 +90,19 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 	while (i < tab_cmds -> num_commands)
 	{
 		if (lst -> token == COMMANDE)
-			tab_cmds -> commands[i].command = lst -> str;
+			tab_cmds -> commands[i].command = ft_strdup(lst -> str);
+		else
+			tab_cmds -> commands[i].command = NULL;
 		add_args(tab_cmds -> commands, lst, i);
-		ft_printf("args[0] = %s\n", tab_cmds -> commands[i].arguments[0]);
 		add_input_output(tab_cmds -> commands, lst, i);
-		lst = lst -> next;
-		while (lst && lst -> token != COMMANDE)
-			lst = lst -> next;
 		i++;
+		lst = lst -> next;
+		while (lst && lst -> token != PIPE)
+			lst = lst -> next;
+		if (lst == NULL)
+			return ;
+		if (lst -> token == PIPE)
+			lst = lst -> next;
 	}
 }
 
