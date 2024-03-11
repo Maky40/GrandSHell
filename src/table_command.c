@@ -6,12 +6,11 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/10 21:21:00 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 12:11:14 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 {
@@ -21,7 +20,10 @@ int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 	lst2 = lst;
 	j = 0;
 	if (lst2 == NULL)
+	{
+		cmd[i].fd = NULL;
 		return (0);
+	}
 	if (lst2 -> token == COMMANDE)
 		lst2 = lst2 -> next;
 	while (lst2 && lst2 -> token != COMMANDE)
@@ -37,59 +39,44 @@ int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 
 void	add_input_output(t_command *cmd, t_lexer *lst, int i)
 {
-	int		j;
 	int		len;
-	t_lexer *lst2;
 
-	j = 0;
-	lst2 = lst;
 	len = malloc_fd(cmd, lst, i);
-	while (j < len)
+	if (len == 0)
 	{
-		if (lst2 -> token == INPUT || lst2 -> token == OUTPUT || lst2 -> token == HEREDOC || lst2 -> token == APPEND)
-		{
-			cmd[i].fd[j].last = 0;
-			cmd[i].fd[j].token = lst2 -> token;
-			lst2 = lst2 -> next;
-			if (lst2 == NULL)
-				return ;
-			cmd[i].fd[j].str = ft_strdup(lst2 -> str);
-			j++;
-		}
-		if (lst2 == NULL)
-			break ;
-		lst2 = lst2 -> next;
+		cmd[i].fd = NULL;
+		return ;
 	}
-
-	if (j > 0)
-		cmd[i].fd[j - 1].last = 1;
+	add_fd(cmd, lst, i, len);
+	set_input_output(cmd, i, len);
 }
-t_lexer	*add_args(char **args, t_lexer *lst)
+
+void	add_args(t_command *cmd, t_lexer *lst, int i)
 {
-	int		i;
+	int		j;
 	t_lexer	*lst2;
 
-	i = 0;
-	lst2 = lst;
+	j = 0;
+	lst2 = lst -> next;
 	while (lst2 && lst2 -> token != COMMANDE)
 	{
 		if (lst2 -> token == ARG)
-			i++;
+			j++;
 		lst2 = lst2 -> next;
 	}
-	args = malloc(sizeof(char *) * ( i + 1));
-	args[i] = NULL;
-	i = 0;
-	while (args[i])
+	cmd[i].arguments = malloc(sizeof(char *) * (j + 1));
+	cmd[i].arguments[j] = NULL;
+	j = 0;
+	lst2 = lst -> next;
+	while (lst2 && lst2 -> token != COMMANDE)
 	{
-		if (lst -> token == ARG)
+		if (lst2 -> token == ARG)
 		{
-			args[i] = ft_strdup(lst -> str);
-			i++;
+			cmd[i].arguments[j] = ft_strdup(lst2 -> str);
+			j++;
 		}
-		lst = lst -> next;
+		lst2 = lst2 -> next;
 	}
-	return (lst);
 }
 void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 {
@@ -102,7 +89,8 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 	{
 		if (lst -> token == COMMANDE)
 			tab_cmds -> commands[i].command = lst -> str;
-		add_args(tab_cmds -> commands[i].arguments, lst);
+		add_args(tab_cmds -> commands, lst, i);
+		ft_printf("args[0] = %s\n", tab_cmds -> commands[i].arguments[0]);
 		add_input_output(tab_cmds -> commands, lst, i);
 		lst = lst -> next;
 		while (lst && lst -> token != COMMANDE)
@@ -114,7 +102,10 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 void	table_command(t_lexer **lexer)
 {
 	t_table	*tab_cmds;
+	int		i;
+	int		j;
 
+	i = 0;
 	tab_cmds = malloc(sizeof(t_table));
 	nb_command(tab_cmds, lexer);
 	if (tab_cmds -> num_commands > 0)
@@ -122,6 +113,28 @@ void	table_command(t_lexer **lexer)
 		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
 		add_commands(tab_cmds, lexer);
 	}
-	ft_printf("la commande est : %s\n", tab_cmds -> commands[0].command);
-	ft_printf("la commande est : %s\n", tab_cmds -> commands[1].command);
+	while (i < tab_cmds -> num_commands)
+	{
+		j = 0;
+		ft_printf("la commande %d est : %s\n", i, tab_cmds -> commands[i].command);
+		while (tab_cmds -> commands[i].arguments[j])
+		{
+			ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
+			j++;
+		}
+		ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
+		j = 0;
+		if (tab_cmds -> commands[i].fd)
+		{
+			while (tab_cmds -> commands[i].fd[j].last != 1)
+			{
+				ft_printf("Pour fd = %d :\nToken = %d\nSTR = %s\n\n", j, tab_cmds -> commands[i].fd[j].token, tab_cmds -> commands[i].fd[j].str);
+				j++;
+			}
+			ft_printf("Pour fd = %d :\nToken = %d\nSTR = %s\n\n", j, tab_cmds -> commands[i].fd[j].token, tab_cmds -> commands[i].fd[j].str);
+		}
+		ft_printf("INPUT FILE = %s, OUTPUT FILE = %s\n", tab_cmds -> commands[i].input_file, tab_cmds -> commands[i].output_file);
+		i++;
+	}
+	// ft_printf("la commande est : %s\n", tab_cmds -> commands[1].command);
 }

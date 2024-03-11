@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/10 20:45:28 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 12:11:12 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
 void	table_command(t_lexer **lexer);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
+void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
+void	set_input_output(t_command *cmd, int i, int len);
 int		search_operators(char c);
 int		len_fd(t_fd *fd);
 int		is_last_fd(t_fd *fd, int j, int len);
