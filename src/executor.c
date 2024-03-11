@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/11 14:48:15 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 15:26:26 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void executor(t_table *tab_cmds, t_data *data)
 	//int 	fd[2];
 	//pid_t	child;
 
-
+	i = 0;
 	while (i < tab_cmds->num_commands)
 	{
 		while (open_input(&tab_cmds->commands[i]) != 0)

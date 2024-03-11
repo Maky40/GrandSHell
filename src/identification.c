@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/05 12:38:24 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/11 15:29:04 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		print = print -> next;
 	}
 	expander(data, lexer);
-	free_lexer(lexer);
 }
 // revoir la structure de ta fct identify_line + creer les fonctions add_nodes
 //  ajouter les returns quand tu creer des nodes
