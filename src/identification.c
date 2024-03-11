@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 12:11:15 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 15:40:02 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		print = print -> next;
 	}
 	expander(data, lexer);
-	table_command(lexer);
-	free_lexer(lexer);
 }
 
 // revoir la structure de ta fct identify_line + creer les fonctions add_nodes

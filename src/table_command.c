@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 14:05:19 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 15:40:22 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 	}
 }
 
-void	table_command(t_lexer **lexer)
+t_table	*table_command(t_lexer **lexer)
 {
 	t_table	*tab_cmds;
 	int		i;
@@ -143,5 +143,7 @@ void	table_command(t_lexer **lexer)
 		ft_printf("INPUT FILE = %s, OUTPUT FILE = %s\n", tab_cmds -> commands[i].input_file, tab_cmds -> commands[i].output_file);
 		i++;
 	}
+	return (tab_cmds);
 	// ft_printf("la commande est : %s\n", tab_cmds -> commands[1].command);
+
 }

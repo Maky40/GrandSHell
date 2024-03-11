@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 12:11:12 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 15:39:10 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
 void	expander(t_data *data, t_lexer **lexer);
-void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
-void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
-void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void	table_command(t_lexer **lexer);
-void	nb_command(t_table *tab_cmds, t_lexer **lexer);
+void new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
+void new_str(t_lexer *dup, t_expander *expander, char **ptr);
+void new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
+void executor(t_table *tab_cmds, t_data *data);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
+void	nb_command(t_table *tab_cmds, t_lexer **lexer);
+void	free_lexer(t_lexer **lexer);
 int		search_operators(char c);
-int		len_fd(t_fd *fd);
-int		is_last_fd(t_fd *fd, int j, int len);
+t_table	*table_command(t_lexer **lexer);
 #endif

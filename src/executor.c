@@ -6,11 +6,31 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/09 12:41:16 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/11 15:39:48 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int open_input(t_command *command)
+{
+	int i = 0;
+	int fd;
+
+	while (!&command->fd[i] && command->fd->last != 1)
+	{
+		if (command->fd[i].token == 2)
+		{
+			fd = open(command->fd[i].str, O_RDONLY);
+			if (fd < 0)
+			{
+				printf("bash: unknown: No such file or directory\n");
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
 
 int check_command(char *str, char *cmd)
 {
@@ -34,20 +54,21 @@ void execute(t_command *cmd, t_data *data)
 
 void	built_in_execute(t_command *cmd, t_data *data)
 {
-	if (check_command(cmd, "echo"))
-		echo();
-	else if (check_command(cmd, "unset"))
-		unset();
-	else if (check_command(cmd, "cd"))
-		cd();
-	else if (check_command(cmd, "exit"))
-		ft_exit();
-	else if (check_command(cmd, "pwd"))
-		pwd();
-	else if (check_command(cmd, "env"))
-		env();
-	else if (check_command(cmd, "export"))
-		export();
+	(void)data;
+	if (check_command(cmd->command, "echo"))
+		printf("echo\n");
+	else if (check_command(cmd->command, "unset"))
+		printf("unset\n");
+	else if (check_command(cmd->command, "cd"))
+		printf("cd\n");
+	else if (check_command(cmd->command, "exit"))
+		printf("exit\n");
+	else if (check_command(cmd->command, "pwd"))
+		printf("pwd\n");
+	else if (check_command(cmd->command, "env"))
+		printf("env\n");
+	else if (check_command(cmd->command, "export"))
+		printf("export\n");
 }
 
 int	is_builtin(char *cmd)
@@ -71,15 +92,20 @@ int	is_builtin(char *cmd)
 
 void executor(t_table *tab_cmds, t_data *data)
 {
-	int	i;
+	int		i;
+	//int 	fd[2];
+	//pid_t	child;
 
 	i = 0;
-
 	while (i < tab_cmds->num_commands)
 	{
+		while (open_input(&tab_cmds->commands[i]) != 0)
+			i++;
 		if (is_builtin(tab_cmds->commands[i].command) == 0)
 			built_in_execute(&tab_cmds->commands[i], data);
 		else
 			execute(&tab_cmds->commands[i], data);
+
+		i++;
 	}
 }
