@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 13:49:30 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/14 11:09:14 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	set_input_output(t_command *cmd, int i, int len)
 				if (cmd[i].fd[j].token == APPEND)
 					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
 			}
+			if (j == len - 1 && cmd[i].fd[j].token == HEREDOC)
+				cmd -> heredoc_last = 1;
 			j++;
 		}
 	}

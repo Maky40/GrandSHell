@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/12 16:32:53 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/14 10:55:11 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ typedef struct s_command
 	t_fd	*fd;
 	char	*input_file;
 	char	*output_file;
+	int		intput_file;
+	int		output_file;
+	int		heredoc_last;
 }	t_command;
 
 typedef struct s_data

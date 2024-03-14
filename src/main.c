@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:40:09 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/13 14:29:05 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	main(int argc, char **argv, char **envp)
 		display_prompt(&data);
 		if (data.valid_line == 0)
 			identify_line(&data, &lexer);
+		if (verify_line(&lexer) == 1)
+			free_all(&data, &lexer);
 		tab_cmds = table_command(&lexer);
 		free_lexer(&lexer);
 		executor(tab_cmds, &data);
