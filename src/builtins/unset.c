@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:20:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/14 11:10:58 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/14 12:54:13 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**do_unset(char **env, t_command *cmd)
 		while (env[j])
 		{
 			if (ft_strncmp(cmd -> arguments[i], env[j], ft_strlen(cmd -> arguments[i])) == 0 \
-			&& env[j][ft_strlen(cmd -> arguments[i])] == '=')
+			&& env[j][ft_strlen(cmd -> arguments[i])] == '=' && cmd -> arguments[i][0] != '_')
 			{
 				env = remove_variable(env, j);
 				k = 1;
