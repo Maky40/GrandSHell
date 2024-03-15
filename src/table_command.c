@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:13:59 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 11:37:19 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ void	add_input_output(t_command *cmd, t_lexer *lst, int i)
 	len = malloc_fd(cmd, lst, i);
 	if (len == 0)
 	{
+		cmd[i].no_fd = 1;
 		cmd[i].fd = NULL;
 		cmd[i].input_file = NULL;
 		cmd[i].output_file = NULL;
 		return ;
 	}
+	else	
+		cmd[i].no_fd = 0;
 	add_fd(cmd, lst, i, len);
 	set_input_output(cmd, i, len);
 }

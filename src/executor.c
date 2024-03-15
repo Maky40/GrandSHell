@@ -6,93 +6,37 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/14 10:20:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 11:35:51 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void open_append(t_command *command, int i)
+
+void init_pipe(t_table *tab_cmds, t_data *data, int i)
 {
-	int fd;
+	(void) tab_cmds; 
+	(void) data;
+	(void) i;
+	int fd[2];
+	int status;
+	int pid;
 
-	printf("Append file :%s\n", command->fd[i].str);
-	fd = open(command->fd[i].str, O_CREAT | O_RDWR, 0777);
-	if (command->fd[i].str == command->output_file)
-		command->output_file_fd = fd;
-	else
-		close(fd);
-	
-}
-
-void open_output(t_command *command, int i)
-{
-	int fd;
-	
-	printf("Output file :%s\n", command->fd[i].str);
-	fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (command->fd[i].str == command->output_file)
-		command->output_file_fd = fd;
-	else
-		close(fd);
-}
-
-int open_input(t_command *command, t_data *data, int i)
-{ 
-	int fd;
-	
-	printf("Input file :%s\n", command->fd[i].str);
-	fd = open(command->fd[i].str, O_RDONLY);
-	if (fd < 0)
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
 	{
-		data->exit_status = 1;
-		printf("bash: unknown: No such file or directory\n");
-		return (1);
+		printf("Je suis start execute \n");
+		//start_execute(data, tab_cmds, i, fd);
+		exit(0);
 	}
-	if (command->fd[i].str == command->input_file)
-		command->input_file_fd = fd;
 	else
-		close(fd);
-	return (0);
-}
-
-
-int open_last(t_command *command, t_data *data, int i)
-{
-	if (command->fd[i].token == 2)
 	{
-		if (open_input(command, data, i) == 1)
-			return (1);
+		waitpid(pid, &status, WNOHANG);
+		close(fd[0]);
+		close(fd[1]);
 	}
-	else if ((command->fd[i].token == 3))
-		open_output(command, i);
-	else if (command->fd[i].token == 4)
-		open_append(command, i);
-	return (0);
 }
-
-int open_fd(t_command *command, t_data *data)
-{
-	int i = 0;
-
-	while (command->fd[i].last != 1)
-	{
-		if (command->fd[i].token == 2)
-		{
-			if (open_input(command, data, i) == 1)
-				return (1);
-		}
-		else if ((command->fd[i].token == 3))
-			open_output(command, i);
-		else if (command->fd[i].token == 4)
-			open_append(command, i);
-		i++;
-	}
-	if (open_last(command, data, i) == 1)
-		return (1);
-	return (0);
-}
-
 int check_command(char *str, char *cmd)
 {
 	while (*str)
@@ -151,22 +95,31 @@ int	is_builtin(char *cmd)
 	return (1);
 }
 
+void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd)
+{
+	if (tab_cmds->commands[i].input_file == NULL)
+		dup2(fd[0], STDIN_FILENO);
+	if (tab_cmds->commands[i].output_file == NULL)
+		dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	if (tab_cmds->commands[i].command != NULL)
+	{
+		if (is_builtin(tab_cmds->commands[i].command) == 0)
+			built_in_execute(&tab_cmds->commands[i], data);
+		else
+			execute(&tab_cmds->commands[i], data);
+	}
+}
 void executor(t_table *tab_cmds, t_data *data)
 {
 	int i;
-	int fd[2];
-
 	
 	i = 0;
 	while (i < tab_cmds->num_commands)
 	{
 		if (open_fd(&tab_cmds->commands[i], data) == 0)
-		{
-			if (is_builtin(tab_cmds->commands[i].command) == 0)
-				built_in_execute(&tab_cmds->commands[i], data);
-			else
-				execute(&tab_cmds->commands[i], data);
-		}
+			init_pipe(tab_cmds, data, i);
 		i++;
 	}
 }

@@ -6,28 +6,33 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:29:04 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 11:42:11 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-void	free_lexer(t_lexer **lexer)
+void free_lexer(t_lexer **lexer)
 {
-	t_lexer *lst;
+    t_lexer *lst;
+    t_lexer *next_node;
 
-	if (!lexer || !(*lexer))
-		return ;
-	lst = *lexer;
-	while (*lexer)
-	{
-		lst = (*lexer) -> next;
-		free (*lexer);
-		*lexer = lst;
-	}
-	*lexer = NULL;
+    if (!lexer || !(*lexer))
+        return;
+
+    lst = *lexer;
+    while (lst)
+    {
+        next_node = lst->next;
+        free(lst->str);
+        free(lst);
+        lst = next_node;
+    }
+
+    *lexer = NULL; 
 }
+
 
 int		*add_quote_space(t_data *data, int j)
 {

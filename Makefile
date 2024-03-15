@@ -23,7 +23,7 @@ GNL_FILE	=	gnl.a
 GNL_LIB	=	$(addprefix $(GNL_PATH), $(GNL_FILE))
 
 C_FILE		=	main.c dup_env.c identification.c add_node.c quotes_utils.c check_line.c expander.c expander_utils.c executor.c table_cmd_utils.c \
-				table_command.c 
+				table_command.c fd_utils.c
 
 SRC_DIR		=	./src/
 

@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/14 09:19:31 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/14 15:11:43 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <stdio.h>
 # include <string.h>
 # include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
 
 //int	do_func = 1;
 
@@ -68,7 +69,7 @@ typedef struct s_command
 	char	*output_file;
 	int		input_file_fd;
 	int		output_file_fd;
-	int		pipe_bef;
+	int		no_fd;
 	t_fd	*fd;
 }	t_command;
 
@@ -114,6 +115,9 @@ void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
+void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd);
 int		search_operators(char c);
+int	is_builtin(char *cmd);
+int open_fd(t_command *command, t_data *data);
 t_table	*table_command(t_lexer **lexer);
 #endif
