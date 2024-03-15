@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dup_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/02 15:23:31 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/15 13:40:23 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+
 
 void	free_dup_env(char **dup_env)
 {
@@ -27,6 +29,13 @@ void	free_dup_env(char **dup_env)
 	return ;
 }
 
+
+void	free_data(t_data *data)
+{
+	free(data -> line);
+	free(data -> quote_space);
+	free_dup_env(data -> env);
+}
 char 	**dup_env(char **envp)
 {
 	int		i;

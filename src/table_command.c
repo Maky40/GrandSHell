@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 11:37:19 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 13:56:54 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 			j++;
 		lst2 = lst2 -> next;
 	}
-	cmd[i].fd = malloc(sizeof(t_fd) * j);
+	if (j > 0)
+		cmd[i].fd = malloc(sizeof(t_fd) * j);
 	return (j);
 
 }

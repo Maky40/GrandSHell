@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/15 12:44:43 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 14:54:58 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void init_pipe(t_table *tab_cmds, t_data *data, int i)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("Je suis start execute \n");
-		//start_execute(data, tab_cmds, i, fd);
+		printf("Je suis processus enfant\n");
+		start_execute(data, tab_cmds, i, fd);
 		exit(0);
 	}
 	else
 	{
-		waitpid(pid, &status, WNOHANG);
+		waitpid(pid, &status, 0);
 		close(fd[0]);
 		close(fd[1]);
 	}
@@ -97,10 +97,12 @@ int	is_builtin(char *cmd)
 
 void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd)
 {
+	
 	if (tab_cmds->commands[i].input_file == NULL)
 		dup2(fd[0], STDIN_FILENO);
 	if (tab_cmds->commands[i].output_file == NULL)
 		dup2(fd[1], STDOUT_FILENO);
+	
 	close(fd[0]);
 	close(fd[1]);
 	if (tab_cmds->commands[i].command != NULL)

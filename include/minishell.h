@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 12:35:09 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 13:39:02 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_table_command
 }	t_table;
 
 char	**dup_env(char **envp);
+char	*ft_strdup_mshell(char *s);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -117,6 +118,7 @@ void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
 void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd);
 void	free_table_cmd(t_table *tab_cmd);
+void	free_data(t_data *data);
 int		search_operators(char c);
 int	is_builtin(char *cmd);
 int open_fd(t_command *command, t_data *data);

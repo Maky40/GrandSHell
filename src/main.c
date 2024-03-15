@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 12:44:59 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 14:09:29 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
-	(void) *tab_cmds;
+
 	(void)argv;
-	(void)envp;
 	lexer = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
@@ -63,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			executor(tab_cmds, &data);
 			free_table_cmd(tab_cmds);
 			free(data.line);
+			free(data.quote_space);
 		}
 	}
 }
