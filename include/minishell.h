@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/14 15:11:43 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/15 12:35:09 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
 void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd);
+void	free_table_cmd(t_table *tab_cmd);
 int		search_operators(char c);
 int	is_builtin(char *cmd);
 int open_fd(t_command *command, t_data *data);
