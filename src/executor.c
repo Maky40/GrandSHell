@@ -6,18 +6,44 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/15 14:54:58 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/16 12:21:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
+void	*find_path(char *cmd, char **env)
+{
+	char	**paths;
+	char	*path;
+	char	*join_path;
+	int		i;
+
+	i = 0;
+	while (ft_strnstr(env[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(env[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		join_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(join_path, cmd);
+		free(join_path);
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (0);
+}
+
 void init_pipe(t_table *tab_cmds, t_data *data, int i)
 {
-	(void) tab_cmds; 
-	(void) data;
-	(void) i;
 	int fd[2];
 	int status;
 	int pid;
@@ -39,80 +65,104 @@ void init_pipe(t_table *tab_cmds, t_data *data, int i)
 }
 int check_command(char *str, char *cmd)
 {
-	while (*str)
+	int i; 
+
+	i = 0;
+	while (str[i])
 	{
-		if (*str == '"' || *str == '\'')
-			str++; 
-		if (*str != *cmd)
+		if (str[i] == '"' || str[i] == '\'')
+			i++; 
+		if (str[i] != cmd[i])
 			return (1);
-		str++;
+		i++;
 	}
 	return (0);
 }
 
 void execute(t_command *cmd, t_data *data)
 {
-	(void)cmd;
-	(void)data;
-	printf ("Je suis execute\n");
+	char *path; 
+	
+	path = find_path(cmd->command, data->env);
+	if (!path)
+	{
+		perror("Command not found");
+		exit(EXIT_FAILURE);
+	}
+	printf("Je suis avant execve\n");
+	if (execve(path, cmd->arguments, data->env) == -1)
+	{
+		perror("Execve error");
+		exit(EXIT_FAILURE);
+	}
+	
 }
 
 void	built_in_execute(t_command *cmd, t_data *data)
 {
 	(void)data;
-	if (check_command(cmd->command, "echo"))
+	if (check_command(cmd->command, "echo") == 0)
 		printf("echo\n");
-	else if (check_command(cmd->command, "unset"))
+	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
-	else if (check_command(cmd->command, "cd"))
+	else if (check_command(cmd->command, "cd") == 0)
 		printf("cd\n");
-	else if (check_command(cmd->command, "exit"))
+	else if (check_command(cmd->command, "exit") == 0)
 		printf("exit\n");
-	else if (check_command(cmd->command, "pwd"))
+	else if (check_command(cmd->command, "pwd") == 0)
 		printf("pwd\n");
-	else if (check_command(cmd->command, "env"))
+	else if (check_command(cmd->command, "env") == 0)
 		printf("env\n");
-	else if (check_command(cmd->command, "export"))
+	else if (check_command(cmd->command, "export") == 0)
 		printf("export\n");
 }
 
 int	is_builtin(char *cmd)
 {
-	if (check_command(cmd, "echo"))
-		return (0);
-	else if (check_command(cmd, "unset"))
-		return (0);
-	else if (check_command(cmd, "cd"))
-		return (0);
-	else if (check_command(cmd, "exit"))
-		return (0);
-	else if (check_command(cmd, "pwd"))
-		return (0);
-	else if (check_command(cmd, "env"))
-		return (0);
-	else if (check_command(cmd, "export"))
-		return (0);
-	return (1);
+	int ret; 
+
+	ret = 1;
+	if (check_command(cmd, "echo") == 0)
+		ret = 0;
+	else if (check_command(cmd, "unset") == 0)
+		ret = 0;
+	else if (check_command(cmd, "cd") == 0)
+		ret = 0;
+	else if (check_command(cmd, "exit") == 0)
+		ret = 0;
+	else if (check_command(cmd, "pwd") == 0)
+		ret = 0;
+	else if (check_command(cmd, "env") == 0)
+		ret = 0;
+	else if (check_command(cmd, "export") == 0)
+		ret = 0;
+	return (ret);
 }
 
 void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd)
 {
 	
-	if (tab_cmds->commands[i].input_file == NULL)
-		dup2(fd[0], STDIN_FILENO);
-	if (tab_cmds->commands[i].output_file == NULL)
-		dup2(fd[1], STDOUT_FILENO);
 	
-	close(fd[0]);
-	close(fd[1]);
-	if (tab_cmds->commands[i].command != NULL)
-	{
-		if (is_builtin(tab_cmds->commands[i].command) == 0)
-			built_in_execute(&tab_cmds->commands[i], data);
-		else
-			execute(&tab_cmds->commands[i], data);
-	}
+    if (tab_cmds->commands[i].input_file == NULL)
+        dup2(fd[0], STDIN_FILENO);
+    else
+        dup2(fd[0], tab_cmds->commands[i].input_file_fd);
+    if (tab_cmds->commands[i].output_file == NULL)
+        dup2(fd[1], STDOUT_FILENO);
+    else
+        dup2(fd[1], tab_cmds->commands[i].output_file_fd);
+
+    close(fd[0]);
+    close(fd[1]);
+    if (tab_cmds->commands[i].command != NULL)
+    {
+        if (is_builtin(tab_cmds->commands[i].command) == 0)
+            built_in_execute(&tab_cmds->commands[i], data);
+        else
+            execute(&tab_cmds->commands[i], data);
+    }
 }
+
 void executor(t_table *tab_cmds, t_data *data)
 {
 	int i;

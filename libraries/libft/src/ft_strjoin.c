@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 11:46:46 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/02 15:26:38 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/16 11:22:33 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ char	*ft_strjoin(char *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(new_text, s1, size_text_s1 + 1);
 	ft_strlcat(new_text, s2, size_text_s2 + size_text_s1 + 1);
-	free(s1);
+	//free(s1);
 	return (new_text);
 }

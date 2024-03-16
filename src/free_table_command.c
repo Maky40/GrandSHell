@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:45:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 15:21:47 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/16 10:46:34 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_commands(t_command *cmd, int i)
 void	free_table_cmd(t_table *tab_cmd)
 {
 	int	i;
+	
 	i = 0;
 	if (!tab_cmd)
 		return ;

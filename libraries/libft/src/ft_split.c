@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 17:31:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/02/06 13:51:14 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/16 11:21:33 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ char	**ft_split(char *str, char c)
 	split[words] = 0;
 	if (write_split(split, str, c) == 0)
 		return (NULL);
-	free(str);
+	//free(str);
 	return (split);
 }
