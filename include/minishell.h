@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/14 10:55:11 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/15 14:35:27 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,16 @@ typedef struct s_data
 	int		exit_status;
 	int		index_line;
 	int		*quote_space;
-	int	valid_line;
+	int		valid_line;
 }	t_data;
+
+typedef struct s_env
+{
+	int		shel_lvl;
+	char	**vars_add;
+	char	**modified_env;
+	t_env	*next;
+}	t_env;
 
 typedef struct s_expander
 {
@@ -98,6 +106,7 @@ typedef struct s_table_command
 }	t_table;
 
 char	**dup_env(char **envp);
+char	**last_env(t_env **env);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -117,5 +126,6 @@ void	free_lexer(t_lexer **lexer);
 void	free_table_cmd(t_table *tab_cmd);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
+int		check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 #endif

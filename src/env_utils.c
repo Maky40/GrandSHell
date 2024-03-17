@@ -1,16 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_env.c                                          :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 12:41:19 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/15 14:35:09 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	**last_env(t_env **env)
+{
+	t_env	*lst;
+
+	lst = *env;
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst -> modified_env);
+}
+void	env_init(t_env **env, char **envp)
+{
+	t_env	*env_tmp;
+
+	env_tmp = *env;
+	env_tmp -> shel_lvl = 1;
+	env_tmp -> modified_env = dup_env(envp);
+	env_tmp -> next = NULL;
+	env_tmp -> vars_add = NULL;
+}
 
 void	free_dup_env(char **dup_env)
 {
