@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 13:39:02 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/18 15:18:16 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ typedef struct s_command
 	char	**arguments;
 	char	*input_file;
 	char	*output_file;
-	int		input_file_fd;
-	int		output_file_fd;
+	int		in_fd;
+	int		out_fd;
 	int		no_fd;
 	t_fd	*fd;
 }	t_command;
@@ -116,7 +116,7 @@ void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
-void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd);
+void start_execute(t_data *data, t_table *tab_cmds, int i);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
 int		search_operators(char c);

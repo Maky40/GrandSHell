@@ -6,12 +6,64 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/16 12:21:08 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/18 16:14:36 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void child_process(t_table *tab_cmds, t_data *data, int i, int *fd)
+{
+	if (tab_cmds->commands->input_file != NULL || tab_cmds->commands->output_file != NULL)
+	{
+		if (tab_cmds->commands->input_file != NULL)
+		{
+			tab_cmds->commands->in_fd = open(tab_cmds->commands->input_file, O_RDONLY);
+			dup2(tab_cmds->commands->in_fd, STDIN_FILENO);
+		}
+		if (tab_cmds->commands->output_file != NULL)
+		{
+			tab_cmds->commands->out_fd = open(tab_cmds->commands->output_file,
+				O_CREAT | O_RDWR | O_TRUNC, 0777);
+			dup2(tab_cmds->commands->out_fd, STDOUT_FILENO);
+		}
+		else
+			dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	}
+	else
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		start_execute(data, tab_cmds, i);
+		close(fd[1]);	
+	}
+}
+
+void last_command(t_table *tab_cmds, t_data *data, int i)
+{
+	pid_t	pid;
+	int status;
+	pid = fork();
+	if (pid == 0)
+	{
+		if (tab_cmds->commands->input_file != NULL)
+		{
+			tab_cmds->commands->in_fd = open(tab_cmds->commands->input_file, O_RDONLY);
+			dup2(tab_cmds->commands->in_fd, STDIN_FILENO);
+		}
+		if (tab_cmds->commands->output_file != NULL)
+		{
+			tab_cmds->commands->out_fd = open(tab_cmds->commands->output_file,
+				O_CREAT | O_RDWR | O_TRUNC, 0777);
+			dup2(tab_cmds->commands->out_fd, STDOUT_FILENO);
+		}
+		start_execute(data, tab_cmds, i);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
 
 void	*find_path(char *cmd, char **env)
 {
@@ -46,21 +98,22 @@ void init_pipe(t_table *tab_cmds, t_data *data, int i)
 {
 	int fd[2];
 	int status;
-	int pid;
+	pid_t pid;
 
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("Je suis processus enfant\n");
-		start_execute(data, tab_cmds, i, fd);
-		exit(0);
+		child_process(tab_cmds,data, i, fd);
+		start_execute(data, tab_cmds, i);
+		close(fd[1]);
 	}
 	else
 	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
 		waitpid(pid, &status, 0);
 		close(fd[0]);
-		close(fd[1]);
 	}
 }
 int check_command(char *str, char *cmd)
@@ -81,20 +134,13 @@ int check_command(char *str, char *cmd)
 
 void execute(t_command *cmd, t_data *data)
 {
-	char *path; 
+	char 	*path;
 	
 	path = find_path(cmd->command, data->env);
 	if (!path)
-	{
 		perror("Command not found");
-		exit(EXIT_FAILURE);
-	}
-	printf("Je suis avant execve\n");
 	if (execve(path, cmd->arguments, data->env) == -1)
-	{
-		perror("Execve error");
-		exit(EXIT_FAILURE);
-	}
+		return ; 
 	
 }
 
@@ -139,21 +185,8 @@ int	is_builtin(char *cmd)
 	return (ret);
 }
 
-void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd)
+void start_execute(t_data *data, t_table *tab_cmds, int i)
 {
-	
-	
-    if (tab_cmds->commands[i].input_file == NULL)
-        dup2(fd[0], STDIN_FILENO);
-    else
-        dup2(fd[0], tab_cmds->commands[i].input_file_fd);
-    if (tab_cmds->commands[i].output_file == NULL)
-        dup2(fd[1], STDOUT_FILENO);
-    else
-        dup2(fd[1], tab_cmds->commands[i].output_file_fd);
-
-    close(fd[0]);
-    close(fd[1]);
     if (tab_cmds->commands[i].command != NULL)
     {
         if (is_builtin(tab_cmds->commands[i].command) == 0)
@@ -165,15 +198,30 @@ void start_execute(t_data *data, t_table *tab_cmds, int i , int *fd)
 
 void executor(t_table *tab_cmds, t_data *data)
 {
-	int i;
-	
+    int i;
+    pid_t pid;
+
 	i = 0;
-	while (i < tab_cmds->num_commands)
-	{
-		if (open_fd(&tab_cmds->commands[i], data) == 0)
-			init_pipe(tab_cmds, data, i);
-		i++;
-	}
+	pid = fork();
+    while (i + 1 < tab_cmds->num_commands)
+    {
+        if (open_fd(&tab_cmds->commands[i], data) == 0)
+        {
+            if (pid == 0)
+            {
+                init_pipe(tab_cmds, data, i);
+                exit(EXIT_SUCCESS);
+            }
+            else
+                i++;
+        }
+    }
+    while (waitpid(-1, NULL, 0) > 0);
+    if (open_fd(&tab_cmds->commands[i], data) == 0)
+    {
+        last_command(tab_cmds, data, i);
+    }
 }
+
 
 

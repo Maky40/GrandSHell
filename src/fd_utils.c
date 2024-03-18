@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/03/14 15:20:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/18 15:19:05 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void open_append(t_command *command, int i)
 	printf("Append file :%s\n", command->fd[i].str);
 	fd = open(command->fd[i].str, O_CREAT | O_RDWR, 0777);
 	if (command->fd[i].str == command->output_file)
-		command->output_file_fd = fd;
+		command->out_fd = fd;
 	else
 		close(fd);
 	
@@ -32,7 +32,7 @@ void open_output(t_command *command, int i)
 	printf("Output file :%s\n", command->fd[i].str);
 	fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (command->fd[i].str == command->output_file)
-		command->output_file_fd = fd;
+		command->out_fd = fd;
 	else
 		close(fd);
 }
@@ -50,7 +50,7 @@ int open_input(t_command *command, t_data *data, int i)
 		return (1);
 	}
 	if (command->fd[i].str == command->input_file)
-		command->input_file_fd = fd;
+		command->in_fd = fd;
 	else
 		close(fd);
 	return (0);
