@@ -6,7 +6,11 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/15 14:35:27 by mnie             ###   ########.fr       */
+=======
+/*   Updated: 2024/03/20 13:53:14 by xav              ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +26,9 @@
 # include <stdio.h>
 # include <string.h>
 # include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
 
 //int	do_func = 1;
 
@@ -67,9 +72,11 @@ typedef struct s_command
 	t_fd	*fd;
 	char	*input_file;
 	char	*output_file;
-	int		intput_file;
-	int		output_file;
 	int		heredoc_last;
+	int		in_fd;
+	int		out_fd;
+	int		no_fd;
+	int		append_last;
 }	t_command;
 
 typedef struct s_data
@@ -107,6 +114,7 @@ typedef struct s_table_command
 
 char	**dup_env(char **envp);
 char	**last_env(t_env **env);
+char	*ft_strdup_mshell(char *s);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -115,10 +123,10 @@ void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
 void	expander(t_data *data, t_lexer **lexer);
-void new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void executor(t_table *tab_cmds, t_data *data);
+void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
+void 	executor(t_table *tab_cmds, t_data *data);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
@@ -127,5 +135,15 @@ void	free_table_cmd(t_table *tab_cmd);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i);
+void	free_table_cmd(t_table *tab_cmd);
+void	free_data(t_data *data);
+void	built_in_execute(t_command *cmd, t_data *data);
+void purge_quotes(t_data *data, t_lexer **lexer);
+int		search_operators(char c);
+int		is_builtin(char *cmd);
+int 	open_fd(t_command *command, t_data *data);
+int exec_open_output(t_table *tab_cmds, int i);
+int check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 #endif

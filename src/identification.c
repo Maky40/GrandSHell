@@ -6,28 +6,33 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:40:02 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:36:51 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-void	free_lexer(t_lexer **lexer)
+void free_lexer(t_lexer **lexer)
 {
-	t_lexer *lst;
+    t_lexer *lst;
+    t_lexer *next_node;
 
-	if (!lexer || !(*lexer))
-		return ;
-	lst = *lexer;
-	while (*lexer)
-	{
-		lst = (*lexer) -> next;
-		free (*lexer);
-		*lexer = lst;
-	}
-	*lexer = NULL;
+    if (!lexer || !(*lexer))
+        return;
+
+    lst = *lexer;
+    while (lst)
+    {
+        next_node = lst->next;
+        free(lst->str);
+        free(lst);
+        lst = next_node;
+    }
+
+    *lexer = NULL;
 }
+
 
 int		*add_quote_space(t_data *data, int j)
 {
@@ -153,6 +158,7 @@ void	identify_line(t_data *data, t_lexer **lexer)
 		print = print -> next;
 	}
 	expander(data, lexer);
+	purge_quotes(data,lexer);
 }
 
 // revoir la structure de ta fct identify_line + creer les fonctions add_nodes

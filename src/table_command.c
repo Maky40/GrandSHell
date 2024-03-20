@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 15:40:22 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:37:51 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 			j++;
 		lst2 = lst2 -> next;
 	}
-	cmd[i].fd = malloc(sizeof(t_fd) * j);
+	if (j > 0)
+		cmd[i].fd = malloc(sizeof(t_fd) * j);
 	return (j);
 
 }
@@ -44,11 +45,14 @@ void	add_input_output(t_command *cmd, t_lexer *lst, int i)
 	len = malloc_fd(cmd, lst, i);
 	if (len == 0)
 	{
+		cmd[i].no_fd = 1;
 		cmd[i].fd = NULL;
 		cmd[i].input_file = NULL;
 		cmd[i].output_file = NULL;
 		return ;
 	}
+	else
+		cmd[i].no_fd = 0;
 	add_fd(cmd, lst, i, len);
 	set_input_output(cmd, i, len);
 }
@@ -66,19 +70,20 @@ void	add_args(t_command *cmd, t_lexer *lst, int i)
 			j++;
 		lst2 = lst2 -> next;
 	}
-	cmd[i].arguments = malloc(sizeof(char *) * (j + 1));
-	cmd[i].arguments[j] = NULL;
-	j = 0;
+	cmd[i].arguments = malloc(sizeof(char *) * (j + 2));
+	cmd[i].arguments[0] = ft_strdup(cmd[i].command);
+	j = 1;
 	lst2 = lst -> next;
 	while (lst2 && lst2 -> token != COMMANDE)
 	{
-		if (lst2 -> token == ARG)
+		if (lst2 -> token == ARG && lst2->str)
 		{
 			cmd[i].arguments[j] = ft_strdup(lst2 -> str);
 			j++;
 		}
 		lst2 = lst2 -> next;
 	}
+	cmd[i].arguments[j] = NULL;
 }
 void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 {
@@ -124,12 +129,6 @@ t_table	*table_command(t_lexer **lexer)
 	{
 		j = 0;
 		ft_printf("la commande %d est : %s\n", i, tab_cmds -> commands[i].command);
-		while (tab_cmds -> commands[i].arguments[j])
-		{
-			ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
-			j++;
-		}
-		ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
 		j = 0;
 		if (tab_cmds -> commands[i].fd)
 		{

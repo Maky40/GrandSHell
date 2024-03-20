@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 14:27:50 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:37:28 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
 	t_env	*env;
+
 	(void)argv;
-	(void)envp;
 	lexer = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
@@ -57,12 +57,15 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		display_prompt(&data);
 		if (data.valid_line == 0)
+		{
 			identify_line(&data, &lexer);
-		if (verify_line(&lexer) == 1)
-			free_all(&data, &lexer);
-		tab_cmds = table_command(&lexer);
-		free_lexer(&lexer);
-		executor(tab_cmds, &data);
+			tab_cmds = table_command(&lexer);
+			free_lexer(&lexer);
+			executor(tab_cmds, &data);
+			free_table_cmd(tab_cmds);
+			free(data.line);
+			free(data.quote_space);
+		}
 	}
 }
 //int main(int argc, char **argv, char **envp)

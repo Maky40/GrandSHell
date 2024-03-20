@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/03/08 11:34:14 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/20 11:56:46 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 // retourne la valeur de la variable d'environnement
 char	*get_env_value(char **envp, char *var_name)
 {
+	if (!envp)
+		return NULL;
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(*envp, var_name, ft_strlen(var_name)) == 0
@@ -71,7 +73,7 @@ void	expand_variable(t_data *data, t_lexer *dup)
 	ptr = dup->str;
 	while (*ptr)
 	{
-		if (*ptr == '$' && (ptr[1] != '\0' && ptr[1] != ' ' && ptr[1] != '.'))
+		if (*ptr == '$' && (ptr[1] != '\0' && ptr[1] != ' ' && ptr[1] != '.' && ptr[1] != '"'))
 		{
 			find_expander_len(ptr, &expander);
 			get_value(data, dup, &expander, &ptr);

@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:45:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/11 17:36:47 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:36:40 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	free_commands(t_command *cmd, int i)
 	free(cmd[i].command);
 	free(cmd[i].input_file);
 	free(cmd[i].output_file);
-	free_fd(cmd[i].fd);
+	if (cmd[i].fd != NULL)
+		free_fd(cmd[i].fd);
 	free_args(cmd[i].arguments);
 }
 
@@ -63,6 +64,7 @@ void	free_table_cmd(t_table *tab_cmd)
 		free_commands(tab_cmd -> commands, i);
 		i++;
 	}
+	free(tab_cmd->commands);
 	free (tab_cmd);
 	tab_cmd = NULL;
 }
