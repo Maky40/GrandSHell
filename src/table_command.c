@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/15 13:56:54 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/20 13:27:21 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,20 @@ void	add_args(t_command *cmd, t_lexer *lst, int i)
 			j++;
 		lst2 = lst2 -> next;
 	}
-	cmd[i].arguments = malloc(sizeof(char *) * (j + 1));
-	cmd[i].arguments[j] = NULL;
-	j = 0;
+	cmd[i].arguments = malloc(sizeof(char *) * (j + 2));
+	cmd[i].arguments[0] = ft_strdup(cmd[i].command);
+	j = 1;
 	lst2 = lst -> next;
 	while (lst2 && lst2 -> token != COMMANDE)
 	{
-		if (lst2 -> token == ARG)
+		if (lst2 -> token == ARG && lst2->str)
 		{
 			cmd[i].arguments[j] = ft_strdup(lst2 -> str);
 			j++;
 		}
 		lst2 = lst2 -> next;
 	}
+	cmd[i].arguments[j] = NULL;
 }
 void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 {
@@ -128,12 +129,6 @@ t_table	*table_command(t_lexer **lexer)
 	{
 		j = 0;
 		ft_printf("la commande %d est : %s\n", i, tab_cmds -> commands[i].command);
-		while (tab_cmds -> commands[i].arguments[j])
-		{
-			ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
-			j++;
-		}
-		ft_printf("argument %d est : %s\n", j, tab_cmds -> commands[i].arguments[j]);
 		j = 0;
 		if (tab_cmds -> commands[i].fd)
 		{

@@ -6,63 +6,50 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/18 16:14:36 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/20 11:09:52 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void child_process(t_table *tab_cmds, t_data *data, int i, int *fd)
+int exec_open_output(t_table *tab_cmds, int i)
 {
-	if (tab_cmds->commands->input_file != NULL || tab_cmds->commands->output_file != NULL)
+	if (tab_cmds->commands->append_last == 1)
 	{
-		if (tab_cmds->commands->input_file != NULL)
-		{
-			tab_cmds->commands->in_fd = open(tab_cmds->commands->input_file, O_RDONLY);
-			dup2(tab_cmds->commands->in_fd, STDIN_FILENO);
-		}
-		if (tab_cmds->commands->output_file != NULL)
-		{
-			tab_cmds->commands->out_fd = open(tab_cmds->commands->output_file,
-				O_CREAT | O_RDWR | O_TRUNC, 0777);
-			dup2(tab_cmds->commands->out_fd, STDOUT_FILENO);
-		}
-		else
-			dup2(fd[1], STDOUT_FILENO);
-	close(fd[0]);
-	close(fd[1]);
+		return (open(tab_cmds->commands[i].output_file,
+		O_CREAT | O_RDWR | O_APPEND, 0777));
 	}
 	else
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		start_execute(data, tab_cmds, i);
-		close(fd[1]);	
+		return(open(tab_cmds->commands[i].output_file,
+		O_CREAT | O_RDWR | O_TRUNC, 0777));
 	}
 }
 
-void last_command(t_table *tab_cmds, t_data *data, int i)
+void child_process(t_table *tab_cmds, int i, int *fd)
 {
-	pid_t	pid;
-	int status;
-	pid = fork();
-	if (pid == 0)
+	if (tab_cmds->commands[i].input_file != NULL || tab_cmds->commands[i].output_file != NULL)
 	{
-		if (tab_cmds->commands->input_file != NULL)
+		if (tab_cmds->commands[i].input_file != NULL)
 		{
-			tab_cmds->commands->in_fd = open(tab_cmds->commands->input_file, O_RDONLY);
-			dup2(tab_cmds->commands->in_fd, STDIN_FILENO);
+			tab_cmds->commands[i].in_fd = open(tab_cmds->commands[i].input_file, O_RDONLY);
+			dup2(tab_cmds->commands[i].in_fd, STDIN_FILENO);
 		}
-		if (tab_cmds->commands->output_file != NULL)
+		if (tab_cmds->commands[i].output_file != NULL)
 		{
-			tab_cmds->commands->out_fd = open(tab_cmds->commands->output_file,
-				O_CREAT | O_RDWR | O_TRUNC, 0777);
-			dup2(tab_cmds->commands->out_fd, STDOUT_FILENO);
+			tab_cmds->commands[i].out_fd = exec_open_output(tab_cmds, i);
+			dup2(tab_cmds->commands[i].out_fd, STDOUT_FILENO);
 		}
-		start_execute(data, tab_cmds, i);
+		else
+			dup2(fd[1], STDOUT_FILENO);
 	}
 	else
-		waitpid(pid, &status, 0);
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		dup2(fd[0], STDIN_FILENO);
+	}
+	close(fd[0]);
+	close(fd[1]);
 }
 
 void	*find_path(char *cmd, char **env)
@@ -94,95 +81,20 @@ void	*find_path(char *cmd, char **env)
 	return (0);
 }
 
-void init_pipe(t_table *tab_cmds, t_data *data, int i)
-{
-	int fd[2];
-	int status;
-	pid_t pid;
-
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		child_process(tab_cmds,data, i, fd);
-		start_execute(data, tab_cmds, i);
-		close(fd[1]);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, &status, 0);
-		close(fd[0]);
-	}
-}
-int check_command(char *str, char *cmd)
-{
-	int i; 
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			i++; 
-		if (str[i] != cmd[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 void execute(t_command *cmd, t_data *data)
 {
 	char 	*path;
 	
-	path = find_path(cmd->command, data->env);
+	if (access(cmd->command, F_OK | X_OK) == 0)
+		path = cmd->command;
+	else
+		path = find_path(cmd->command, data->env);
 	if (!path)
 		perror("Command not found");
 	if (execve(path, cmd->arguments, data->env) == -1)
 		return ; 
 	
-}
-
-void	built_in_execute(t_command *cmd, t_data *data)
-{
-	(void)data;
-	if (check_command(cmd->command, "echo") == 0)
-		printf("echo\n");
-	else if (check_command(cmd->command, "unset") == 0)
-		printf("unset\n");
-	else if (check_command(cmd->command, "cd") == 0)
-		printf("cd\n");
-	else if (check_command(cmd->command, "exit") == 0)
-		printf("exit\n");
-	else if (check_command(cmd->command, "pwd") == 0)
-		printf("pwd\n");
-	else if (check_command(cmd->command, "env") == 0)
-		printf("env\n");
-	else if (check_command(cmd->command, "export") == 0)
-		printf("export\n");
-}
-
-int	is_builtin(char *cmd)
-{
-	int ret; 
-
-	ret = 1;
-	if (check_command(cmd, "echo") == 0)
-		ret = 0;
-	else if (check_command(cmd, "unset") == 0)
-		ret = 0;
-	else if (check_command(cmd, "cd") == 0)
-		ret = 0;
-	else if (check_command(cmd, "exit") == 0)
-		ret = 0;
-	else if (check_command(cmd, "pwd") == 0)
-		ret = 0;
-	else if (check_command(cmd, "env") == 0)
-		ret = 0;
-	else if (check_command(cmd, "export") == 0)
-		ret = 0;
-	return (ret);
 }
 
 void start_execute(t_data *data, t_table *tab_cmds, int i)
@@ -199,29 +111,168 @@ void start_execute(t_data *data, t_table *tab_cmds, int i)
 void executor(t_table *tab_cmds, t_data *data)
 {
     int i;
+    int status;
     pid_t pid;
+    int prev_pipe[2];
+    int curr_pipe[2];
 
-	i = 0;
-	pid = fork();
-    while (i + 1 < tab_cmds->num_commands)
+    // Initialiser le premier tube
+    pipe(prev_pipe);
+
+    for (i = 0; i < tab_cmds->num_commands; i++)
     {
-        if (open_fd(&tab_cmds->commands[i], data) == 0)
+        // Créer un nouveau tube pour la prochaine commande
+        if (i < tab_cmds->num_commands - 1)
         {
-            if (pid == 0)
-            {
-                init_pipe(tab_cmds, data, i);
-                exit(EXIT_SUCCESS);
-            }
-            else
-                i++;
+            pipe(curr_pipe);
         }
+
+        // Fork pour exécuter la commande
+        pid = fork();
+        if (pid == 0)
+        {
+            // Fermer l'extrémité inutilisée du tube précédent
+            if (i > 0)
+            {
+                close(prev_pipe[1]);  // Fermer l'extrémité d'écriture du tube précédent
+                dup2(prev_pipe[0], STDIN_FILENO);  // Rediriger l'entrée standard à partir du tube précédent
+                close(prev_pipe[0]);  // Fermer l'extrémité de lecture du tube précédent
+            }
+
+            // Fermer l'extrémité inutilisée du tube actuel
+            if (i < tab_cmds->num_commands - 1)
+            {
+                close(curr_pipe[0]);  // Fermer l'extrémité de lecture du tube actuel
+                dup2(curr_pipe[1], STDOUT_FILENO);  // Rediriger la sortie standard vers le tube actuel
+                close(curr_pipe[1]);  // Fermer l'extrémité d'écriture du tube actuel
+            }
+
+            // Rediriger les fichiers d'entrée et de sortie si nécessaire
+            if (tab_cmds->commands[i].input_file != NULL)
+            {
+                int input_fd = open(tab_cmds->commands[i].input_file, O_RDONLY);
+                if (input_fd < 0)
+                {
+                    perror("open");
+                    exit(EXIT_FAILURE);
+                }
+                dup2(input_fd, STDIN_FILENO);
+                close(input_fd);
+            }
+
+            if (tab_cmds->commands[i].output_file != NULL)
+            {
+                int output_fd = open(tab_cmds->commands[i].output_file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+                if (output_fd < 0)
+                {
+                    perror("open");
+                    exit(EXIT_FAILURE);
+                }
+                dup2(output_fd, STDOUT_FILENO);
+                close(output_fd);
+            }
+
+            // Exécuter la commande
+            start_execute(data, tab_cmds, i);
+
+            // Terminer le processus enfant
+            exit(EXIT_SUCCESS);
+        }
+        else if (pid < 0)
+        {
+            // Gérer l'erreur de fork
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        // Fermer le tube précédent s'il n'est plus nécessaire
+        if (i > 0)
+        {
+            close(prev_pipe[0]);
+            close(prev_pipe[1]);
+        }
+
+        // Mettre à jour prev_pipe pour le prochain itératif
+        prev_pipe[0] = curr_pipe[0];
+        prev_pipe[1] = curr_pipe[1];
     }
-    while (waitpid(-1, NULL, 0) > 0);
-    if (open_fd(&tab_cmds->commands[i], data) == 0)
+
+    // Attendre la fin de tous les processus enfants
+    for (i = 0; i < tab_cmds->num_commands; i++)
     {
-        last_command(tab_cmds, data, i);
+        wait(&status);
     }
 }
 
 
+/*
+void executor(t_table *tab_cmds, t_data *data)
+{
+    int i;
+    int status;
+    pid_t pid;
+    int prev_pipe[2];
+    int curr_pipe[2];
 
+    // Initialiser le premier tube
+    pipe(prev_pipe);
+
+    for (i = 0; i < tab_cmds->num_commands; i++)
+    {
+        // Créer un nouveau tube pour la prochaine commande
+        if (i < tab_cmds->num_commands - 1)
+        {
+            pipe(curr_pipe);
+        }
+
+        // Fork pour exécuter la commande
+        pid = fork();
+        if (pid == 0)
+        {
+            // Fermer l'extrémité inutilisée du tube précédent
+            if (i > 0)
+            {
+                close(prev_pipe[1]);  // Fermer l'extrémité d'écriture du tube précédent
+                dup2(prev_pipe[0], STDIN_FILENO);  // Rediriger l'entrée standard à partir du tube précédent
+                close(prev_pipe[0]);  // Fermer l'extrémité de lecture du tube précédent
+            }
+
+            // Fermer l'extrémité inutilisée du tube actuel
+            if (i < tab_cmds->num_commands - 1)
+            {
+                close(curr_pipe[0]);  // Fermer l'extrémité de lecture du tube actuel
+                dup2(curr_pipe[1], STDOUT_FILENO);  // Rediriger la sortie standard vers le tube actuel
+                close(curr_pipe[1]);  // Fermer l'extrémité d'écriture du tube actuel
+            }
+
+            // Exécuter la commande
+            start_execute(data, tab_cmds, i);
+
+            // Terminer le processus enfant
+            exit(EXIT_SUCCESS);
+        }
+        else if (pid < 0)
+        {
+            // Gérer l'erreur de fork
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        // Fermer le tube précédent s'il n'est plus nécessaire
+        if (i > 0)
+        {
+            close(prev_pipe[0]);
+            close(prev_pipe[1]);
+        }
+
+        // Mettre à jour prev_pipe pour le prochain itératif
+        prev_pipe[0] = curr_pipe[0];
+        prev_pipe[1] = curr_pipe[1];
+    }
+
+    // Attendre la fin de tous les processus enfants
+    for (i = 0; i < tab_cmds->num_commands; i++)
+    {
+        wait(&status);
+    }
+}*/

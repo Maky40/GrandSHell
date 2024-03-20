@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/18 15:18:16 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/20 13:53:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_command
 	int		in_fd;
 	int		out_fd;
 	int		no_fd;
+	int		append_last;
 	t_fd	*fd;
 }	t_command;
 
@@ -108,19 +109,23 @@ void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
 void	expander(t_data *data, t_lexer **lexer);
-void new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str(t_lexer *dup, t_expander *expander, char **ptr);
-void new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void executor(t_table *tab_cmds, t_data *data);
+void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
+void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
+void 	executor(t_table *tab_cmds, t_data *data);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
-void start_execute(t_data *data, t_table *tab_cmds, int i);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
+void	built_in_execute(t_command *cmd, t_data *data);
+void purge_quotes(t_data *data, t_lexer **lexer);
 int		search_operators(char c);
-int	is_builtin(char *cmd);
-int open_fd(t_command *command, t_data *data);
+int		is_builtin(char *cmd);
+int 	open_fd(t_command *command, t_data *data);
+int exec_open_output(t_table *tab_cmds, int i);
+int check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 #endif
