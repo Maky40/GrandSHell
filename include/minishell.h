@@ -6,11 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/15 14:35:27 by mnie             ###   ########.fr       */
-=======
-/*   Updated: 2024/03/20 13:53:14 by xav              ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/03/20 16:02:35 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +90,7 @@ typedef struct s_env
 	int		shel_lvl;
 	char	**vars_add;
 	char	**modified_env;
-	t_env	*next;
+	struct s_env	*next;
 }	t_env;
 
 typedef struct s_expander
@@ -146,4 +142,5 @@ int 	open_fd(t_command *command, t_data *data);
 int exec_open_output(t_table *tab_cmds, int i);
 int check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
+void	env_init(t_env **env, char **envp);
 #endif

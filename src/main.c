@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:37:28 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 16:04:39 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	t_table	*tab_cmds;
 	t_env	*env;
 
+	env = NULL;
 	(void)argv;
 	lexer = NULL;
 	if (argc != 1)
