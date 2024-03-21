@@ -6,11 +6,39 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:09:45 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 14:54:40 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/21 14:30:36 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	delete_after_equal(char **env, int pos)
+{
+	int		i;
+	int		j;
+	char	*new_str;
+
+	i = 0;
+	j = 0;
+	while (env[pos][i] == '=')
+		i++;
+	while (env[pos][i])
+	{
+		i++;
+		j++;
+	}
+	new_str = malloc(sizeof(char) * (i - j + 1));
+	j = 0;
+	while (env[pos][j] == '=')
+	{
+		new_str[j] = env[pos][j];
+		j++;
+	}
+	new_str[j] = env[pos][j];
+	new_str[j + 1] = '\0';
+	free (env[pos]);
+	env[pos] = new_str;
+}
 
 char	*str_without_plus(char *str)
 {
@@ -19,7 +47,7 @@ char	*str_without_plus(char *str)
 	char	*new_str;
 
 	new_str = malloc(sizeof(char) * ft_strlen(str));
-	while (str[pos] == "=")
+	while (str[pos] == '=')
 		pos++;
 	while (i < pos - 1)
 	{
@@ -68,7 +96,7 @@ void	variable_add(char **env, char *str, int pos)
 		i++;
 	i++;
 	tmp = malloc(sizeof(char) * (ft_strlen(str) - i));
-	while ((i + j++)< ft_strlen(str))
+	while (((unsigned int) i + j++)< ft_strlen(str))
 		tmp[j] = str[i + j];
 	tmp[j] = '\0';
 	new_str = ft_strjoin(env[pos], tmp);
@@ -78,7 +106,7 @@ void	variable_add(char **env, char *str, int pos)
 	free(new_str);
 }
 
-void	export_with_equal(t_env *env, char *str)
+void	export_with_equal(char **env, char *str)
 {
 	if (search_variable(env, str) == 0)
 	{
@@ -95,10 +123,13 @@ void	export_with_equal(t_env *env, char *str)
 	else
 	{
 		if (before_equal(str) == '+')
-			variable_add(env, str, pos_variable_env(env -> modified_env, str));
+			variable_add(env, str, pos_variable_env(env, str));
 		else if (before_equal(str) == '-')
-			return (ft_error_export("ERROR PAS DE -"));
+			ft_printf("ERROR PAS DE -");
 		else
-			variable_add(env, str, pos_variable_env(env -> modified_env, str));
+		{
+			delete_after_equal(env, pos_variable_env(env, str));
+			variable_add(env, str, pos_variable_env(env, str));
+		}
 	}
 }

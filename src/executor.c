@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/20 15:36:08 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/21 14:50:52 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,18 @@ void execute(t_command *cmd, t_data *data)
 
 }
 
-void start_execute(t_data *data, t_table *tab_cmds, int i)
+void start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 {
     if (tab_cmds->commands[i].command != NULL)
     {
         if (is_builtin(tab_cmds->commands[i].command) == 0)
-            built_in_execute(&tab_cmds->commands[i], data);
+            built_in_execute(&tab_cmds->commands[i], data, env);
         else
             execute(&tab_cmds->commands[i], data);
     }
 }
 
-void executor(t_table *tab_cmds, t_data *data)
+void executor(t_table *tab_cmds, t_data *data, t_env **env)
 {
     int i;
     int status;
@@ -173,7 +173,7 @@ void executor(t_table *tab_cmds, t_data *data)
             }
 
             // Exécuter la commande
-            start_execute(data, tab_cmds, i);
+            start_execute(data, tab_cmds, i, env);
 
             // Terminer le processus enfant
             exit(EXIT_SUCCESS);

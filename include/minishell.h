@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 16:02:35 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/21 14:29:59 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,18 @@ void	expander(t_data *data, t_lexer **lexer);
 void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void 	executor(t_table *tab_cmds, t_data *data);
+void 	executor(t_table *tab_cmds, t_data *data, t_env **env);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
-void	free_table_cmd(t_table *tab_cmd);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
-void 	start_execute(t_data *data, t_table *tab_cmds, int i);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env ** env);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
-void	built_in_execute(t_command *cmd, t_data *data);
+void	built_in_execute(t_command *cmd, t_data *data, t_env **env);
 void purge_quotes(t_data *data, t_lexer **lexer);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
@@ -143,4 +142,13 @@ int exec_open_output(t_table *tab_cmds, int i);
 int check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
+void	export_simple(char **env);
+int		ft_printf_error_export(char *str);
+int		ft_error_export(char *str);
+char	before_equal(char *str);
+char	*ft_dup_var(char *str);
+int		search_variable(char **env, char *variable);
+void	create_variable(char **env, char *variable);
+void	do_export(t_command *cmd, t_data *data, t_env **env);
+void	export_with_equal(char **env, char *str);
 #endif

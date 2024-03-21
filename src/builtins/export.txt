@@ -1,0 +1,18 @@
+pas le droit de commencer par un chiffre
+pas le droit de commencer par des doubles quotes et d'avoir des simples quotes derriere
+pas le droit d'avoir simple quote et double quotes
+gerer $USER
+interdit d'avoir des whitespace dans des quotes
+
+quand on a = on peut avoir aucune valeur derriere
+export la$"U"SER ca don ne laUSER
+$USER
+
+TEst de $USER :
+
+a$USER -> amaky
+a%USERaaa -> amaky
+"a"$"USER"
+aaa=abc
+
+faire une fonction pour a"$"USER quand on a le dollar entre quote et le sauter

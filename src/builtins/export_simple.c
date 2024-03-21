@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:13:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 14:54:40 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/21 14:19:50 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*add_line_quote(char **env_tmp, int i)
 		j++;
 	}
 	new_line[j] = '"';
-	new_line[j + 1] = "\n";
+	new_line[j + 1] = '\n';
 	free(env_tmp[i]);
 	return(new_line);
 }
@@ -64,13 +64,11 @@ void	print_sort_env(char **env_tmp)
 	}
 }
 
-void	export_simple(t_env *env)
+void	export_simple(char **env)
 {
-	int		i;
 	char	**env_tmp;
 
-	i = 0;
-	env_tmp = dup_env(env -> modified_env);
+	env_tmp = dup_env(env);
 	print_sort_env(env_tmp);
 	free_dup_env(env_tmp);
 }

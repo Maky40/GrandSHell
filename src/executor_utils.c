@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/20 10:59:01 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/21 14:52:38 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	built_in_execute(t_command *cmd, t_data *data)
+void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 {
 	(void)data;
 	if (check_command(cmd->command, "echo") == 0)
-		printf("echo\n");
+		do_export(cmd, data, env);
 	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
 	else if (check_command(cmd->command, "cd") == 0)
@@ -28,18 +28,18 @@ void	built_in_execute(t_command *cmd, t_data *data)
 	else if (check_command(cmd->command, "env") == 0)
 		printf("env\n");
 	else if (check_command(cmd->command, "export") == 0)
-		printf("export\n");
+		do_export(cmd, data, env);
 }
 
 int check_command(char *str, char *cmd)
 {
-	int i; 
+	int i;
 
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
-			i++; 
+			i++;
 		if (str[i] != cmd[i])
 			return (1);
 		i++;
@@ -49,7 +49,7 @@ int check_command(char *str, char *cmd)
 
 int	is_builtin(char *cmd)
 {
-	int ret; 
+	int ret;
 
 	ret = 1;
 	if (check_command(cmd, "echo") == 0)
