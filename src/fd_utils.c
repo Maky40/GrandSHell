@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/03/19 11:34:05 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/20 16:59:05 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ int open_last(t_command *command, t_data *data, int i)
 		open_append(command, i);
 		command->append_last = 1;
 	}
+	else if (command->fd[i].token == 1)
+	{
+		command[i + 1].heredoc_last = 1;
+		heredoc_tmp_fd(&command[i + 1]);
+	}
 	return (0);
 }
 
@@ -83,6 +88,8 @@ int open_fd(t_command *command, t_data *data)
 			open_output(command, i);
 		else if (command->fd[i].token == 4)
 			open_append(command, i);
+		else if (command->fd[i].token == 1)
+			heredoc_tmp_fd(&command[i + 1]);
 		i++;
 	}
 	if (open_last(command, data, i) == 1)

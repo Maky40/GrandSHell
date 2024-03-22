@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:30:51 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 16:55:03 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	heredoc_tmp_fd(t_command *cmd)
 		free(line);
 	}
 	close (tmp_fd);
-	if (cmd -> heredoc_last == 1)
-		cmd -> input_file = tmp_fd;
+	if (cmd->heredoc_last == 1)
+		cmd->input_file = ".heredoc_tmp";
 	else
-		unlink(tmp_fd);
+		unlink(".heredoc_tmp");
 }

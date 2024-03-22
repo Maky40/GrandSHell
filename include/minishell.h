@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 16:02:35 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/20 16:55:24 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
 void	free_lexer(t_lexer **lexer);
 void	free_table_cmd(t_table *tab_cmd);
+void	heredoc_tmp_fd(t_command *cmd);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
