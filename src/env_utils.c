@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 14:26:11 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 15:16:15 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+
+t_env	*ft_last(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
 
 char	**last_env(t_env **env)
 {
@@ -24,10 +34,8 @@ char	**last_env(t_env **env)
 void	env_init(t_env **env, char **envp)
 {
 	t_env	*env_tmp;
-
 	// ft_printf("la\n");
 	// ft_printf("la1\n");
-	env = malloc(sizeof(t_env *));
 	env_tmp = malloc(sizeof(t_env));
 	env_tmp -> shel_lvl = 1;
 	env_tmp -> modified_env = dup_env(envp);
@@ -35,6 +43,7 @@ void	env_init(t_env **env, char **envp)
 	env_tmp -> vars_add = malloc(sizeof(char*));
 	env_tmp -> vars_add[0] = NULL;
 	*env = env_tmp;
+
 }
 
 void	free_dup_env(char **dup_env)

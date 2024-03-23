@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 14:25:47 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 15:27:56 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,25 @@ void	handler_sig(int signal)
 		exit (0);
 	}
 }
-
+void show_env(t_env **env)
+{
+	int i = 0;
+	t_env *lst;
+	lst = *env;
+	while (lst -> next)
+		lst = lst -> next;
+	while (lst->vars_add[i])
+	{
+		printf("%s\n", lst->vars_add[i]);
+		i++;
+	}
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
-	t_env	**env;
-	t_env	*lst;
+	t_env	*env;
 
 	(void)argv;
 	lexer = NULL;
@@ -50,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	data.env = dup_env(envp);
 	data.exit_status = 0;
 	env = NULL;
-	env_init(env, envp);
+	env_init(&env, envp);
 	while (1)
 	{
 		//do_func = 1;
@@ -63,11 +74,8 @@ int	main(int argc, char **argv, char **envp)
 			identify_line(&data, &lexer);
 			tab_cmds = table_command(&lexer);
 			free_lexer(&lexer);
-			executor(tab_cmds, &data, env);
-			lst = *env;
-			while (lst -> next)
-				lst = lst -> next;
-			ft_printf ("apres executor dans main %s\n", lst -> vars_add[0]);
+			executor(tab_cmds, &data, &env);
+			show_env(&env);
 			free_table_cmd(tab_cmds);
 			free(data.line);
 			free(data.quote_space);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 13:55:43 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 14:53:09 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,17 @@ void start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 {
 	t_env *lst;
 
-    if (tab_cmds->commands[i].command != NULL)
-    {
-        if (is_builtin(tab_cmds->commands[i].command) == 0)
-            built_in_execute(&tab_cmds->commands[i], data, env);
-        else
-            execute(&tab_cmds->commands[i], data);
-    }
+	if (tab_cmds->commands[i].command != NULL)
+	{
+		if (is_builtin(tab_cmds->commands[i].command) == 0)
+			built_in_execute(&tab_cmds->commands[i], data, env);
+		else
+			execute(&tab_cmds->commands[i], data);
+	}
 	lst = *env;
-	while (lst -> next)
-		lst = lst -> next;
-	ft_printf("apres execution de start execute %s\n", lst -> vars_add[0]);
+	while (lst->next)
+		lst = lst->next;
+	ft_printf("apres execution de start execute %s\n", lst->vars_add[0]);
 }
 
 void executor(t_table *tab_cmds, t_data *data, t_env **env)

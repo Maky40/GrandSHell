@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:48:47 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 13:14:41 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 15:26:45 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	create_variable(t_env **env, char *variable)
 		env_tmp = env_tmp -> next;
 	while (env_tmp -> vars_add[i])
 		i++;
-	new_tab = malloc(sizeof(char *) * i + 2);
+	new_tab = malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (env_tmp -> vars_add[i])
 	{
