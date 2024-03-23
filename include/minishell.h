@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 16:24:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/23 16:35:28 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,8 @@ int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
 void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env ** env);
-void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
-void	built_in_execute(t_command *cmd, t_data *data);
+void	built_in_execute(t_command *cmd, t_data *data, t_env **env);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 int		search_operators(char c);
 int		is_builtin(char *cmd);

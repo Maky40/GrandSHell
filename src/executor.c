@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 16:23:55 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/23 16:30:33 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	redirect_pipes(int i, int num_commands, t_data *data)
 	}
 }
 
-void execute_command(int i, t_table *tab_cmds, t_data *data)
+void execute_command(int i, t_table *tab_cmds, t_data *data, t_env **env)
 {
 	pid_t pid;
 	
@@ -62,7 +62,7 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
     {
         redirect_pipes(i, tab_cmds->num_commands, data);
         file_redirect(tab_cmds, i);
-        start_execute(data, tab_cmds, i);
+        start_execute(data, tab_cmds, i, env);
     }
     else // Sinon, fork pour exécuter la commande dans un processus enfant
     {
@@ -71,14 +71,14 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
         {
             redirect_pipes(i, tab_cmds->num_commands, data);
             file_redirect(tab_cmds, i);
-            start_execute(data, tab_cmds, i);
+            start_execute(data, tab_cmds, i, env);
             exit(EXIT_SUCCESS);
         }
     }
 }
 
 
-void	executor(t_table *tab_cmds, t_data *data)
+void	executor(t_table *tab_cmds, t_data *data, t_env **env)
 {
 	int	i;
 	int	status;
@@ -89,7 +89,7 @@ void	executor(t_table *tab_cmds, t_data *data)
 		if (i < tab_cmds->num_commands - 1)
 			pipe(data->curr_pipe);
 		if (open_fd(&tab_cmds->commands[i], data) == 0)
-			execute_command(i, tab_cmds, data);
+			execute_command(i, tab_cmds, data, env);
 		close_and_update_pipes(i, data);
 	}
 	i = -1;
