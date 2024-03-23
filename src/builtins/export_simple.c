@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:13:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 13:16:59 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 16:59:06 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,6 @@ void	export_simple(t_env **env)
 	while (env_tmp -> next)
 		env_tmp = env_tmp -> next;
 	env2 = dup_env_var(env_tmp);
-	// print_sort_env(env2);
+	print_sort_env(env2);
 	free_dup_env(env2);
 }
