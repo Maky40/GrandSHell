@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_table_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:45:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:36:40 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/22 12:14:41 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	free_args(char **args)
 void	free_commands(t_command *cmd, int i)
 {
 	free(cmd[i].command);
-	free(cmd[i].input_file);
+	//free(cmd[i].input_file);
 	free(cmd[i].output_file);
 	if (cmd[i].fd != NULL)
 		free_fd(cmd[i].fd);
