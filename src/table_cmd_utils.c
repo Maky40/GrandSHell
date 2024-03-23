@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   table_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:37:43 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/22 11:25:27 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	set_input_output(t_command *cmd, int i, int len)
 				if (cmd[i].fd[j].token == APPEND)
 					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
 			}
-			if (j == len - 1 && cmd[i].fd[j].token == HEREDOC)
-				cmd -> heredoc_last = 1;
+			//if (j == len - 1 && cmd[i].fd[j].token == HEREDOC)
+				//cmd -> heredoc_last = 1;
 			j++;
 		}
 	}
