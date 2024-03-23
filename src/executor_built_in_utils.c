@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_utils.c                                   :+:      :+:    :+:   */
+/*   executor_built_in_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/21 14:52:38 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 16:23:16 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,3 @@ int	is_builtin(char *cmd)
 		ret = 0;
 	return (ret);
 }
-/*
-void last_command(t_table *tab_cmds, t_data *data, int i)
-{
-	pid_t	pid;
-	int status;
-	pid = fork();
-	if (pid == 0)
-	{
-		if (tab_cmds->commands[i].input_file != NULL)
-		{
-			tab_cmds->commands[i].in_fd = open(tab_cmds->commands[i].input_file, O_RDONLY);
-			dup2(tab_cmds->commands[i].in_fd, STDIN_FILENO);
-		}
-		if (tab_cmds->commands[i].output_file != NULL)
-		{
-			tab_cmds->commands[i].out_fd = exec_open_output(tab_cmds,i);
-			dup2(tab_cmds->commands[i].out_fd, STDOUT_FILENO);
-		}
-		start_execute(data, tab_cmds, i);
-	}
-	else
-		waitpid(pid, &status, 0);
-}
-*/
