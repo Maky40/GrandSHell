@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/21 14:50:52 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 13:55:43 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void execute(t_command *cmd, t_data *data)
 
 void start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 {
+	t_env *lst;
+
     if (tab_cmds->commands[i].command != NULL)
     {
         if (is_builtin(tab_cmds->commands[i].command) == 0)
@@ -106,6 +108,10 @@ void start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
         else
             execute(&tab_cmds->commands[i], data);
     }
+	lst = *env;
+	while (lst -> next)
+		lst = lst -> next;
+	ft_printf("apres execution de start execute %s\n", lst -> vars_add[0]);
 }
 
 void executor(t_table *tab_cmds, t_data *data, t_env **env)

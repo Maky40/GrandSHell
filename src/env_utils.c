@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/21 14:19:08 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 14:26:11 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ char	**last_env(t_env **env)
 }
 void	env_init(t_env **env, char **envp)
 {
-	t_env *env_tmp;
+	t_env	*env_tmp;
 
+	// ft_printf("la\n");
+	// ft_printf("la1\n");
+	env = malloc(sizeof(t_env *));
 	env_tmp = malloc(sizeof(t_env));
 	env_tmp -> shel_lvl = 1;
 	env_tmp -> modified_env = dup_env(envp);
 	env_tmp -> next = NULL;
-	env_tmp -> vars_add = NULL;
+	env_tmp -> vars_add = malloc(sizeof(char*));
+	env_tmp -> vars_add[0] = NULL;
 	*env = env_tmp;
 }
 

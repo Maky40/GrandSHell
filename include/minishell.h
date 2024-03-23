@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/21 14:29:59 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 11:19:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,13 @@ int exec_open_output(t_table *tab_cmds, int i);
 int check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
-void	export_simple(char **env);
+void	export_simple(t_env **env);
 int		ft_printf_error_export(char *str);
 int		ft_error_export(char *str);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
 int		search_variable(char **env, char *variable);
-void	create_variable(char **env, char *variable);
+void	create_variable(t_env **env, char *variable);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
 void	export_with_equal(char **env, char *str);
 #endif

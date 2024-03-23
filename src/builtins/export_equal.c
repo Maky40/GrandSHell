@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:09:45 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/21 14:30:36 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 11:20:22 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,12 @@ void	export_with_equal(char **env, char *str)
 		if (before_equal(str) == '+')
 		{
 			str = str_without_plus(str);
-			create_variable(env, str);
+			// create_variable(env, str);
 		}
 		else if (before_equal(str) == '-')
 			ft_error_export("ERROR");
-		else
-			create_variable(env, str);
+		// else
+			// create_variable(env, str);
 	}
 	else
 	{

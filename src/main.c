@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/21 11:26:59 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 14:25:47 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,17 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
-	t_env	*env;
+	t_env	**env;
+	t_env	*lst;
 
-	env = NULL;
 	(void)argv;
 	lexer = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
 	data.exit_status = 0;
-	env_init(&env, envp);
+	env = NULL;
+	env_init(env, envp);
 	while (1)
 	{
 		//do_func = 1;
@@ -62,7 +63,11 @@ int	main(int argc, char **argv, char **envp)
 			identify_line(&data, &lexer);
 			tab_cmds = table_command(&lexer);
 			free_lexer(&lexer);
-			executor(tab_cmds, &data, &env);
+			executor(tab_cmds, &data, env);
+			lst = *env;
+			while (lst -> next)
+				lst = lst -> next;
+			ft_printf ("apres executor dans main %s\n", lst -> vars_add[0]);
 			free_table_cmd(tab_cmds);
 			free(data.line);
 			free(data.quote_space);

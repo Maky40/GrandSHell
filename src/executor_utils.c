@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/21 14:52:38 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/23 13:55:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 {
+	t_env *lst;
+
 	(void)data;
 	if (check_command(cmd->command, "echo") == 0)
-		do_export(cmd, data, env);
-	else if (check_command(cmd->command, "unset") == 0)
+		printf("echo\n");
+ 	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
 	else if (check_command(cmd->command, "cd") == 0)
 		printf("cd\n");
@@ -29,6 +31,10 @@ void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 		printf("env\n");
 	else if (check_command(cmd->command, "export") == 0)
 		do_export(cmd, data, env);
+	lst = *env;
+	while (lst -> next)
+		lst = lst -> next;
+	ft_printf("sorti fonction apres builtins: %s\n", lst -> vars_add[0]);
 }
 
 int check_command(char *str, char *cmd)

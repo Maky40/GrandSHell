@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:37:51 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:11:21 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	add_args(t_command *cmd, t_lexer *lst, int i)
 		if (lst2 -> token == ARG && lst2->str)
 		{
 			cmd[i].arguments[j] = ft_strdup(lst2 -> str);
+			ft_printf("argument ajoute : %s\n", cmd[i].arguments[j]);
 			j++;
 		}
 		lst2 = lst2 -> next;
@@ -124,6 +125,15 @@ t_table	*table_command(t_lexer **lexer)
 	{
 		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
 		add_commands(tab_cmds, lexer);
+	}
+	j = 0;
+	if (tab_cmds -> commands[i].arguments[j])
+	{
+		while (tab_cmds -> commands[i].arguments[j])
+		{
+			ft_printf("args %d = %s\n", j, tab_cmds -> commands[i].arguments[j]);
+			j++;
+		}
 	}
 	while (i < tab_cmds -> num_commands)
 	{
