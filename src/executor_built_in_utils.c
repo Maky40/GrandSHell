@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_utils.c                                   :+:      :+:    :+:   */
+/*   executor_built_in_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 11:21:35 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/23 17:23:59 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	single_process(char *cmd)
+{
+	int ret; 
+
+	ret = 1;
+	if (check_command(cmd, "unset") == 0)
+		ret = 0;
+	else if (check_command(cmd, "cd") == 0)
+		ret = 0;
+	else if (check_command(cmd, "exit") == 0)
+		ret = 0;
+	else if (check_command(cmd, "export") == 0)
+		ret = 0;
+	return (ret);
+}
 
 void	built_in_execute(t_command *cmd, t_data *data)
 {

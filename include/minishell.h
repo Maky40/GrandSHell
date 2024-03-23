@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 11:28:11 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/23 17:17:55 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int		is_builtin(char *cmd);
 int 	open_fd(t_command *command, t_data *data);
 int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
+int	single_process(char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
 #endif

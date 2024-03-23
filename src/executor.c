@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 16:16:36 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/23 17:23:07 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
 {
 	pid_t pid;
 	
-    if (tab_cmds->num_commands == 1) // Si une seule commande
+    if (tab_cmds->num_commands == 1 &&
+		single_process(tab_cmds->commands[i].command) == 0)
     {
         redirect_pipes(i, tab_cmds->num_commands, data);
         file_redirect(tab_cmds, i);
         start_execute(data, tab_cmds, i);
     }
-    else // Sinon, fork pour exécuter la commande dans un processus enfant
+    else 
     {
 		pid = fork();
         if (pid == 0)
