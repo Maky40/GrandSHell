@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 17:17:55 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/24 10:43:51 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	built_in_execute(t_command *cmd, t_data *data);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
-int 	open_fd(t_command *command, t_data *data);
+int 	open_fd(t_command *command);
 int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
 int	single_process(char *cmd);

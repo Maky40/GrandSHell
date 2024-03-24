@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 17:23:07 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/24 10:46:27 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,26 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
     }
 }
 
-
 void	executor(t_table *tab_cmds, t_data *data)
 {
 	int	i;
 	int	status;
+	
 	pipe(data->prev_pipe);
 	i = -1;
 	while (++i < tab_cmds->num_commands)
 	{
 		if (i < tab_cmds->num_commands - 1)
 			pipe(data->curr_pipe);
-		if (open_fd(&tab_cmds->commands[i], data) == 0)
+		if (open_fd(&tab_cmds->commands[i]) == 0)
 			execute_command(i, tab_cmds, data);
 		close_and_update_pipes(i, data);
 	}
 	i = -1;
 	while (++i < tab_cmds->num_commands)
+	{
 		wait(&status);
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+	}
 }
