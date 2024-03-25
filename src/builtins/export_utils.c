@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:10:58 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 14:17:21 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/24 21:14:43 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	before_equal(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == '=')
+	while (str[i] != '=')
 		i++;
 	return (str[i - 1]);
 }
@@ -78,18 +78,25 @@ char	*ft_dup_var(char *str)
 	return (var);
 }
 
-int	search_variable(char **env, char *variable)
+int	search_variable(t_env *env, char *variable)
 {
 	int	i;
 	int	k;
 
 	i = 0;
 	k = 0;
-	while (env[i])
+	while (env -> modified_env[i])
 	{
-		if (ft_strncmp(variable, env[i], ft_strlen(variable)) == 0 \
-			&& env[i][ft_strlen(variable)] == '=')
+		if (ft_strncmp(variable, env -> modified_env[i], ft_strlen(variable)) == 0 \
+			&& env -> modified_env[i][ft_strlen(variable)] == '=')
 				k = 1;
+		i++;
+	}
+	i = 0;
+	while (env -> vars_add[i])
+	{
+		if (ft_strncmp(variable, env -> vars_add[i], ft_strlen(variable)) == 0)
+				k = 2;
 		i++;
 	}
 	return (k);

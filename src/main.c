@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 17:02:27 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/24 15:17:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ void	handler_sig(int signal)
 	{
 		// free_all();
 		exit (0);
-	}
-}
-void show_env(t_env **env)
-{
-	int i = 0;
-	t_env *lst;
-	lst = *env;
-	while (lst -> next)
-		lst = lst -> next;
-	while (lst->vars_add[i])
-	{
-		printf("%s\n", lst->vars_add[i]);
-		i++;
 	}
 }
 int	main(int argc, char **argv, char **envp)
@@ -75,7 +62,6 @@ int	main(int argc, char **argv, char **envp)
 			tab_cmds = table_command(&lexer);
 			free_lexer(&lexer);
 			executor(tab_cmds, &data, &env);
-			show_env(&env);
 			free_table_cmd(tab_cmds);
 			free(data.line);
 			free(data.quote_space);

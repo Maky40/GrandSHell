@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 15:16:15 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/24 17:30:13 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ t_env	*ft_last(t_env *lst)
 	return (lst);
 }
 
-char	**last_env(t_env **env)
+t_env	*last_env(t_env **env)
 {
 	t_env	*lst;
 
 	lst = *env;
 	while (lst -> next)
 		lst = lst -> next;
-	return (lst -> modified_env);
+	return (lst);
 }
 void	env_init(t_env **env, char **envp)
 {

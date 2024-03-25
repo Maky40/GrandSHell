@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 17:01:25 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/25 11:07:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct s_table_command
 }	t_table;
 
 char	**dup_env(char **envp);
-char	**last_env(t_env **env);
+t_env	*last_env(t_env **env);
 char	*ft_strdup_mshell(char *s);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
@@ -150,8 +150,13 @@ int		ft_printf_error_export(char *str);
 int		ft_error_export(char *str);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
-int		search_variable(char **env, char *variable);
+int		search_variable(t_env *env, char *variable);
 void	create_variable(t_env **env, char *variable);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
-void	export_with_equal(char **env, char *str);
+void	export_with_equal(t_env *env, char *str);
+void	do_unset(t_env **env, t_command *cmd);
+void	do_unset2(t_env *env, char *arguments, int i);
+void	delete_after_equal(char **env, int pos);
+int		find_equal(char *str);
+void	delete_after_equal(char **env, int pos);
 #endif

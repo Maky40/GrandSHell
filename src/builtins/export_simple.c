@@ -6,11 +6,25 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:13:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 16:59:06 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/24 18:12:53 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int		find_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 char	**dup_env_var2(char **tab, char **modified, char **add)
 {
@@ -107,8 +121,10 @@ void	print_sort_env(char **env_tmp)
 	i = 0;
 	while (env_tmp[i])
 	{
-		env_tmp[i] = add_line_quote(env_tmp, i);
-		ft_printf("declare -x %s\n", env_tmp[i]);
+		if (find_equal(env_tmp[i]) == 1)
+			env_tmp[i] = add_line_quote(env_tmp, i);
+		if (ft_strncmp(env_tmp[i], "_=", 2) != 0)
+			ft_printf("declare -x %s\n", env_tmp[i]);
 		i++;
 	}
 }

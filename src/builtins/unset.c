@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:20:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/14 12:54:13 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/24 22:15:40 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,33 +91,52 @@ char	**remove_variable(char **env, int j)
 	env = dup_env(new_env);
 	return (env);
 }
-//regarde si un argument correspond a une variable env pour appliquer unset
-char	**do_unset(char **env, t_command *cmd)
-{
-	int	i;
-	int	j;
-	int	k;
 
-	i = 0;
-	while (cmd -> arguments[i])
+void	do_unset2(t_env *env, char *arguments, int i)
+{
+	int		j;
+
+	j = 0;
+	if (i == 1)
 	{
-		j = 0;
-		k = 0;
-		while (env[j])
+		while (env -> modified_env[j])
 		{
-			if (ft_strncmp(cmd -> arguments[i], env[j], ft_strlen(cmd -> arguments[i])) == 0 \
-			&& env[j][ft_strlen(cmd -> arguments[i])] == '=' && cmd -> arguments[i][0] != '_')
-			{
-				env = remove_variable(env, j);
-				k = 1;
-			}
+			if (ft_strncmp(arguments, env -> modified_env[j], ft_strlen(arguments)) == 0 \
+			&& arguments[0] != '_')
+				env -> modified_env = remove_variable(env -> modified_env, j);
 			j++;
 		}
-		if (k == 0)
+	}
+	if (i == 2)
+	{
+		while (env -> vars_add[j])
+		{
+			if (ft_strncmp(arguments, env -> vars_add[j], ft_strlen(arguments)) == 0 \
+			&& arguments[0] != '_')
+				env -> vars_add = remove_variable(env -> vars_add, j);
+			j++;
+		}
+	}
+}
+//regarde si un argument correspond a une variable env pour appliquer unset
+void	do_unset(t_env **env, t_command *cmd)
+{
+	int	i;
+	t_env *lst;
+
+	lst = last_env(env);
+	i = 1;
+	while (cmd -> arguments[i])
+	{
+		ft_printf ("search_variable = %d\n", search_variable(lst, cmd -> arguments[i]));
+		if (search_variable(lst, cmd -> arguments[i]) == 0)
 			ft_printf("ERROR for %s, variable not found\n", cmd -> arguments[i]);
+		else if (search_variable(lst, cmd -> arguments[i]) == 1)
+			do_unset2(lst, cmd -> arguments[i], 1);
+		else
+			do_unset2(lst, cmd -> arguments[i], 2);
 		i++;
 	}
-	return (env);
 }
 
 // int main (int argc, char **argv, char **envp)

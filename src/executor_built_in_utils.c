@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 17:02:10 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/24 17:34:56 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 	if (check_command(cmd->command, "echo") == 0)
 		printf("echo\n");
  	else if (check_command(cmd->command, "unset") == 0)
-		printf("unset\n");
+		do_unset(env, cmd);
 	else if (check_command(cmd->command, "cd") == 0)
 		printf("cd\n");
 	else if (check_command(cmd->command, "exit") == 0)
@@ -34,7 +34,6 @@ void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 	lst = *env;
 	while (lst -> next)
 		lst = lst -> next;
-	ft_printf("sorti fonction apres builtins: %s\n", lst -> vars_add[0]);
 }
 
 int check_command(char *str, char *cmd)
