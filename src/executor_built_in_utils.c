@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 17:23:59 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/25 09:55:54 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	built_in_execute(t_command *cmd, t_data *data)
 {
 	(void)data;
 	if (check_command(cmd->command, "echo") == 0)
-		printf("echo\n");
+		builtin_echo(cmd, data);
 	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
 	else if (check_command(cmd->command, "cd") == 0)
@@ -40,7 +40,7 @@ void	built_in_execute(t_command *cmd, t_data *data)
 	else if (check_command(cmd->command, "exit") == 0)
 		printf("exit\n");
 	else if (check_command(cmd->command, "pwd") == 0)
-		printf("pwd\n");
+		builtin_pwd(cmd, data);
 	else if (check_command(cmd->command, "env") == 0)
 		printf("env\n");
 	else if (check_command(cmd->command, "export") == 0)
