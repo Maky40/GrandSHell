@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/25 11:07:24 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/25 11:25:54 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int		ft_error_export(char *str);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
 int		search_variable(t_env *env, char *variable);
-void	create_variable(t_env **env, char *variable);
+void	create_variable(t_env *env, char *variable);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
 void	export_with_equal(t_env *env, char *str);
 void	do_unset(t_env **env, t_command *cmd);

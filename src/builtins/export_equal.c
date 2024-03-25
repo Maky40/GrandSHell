@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:09:45 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/25 11:07:49 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/25 11:25:41 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,23 +116,23 @@ void	export_with_equal(t_env *env, char *str)
 		str = str_without_plus(str);
 		ft_printf("str = %s\n", str);
 		if (search_variable(env, str) == 0)
-			create_variable(&env, str);
+			create_variable(env, str);
 		else
 			ft_printf("ADD VAR\n");
 	}
 	else if (before_equal(str) == '-')
 		ft_printf("ERROR\n");
 	else if (search_variable(env, str) == 0)
-		create_variable(&env, str);
+		create_variable(env, str);
 	else if (search_variable(env, str) == 1)
 	{
 		do_unset2(env, str, 1);
-		create_variable(&env, str);
+		create_variable(env, str);
 	}
 	else if (search_variable(env, str) == 2)
 	{
 		do_unset2(env, str, 2);
-		create_variable(&env, str);
+		create_variable(env, str);
 	}
 	printf("finsssssssssssssssssssssssssssssss\n");
 	// else
