@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:40:45 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 17:16:39 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 17:19:48 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,27 @@ void	check_delete_quotes(t_lexer *dup)
 		delete_single_quotes(dup);
 
 }
+// void	purge_quotes(t_data *data, t_lexer **lexer)
+// {
+// 	t_lexer	*dup;
+
+// 	(void)data;
+// 	dup = *lexer;
+// 	while (dup)
+// 	{
+// 		dup->in_dq = 0;
+// 		dup->in_sq = 0;
+// 		if (dup->str[0] == '"')
+// 			dup->in_dq = 1;
+// 		else if (dup->str[0] == 39)
+// 			dup->in_sq = 1;
+// 		if (!(dup->str[0] == '"' && dup->str[1] == '"'))
+// 			check_delete_quotes(dup);
+// 		if (!(dup->str[0] == 39 && dup->str[1] == 39))
+// 			check_delete_quotes(dup);
+// 		dup = dup->next;
+// 	}
+// }
 void	purge_quotes(t_data *data, t_lexer **lexer)
 {
 	t_lexer	*dup;
@@ -136,14 +157,16 @@ void	purge_quotes(t_data *data, t_lexer **lexer)
 	{
 		dup->in_dq = 0;
 		dup->in_sq = 0;
+		while (((dup->str[0] == '"' && dup->str[1] == '"')
+			|| (dup->str[0] == '\'' && dup->str[1] == '\'')) && dup->next != NULL)
+			dup = dup->next;
+		if (dup == NULL)
+			break;
 		if (dup->str[0] == '"')
 			dup->in_dq = 1;
 		else if (dup->str[0] == 39)
 			dup->in_sq = 1;
-		if (!(dup->str[0] == '"' && dup->str[1] == '"'))
-			check_delete_quotes(dup);
-		if (!(dup->str[0] == 39 && dup->str[1] == 39))
-			check_delete_quotes(dup);
+		check_delete_quotes(dup);
 		dup = dup->next;
 	}
 }

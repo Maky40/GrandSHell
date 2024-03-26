@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/21 17:11:21 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 17:44:45 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	add_args(t_command *cmd, t_lexer *lst, int i)
 		if (lst2 -> token == ARG && lst2->str)
 		{
 			cmd[i].arguments[j] = ft_strdup(lst2 -> str);
-			ft_printf("argument ajoute : %s\n", cmd[i].arguments[j]);
 			j++;
 		}
 		lst2 = lst2 -> next;
