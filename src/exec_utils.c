@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:37:56 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 09:48:19 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 10:36:15 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ void	execute(t_command *cmd, t_data *data)
 		exit(127);
 }
 
-void	start_execute(t_data *data, t_table *tab_cmds, int i)
+void	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 {
 	if (tab_cmds->commands[i].command != NULL)
 	{
 		if (is_builtin(tab_cmds->commands[i].command) == 0)
 		{
-			built_in_execute(&tab_cmds->commands[i], data);
+			built_in_execute(&tab_cmds->commands[i], data, env);
 			if (tab_cmds->commands[i].builtin_process == 1)
-				free_builtin_process(tab_cmds, data);
+				free_builtin_process(tab_cmds, data, env);
 		}
 		else
 			execute(&tab_cmds->commands[i], data);

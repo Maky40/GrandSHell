@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 09:54:43 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 10:39:00 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	expander(t_data *data, t_lexer **lexer);
 void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void 	executor(t_table *tab_cmds, t_data *data);
+void 	executor(t_table *tab_cmds, t_data *data, t_env **env);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
@@ -136,15 +136,15 @@ void	heredoc_tmp_fd(t_command *cmd, int i);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
-void 	start_execute(t_data *data, t_table *tab_cmds, int i);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
-void	built_in_execute(t_command *cmd, t_data *data);
+void	built_in_execute(t_command *cmd, t_data *data, t_env **env);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 void	builtin_pwd(t_command *cmd, t_data *data);
 void 	builtin_cd(t_command *cmd, t_data *data);
-void	builtin_echo(t_command *cmd);
-void	free_builtin_process(t_table *tab_cmds, t_data *data);
+void	builtin_echo(t_command *cmd, t_data *data);
+void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env);
 void	free_commands(t_command *cmd, int i);
 int		search_operators(char c);
 int		is_builtin(char *cmd);

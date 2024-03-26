@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 16:21:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 10:33:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			identify_line(&data, &lexer);
 			tab_cmds = table_command(&lexer);
 			free_lexer(&lexer);
-			executor(tab_cmds, &data);
+			executor(tab_cmds, &data, &env);
 			free_table_cmd(tab_cmds);
 			free(data.line);
 			free(data.quote_space);

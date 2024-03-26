@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:52:55 by xav               #+#    #+#             */
-/*   Updated: 2024/03/25 13:34:17 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 10:45:19 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ int	echo_quotes(t_command *cmd, int i)
 	return (ret);
 }
 
-void	builtin_echo(t_command *cmd)
+void	builtin_echo(t_command *cmd, t_data *data)
 {
 	int i;
 	int option;
-
+	
 	i = 1;
 	option = 0;
 	while (cmd->arguments[i])
@@ -100,4 +100,5 @@ void	builtin_echo(t_command *cmd)
 	}
 	if (option == 0)
 		ft_printf("\n");
+	data->exit_status = 0;
 }
