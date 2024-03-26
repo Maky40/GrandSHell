@@ -33,6 +33,7 @@ Quand on execute une commande, on doit stocker un int selon si la commande a ete
 Succes = 0
 Chemin introuvable = 127 
 Fichier trouve mais non executable = 126
+Fichier non trouve = 1
 Ctrl-c pendant l'execution d'une commande = 130
 Ctrl-\ dans une commande comme cat = 131 
 Argument invalide = 2 

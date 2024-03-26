@@ -6,25 +6,43 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 16:23:16 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 11:19:51 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	single_process(char *cmd)
+{
+	int ret; 
+
+	ret = 1;
+	if (check_command(cmd, "unset") == 0)
+		ret = 0;
+	else if (check_command(cmd, "cd") == 0)
+		ret = 0;
+	else if (check_command(cmd, "exit") == 0)
+		ret = 0;
+	else if (check_command(cmd, "export") == 0)
+		ret = 0;
+	return (ret);
+}
+
 void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 {
 	(void)data;
+	(void)env;
+	
 	if (check_command(cmd->command, "echo") == 0)
-		do_export(cmd, data, env);
+		builtin_echo(cmd, data);
 	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
 	else if (check_command(cmd->command, "cd") == 0)
-		printf("cd\n");
+		builtin_cd(cmd, data);
 	else if (check_command(cmd->command, "exit") == 0)
 		printf("exit\n");
 	else if (check_command(cmd->command, "pwd") == 0)
-		printf("pwd\n");
+		builtin_pwd(cmd, data);
 	else if (check_command(cmd->command, "env") == 0)
 		printf("env\n");
 	else if (check_command(cmd->command, "export") == 0)
@@ -66,5 +84,7 @@ int	is_builtin(char *cmd)
 		ret = 0;
 	else if (check_command(cmd, "export") == 0)
 		ret = 0;
+//	else if (check_command(cmd, "./minishell") == 0)	
+//		ret = 0;
 	return (ret);
 }
