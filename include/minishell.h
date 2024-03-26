@@ -6,7 +6,11 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/26 15:27:04 by mnie             ###   ########.fr       */
+=======
+/*   Updated: 2024/03/26 16:21:46 by xav              ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +54,8 @@ typedef struct s_lexer
 	char	*str;
 	t_tokens token;
 	int	index;
+	int	in_dq;
+	int	in_sq;
 	struct s_lexer *next;
 	struct s_lexer *prev;
 }	t_lexer;
@@ -73,6 +79,7 @@ typedef struct s_command
 	int		out_fd;
 	int		no_fd;
 	int		append_last;
+	int		builtin_process;
 }	t_command;
 
 typedef struct s_data
@@ -112,6 +119,7 @@ typedef struct s_table_command
 char	**dup_env(char **envp);
 t_env	*last_env(t_env **env);
 char	*ft_strdup_mshell(char *s);
+char	*get_env_value(char **envp, char *var_name);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -133,15 +141,22 @@ void	heredoc_tmp_fd(t_command *cmd, int i);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
-void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env ** env);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env);
+void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
 void	built_in_execute(t_command *cmd, t_data *data, t_env **env);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
+void	builtin_pwd(t_command *cmd, t_data *data);
+void 	builtin_cd(t_command *cmd, t_data *data);
+void	builtin_echo(t_command *cmd, t_data *data);
+void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env);
+void	free_commands(t_command *cmd, int i);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
-int 	open_fd(t_command *command, t_data *data);
+int 	open_fd(t_command *command);
 int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
+int		single_process(char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
 char	before_equal(char *str);

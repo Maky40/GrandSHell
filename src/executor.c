@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/23 17:02:05 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 16:42:07 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ void execute_command(int i, t_table *tab_cmds, t_data *data, t_env **env)
 {
 	pid_t pid;
 
-    if (tab_cmds->num_commands == 1) // Si une seule commande
+	tab_cmds->commands[i].builtin_process = 0;
+    if (tab_cmds->num_commands == 1 &&
+		is_builtin(tab_cmds->commands[i].command) == 0)
     {
         redirect_pipes(i, tab_cmds->num_commands, data);
         file_redirect(tab_cmds, i);
         start_execute(data, tab_cmds, i, env);
     }
-    else // Sinon, fork pour exécuter la commande dans un processus enfant
+    else
     {
+		tab_cmds->commands[i].builtin_process = 1;
 		pid = fork();
         if (pid == 0)
         {
@@ -77,22 +80,27 @@ void execute_command(int i, t_table *tab_cmds, t_data *data, t_env **env)
     }
 }
 
-
 void	executor(t_table *tab_cmds, t_data *data, t_env **env)
 {
 	int	i;
 	int	status;
+
+	status = 0;
 	pipe(data->prev_pipe);
 	i = -1;
 	while (++i < tab_cmds->num_commands)
 	{
 		if (i < tab_cmds->num_commands - 1)
 			pipe(data->curr_pipe);
-		if (open_fd(&tab_cmds->commands[i], data) == 0)
+		if (open_fd(&tab_cmds->commands[i]) == 0)
 			execute_command(i, tab_cmds, data, env);
 		close_and_update_pipes(i, data);
 	}
 	i = -1;
 	while (++i < tab_cmds->num_commands)
+	{
 		wait(&status);
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+	}
 }
