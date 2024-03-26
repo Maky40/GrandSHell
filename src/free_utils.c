@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 12:10:08 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:18:50 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ void free_t_env(t_env *env)
 void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 {
 	int	i;
-	free_dup_env(data->env);
+	
 	i = 0;
+	free_dup_env(data->env);
+	free_t_env(*env);
+	if (data->quote_space)
+		free(data->quote_space);
 	if (!tab_cmds)
 		return ;
 	while (i < tab_cmds -> num_commands)
@@ -35,7 +39,6 @@ void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 	free(tab_cmds->commands);
 	free (tab_cmds);
 	tab_cmds = NULL;
-	free_t_env(*env);
 }
 
 void	free_data_end(t_data *data)

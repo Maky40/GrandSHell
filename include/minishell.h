@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 11:47:30 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:47:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_lexer
 	char	*str;
 	t_tokens token;
 	int	index;
+	int	in_dq;
+	int	in_sq;
 	struct s_lexer *next;
 	struct s_lexer *prev;
 }	t_lexer;

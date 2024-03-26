@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:37:56 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 10:36:15 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:50:09 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,25 @@ void	*find_path(char *cmd, char **env)
 	return (0);
 }
 
-void	execute(t_command *cmd, t_data *data)
+void	execute(t_table *tab_cmds, t_data *data, t_env **env, int i)
 {
 	char	*path;
 
-	if (access(cmd->command, F_OK | X_OK) == 0)
-		path = cmd->command;
+	if (access(tab_cmds->commands[i].command, F_OK | X_OK) == 0)
+		path = tab_cmds->commands[i].command;
 	else
-		path = find_path(cmd->command, data->env);
+		path = find_path(tab_cmds->commands[i].command, data->env);
 	if (!path)
+	{
+		path = ft_strdup("/does_not_exist");
+	}
+	if (execve(path, tab_cmds->commands[i].arguments, data->env) == -1)
+	{
 		perror("Command not found");
-	if (execve(path, cmd->arguments, data->env) == -1)
+		free(path);
+		free_builtin_process(tab_cmds, data, env);
 		exit(127);
+	}
 }
 
 void	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
@@ -80,6 +87,6 @@ void	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 				free_builtin_process(tab_cmds, data, env);
 		}
 		else
-			execute(&tab_cmds->commands[i], data);
+			execute(tab_cmds, data, env, i);
 	}
 }
