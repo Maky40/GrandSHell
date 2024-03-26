@@ -6,18 +6,24 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 10:40:43 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 12:10:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void free_t_env(t_env *env)
+{
+	if (env == NULL)
+		return; 
+	free_dup_env(env->modified_env);
+	free(env);
+}
+
 void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 {
-	(void)env;
 	int	i;
 	free_dup_env(data->env);
-
 	i = 0;
 	if (!tab_cmds)
 		return ;
@@ -29,6 +35,7 @@ void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 	free(tab_cmds->commands);
 	free (tab_cmds);
 	tab_cmds = NULL;
+	free_t_env(*env);
 }
 
 void	free_data_end(t_data *data)
