@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   byebye_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:40:45 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 16:19:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 17:16:39 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char *str_without_all_quotes(t_lexer *dup, char *new_str)
 {
 	int i;
 	int j;
-	
+
 	i = 0;
 	j = 0;
 	while (dup->str[i])
@@ -36,7 +36,7 @@ char *str_without_quotes(t_lexer *dup, char *new_str, char quote_type)
 {
 	int i;
 	int j;
-	
+
 	i = 0;
 	j = 0;
 	while (dup->str[i])
@@ -124,7 +124,7 @@ void	check_delete_quotes(t_lexer *dup)
 		delete_double_quotes(dup);
 	else if (dup->in_sq == 1)
 		delete_single_quotes(dup);
-		
+
 }
 void	purge_quotes(t_data *data, t_lexer **lexer)
 {
