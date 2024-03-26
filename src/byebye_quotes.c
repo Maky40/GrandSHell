@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:40:45 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 16:19:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 17:03:51 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	delete_all_quotes(t_lexer *dup)
 		i++;
 	}
 	i = i - j;
-	printf("%d\n", i);
 	new_str = (char *)malloc(sizeof(char) *(i + 1));
 	new_str = str_without_all_quotes(dup,new_str);
 	free(dup->str);
@@ -136,14 +135,14 @@ void	purge_quotes(t_data *data, t_lexer **lexer)
 	{
 		dup->in_dq = 0;
 		dup->in_sq = 0;
+		while((dup->str[0] == '"' && dup->str[1] == '"')
+			|| (dup->str[0] == '\'' && dup->str[1] == '\''))
+			dup = dup->next;
 		if (dup->str[0] == '"')
 			dup->in_dq = 1;
 		else if (dup->str[0] == 39)
 			dup->in_sq = 1;
-		if (!(dup->str[0] == '"' && dup->str[1] == '"'))
-			check_delete_quotes(dup);
-		if (!(dup->str[0] == 39 && dup->str[1] == 39))
-			check_delete_quotes(dup);
+		check_delete_quotes(dup);
 		dup = dup->next;
 	}
 }
