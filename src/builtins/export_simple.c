@@ -5,139 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 10:13:39 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/24 18:12:53 by mnie             ###   ########.fr       */
+/*   Created: 2024/03/25 22:23:55 by mnie              #+#    #+#             */
+/*   Updated: 2024/03/25 23:41:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int		find_equal(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	**dup_env_var2(char **tab, char **modified, char **add)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (modified[i])
-	{
-		tab[j] = ft_strdup(modified[i]);
-		j++;
-		i++;
-	}
-	i = 0;
-	while (add[i])
-	{
-		tab[j] = ft_strdup(add[i]);
-		j++;
-		i++;
-	}
-	tab[j] = '\0';
-	return (tab);
-}
-
-char	**dup_env_var(t_env *env)
-{
-	int	i;
-	int	j;
-	char **tab;
-
-	i = 0;
-	j = 0;
-	while (env -> modified_env[i])
-	{
-		j++;
-		i++;
-	}
-	i = 0;
-	while (env -> vars_add[i])
-	{
-		j++;
-		i++;
-	}
-	tab = malloc(sizeof(char *) * (j + 1));
-	tab = dup_env_var2(tab, env -> modified_env, env -> vars_add);
-	return (tab);
-}
-char	*add_line_quote(char **env_tmp, int i)
+char	*add_line_quote(char **tab_tmp, int i)
 {
 	char	*new_line;
 	int		len;
 	int		j;
 
 	j = 0;
-	len = ft_strlen(env_tmp[i]) + 2;
+	len = ft_strlen(tab_tmp[i]) + 2;
 	new_line = malloc(sizeof(char) * len + 1);
-	while (env_tmp[i][j] != '=')
+	while (tab_tmp[i][j] != '=')
 	{
-		new_line[j] = env_tmp[i][j];
+		new_line[j] = tab_tmp[i][j];
 		j++;
 	}
-	new_line[j] = env_tmp[i][j];
+	new_line[j] = tab_tmp[i][j];
 	j++;
 	new_line[j] = '"';
-	while (env_tmp[i][j])
+	while (tab_tmp[i][j])
 	{
-		new_line[j + 1] = env_tmp[i][j];
+		new_line[j + 1] = tab_tmp[i][j];
 		j++;
 	}
 	new_line[j + 1] = '"';
 	new_line[j + 2] = '\0';
-	free(env_tmp[i]);
+	free(tab_tmp[i]);
 	return(new_line);
 }
 
-void	print_sort_env(char **env_tmp)
+void	print_sort_env(char **tab_tmp)
 {
 	char	*swap;
 	int		i;
 
 	i = 0;
-	while (env_tmp[i + 1])
+	while (tab_tmp[i + 1])
 	{
-		if (ft_strncmp(env_tmp[i], env_tmp[i + 1], ft_strlen(env_tmp[i])) > 0)
+		if (ft_strncmp(tab_tmp[i], tab_tmp[i + 1], ft_strlen(tab_tmp[i])) > 0)
 		{
-			swap = env_tmp[i + 1];
-			env_tmp[i + 1] = env_tmp[i];
-			env_tmp[i] = swap;
+			swap = tab_tmp[i + 1];
+			tab_tmp[i + 1] = tab_tmp[i];
+			tab_tmp[i] = swap;
 			i = -1;
 		}
 		i++;
 	}
 	i = 0;
-	while (env_tmp[i])
+	while (tab_tmp[i])
 	{
-		if (find_equal(env_tmp[i]) == 1)
-			env_tmp[i] = add_line_quote(env_tmp, i);
-		if (ft_strncmp(env_tmp[i], "_=", 2) != 0)
-			ft_printf("declare -x %s\n", env_tmp[i]);
+		if (find_equal(tab_tmp[i]) == 1)
+			tab_tmp[i] = add_line_quote(tab_tmp, i);
+		if (ft_strncmp(tab_tmp[i], "_=", 2) != 0)
+			ft_printf("declare -x %s\n", tab_tmp[i]);
 		i++;
 	}
 }
 
-void	export_simple(t_env **env)
+void	export_simple(char **tab)
 {
-	char	**env2;
-	t_env	*env_tmp;
+	char	**tab_tmp;
 
-	env_tmp = *env;
-	while (env_tmp -> next)
-		env_tmp = env_tmp -> next;
-	env2 = dup_env_var(env_tmp);
-	print_sort_env(env2);
-	free_dup_env(env2);
+	tab_tmp = dup_env(tab);
+	print_sort_env(tab_tmp);
+	free_dup_env(tab_tmp);
 }

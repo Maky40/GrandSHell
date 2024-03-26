@@ -13,6 +13,6 @@ TEst de $USER :
 a$USER -> amaky
 a%USERaaa -> amaky
 "a"$"USER"
-aaa=abc
+aaa=abcre
 
 faire une fonction pour a"$"USER quand on a le dollar entre quote et le sauter

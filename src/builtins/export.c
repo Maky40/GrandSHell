@@ -5,99 +5,131 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 12:48:47 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/25 11:29:23 by mnie             ###   ########.fr       */
+/*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
+/*   Updated: 2024/03/26 11:46:23 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	add_modified(t_env *env, char *str)
-{
-	int	i;
-	char **new_tab;
 
-	i = 0;
-	while (env -> modified_env[i])
-		i++;
-	new_tab = malloc(sizeof(char *) * i + 2);
-	i = 0;
-	while (env -> modified_env[i])
-	{
-		new_tab[i] = ft_strdup(env -> modified_env[i]);
-		i++;
-	}
-	new_tab[i] = ft_strdup(str);
-	new_tab[i + 1] = '\0';
-	free_dup_env(env -> modified_env);
-	env -> modified_env = new_tab;
-}
-
-void	maj_tabs(t_env *env)
+void	create_variable(t_env *env, char *str, int j)
 {
-	int	i;
-
-	i = 0;
-	while (env -> vars_add[i])
-	{
-		if (find_equal(env -> vars_add[i]) == 1)
-		{
-			delete_after_equal(env -> vars_add, i);
-			add_modified(env, env -> vars_add[i]);
-			do_unset2(env, env -> vars_add[i], 2);
-			i = -1;
-		}
-		i++;
-	}
-	i = 0;
-	while (env -> modified_env[i])
-	{
-		ft_printf("%s\n");
-		i++;
-	}
-}
-void	create_variable(t_env *env, char *variable)
-{
-	int		i;
+	int		len;
 	char	**new_tab;
+	int		i;
 
 	i = 0;
-	while (env -> vars_add[i])
-		i++;
-	new_tab = malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while (env -> vars_add[i])
+	len = 0;
+	while (env -> tab[len])
+		len++;
+	// ft_printf("------------------Dans CREATE VARIABLE : --------------\n");
+	new_tab = malloc(sizeof(char *) * (len + 2));
+	if (j == -1)
+		j = len;
+	// ft_printf ("On malloc : %d\n position a rajouter = %d\n", len + 2, j);
+	// ft_printf("i = %d, j = %d\n", i, j);
+	// ft_printf("tab[i] = %s\n", env -> tab[i]);
+	while (i < j)
 	{
-		new_tab[i] = ft_strdup(env -> vars_add[i]);
+		new_tab[i] = ft_strdup(env -> tab[i]);
 		i++;
 	}
-	new_tab[i] = ft_strdup(variable);
-	new_tab[i  + 1] = NULL;
-	free_dup_env(env -> vars_add);
-	env -> vars_add = new_tab;
+	// ft_printf("Dernier NEW_TAB avant J : %s\n", new_tab[i - 1]);
+	new_tab[i] = ft_strdup(str);
+	// ft_printf("i + 1 = %d et len + 1 = %d\n", i + 1, len + 1);
+	while (i + 1 < len + 1)
+	{
+		new_tab[i + 1] = ft_strdup(env -> tab[i]);
+		i++;
+	}
+	new_tab[i + 1] = '\0';
+	free_dup_env(env -> tab);
+	env -> tab = new_tab;
+}
+void	add_tab_plus_equal(t_env *env, char *str)
+{
+	char	*str_search;
+	char	*str_without_plus;
+	char	*new_str;
+	int		pos;
+
+	if (ft_strncmp(str, "_=", 2) == 0)
+	{
+		ft_printf("You can't modified _\n");
+		return ;
+	}
+	str_search = variable_without_plus_equal(str);
+	printf("str_search = %s\n", str_search);
+	str_without_plus = variable_without_plus(str);
+	printf("str_without_plus = %s\n", str_without_plus);
+	if (search_variable(env -> tab, str_search) == -1)
+		create_variable(env, str_without_plus, -1);
+	else
+	{
+		pos = search_variable(env -> tab, str_search);
+		new_str = add_variable(env -> tab, str_without_plus, pos);
+		find_and_remove(env -> tab, str_search);
+		create_variable(env, new_str, pos);
+		free(new_str);
+	}
+	free(str_search);
+	free(str_without_plus);
+}
+
+void	add_tab_equal(t_env *env, char *str)
+{
+	char	*str_search;
+	int		pos;
+
+	if (ft_strncmp(str, "_=", 2) == 0)
+	{
+		ft_printf("You can't modified _\n");
+		return ;
+	}
+	str_search = variable_without_equal(str);
+	if (search_variable(env -> tab, str_search))
+	{
+		pos = search_variable(env -> tab, str_search);
+		find_and_remove(env -> tab, str_search);
+		create_variable(env, str, pos);
+	}
+	else
+		create_variable(env, str, -1);
+	free(str_search);
+}
+
+void	add_tab(t_env *env, char *str)
+{
+	if (search_variable(env -> tab, str) != -1)
+		return ;
+	else
+		create_variable(env, str, -1);
 }
 
 void	do_export(t_command *cmd, t_data *data, t_env **env)
 {
-	int	i;
+	int		i;
+	t_env	*node;
 
+	node = last_env(env);
 	i = 1;
-	ft_printf("cmd -> arguments = %s\n", cmd -> arguments[i]);
 	if (cmd -> arguments[i] == NULL)
-		export_simple(env);
+		export_simple(node -> tab);
 	while (cmd -> arguments[i])
 	{
-		if (ft_error_export(cmd -> arguments[i])==1)
-			i++;
-		else if (find_equal(cmd -> arguments[i]) == 1)
-		{
-			export_with_equal(last_env(env), cmd -> arguments[i]);
-			maj_tabs(last_env(env));
-		}
-		else if (search_variable(last_env(env), cmd -> arguments[i]) == 0)
-			create_variable(last_env(env), cmd -> arguments[i]);
-		free (data -> env);
-		data -> env = dup_env((last_env(env)) -> modified_env);
+		if (find_equal(cmd -> arguments[i]) == 0)
+			add_tab(node, cmd -> arguments[i]);
+		else if (before_equal(cmd -> arguments[i]) != '-' 	&& \
+		before_equal(cmd -> arguments[i]) != '+')
+			add_tab_equal(node, cmd -> arguments[i]);
+		else if (before_equal(cmd -> arguments[i]) == '-')
+			ft_printf("ERROR\n");
+		else
+			add_tab_plus_equal(node, cmd -> arguments[i]);
 		i++;
 	}
+	(void) data;
+	// free_dup_env(data -> env);
+	// data -> env = dup_env(node -> tab);
 }
