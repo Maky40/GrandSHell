@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:40:45 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 17:19:48 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 17:47:35 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	delete_all_quotes(t_lexer *dup)
 		i++;
 	}
 	i = i - j;
-	printf("%d\n", i);
 	new_str = (char *)malloc(sizeof(char) *(i + 1));
 	new_str = str_without_all_quotes(dup,new_str);
 	free(dup->str);
@@ -160,7 +159,8 @@ void	purge_quotes(t_data *data, t_lexer **lexer)
 		while (((dup->str[0] == '"' && dup->str[1] == '"')
 			|| (dup->str[0] == '\'' && dup->str[1] == '\'')) && dup->next != NULL)
 			dup = dup->next;
-		if (dup == NULL)
+		if (((dup->str[0] == '"' && dup->str[1] == '"')
+			|| (dup->str[0] == '\'' && dup->str[1] == '\'')) && dup == NULL)
 			break;
 		if (dup->str[0] == '"')
 			dup->in_dq = 1;
