@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 15:18:50 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 16:45:40 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void free_t_env(t_env *env)
 {
 	if (env == NULL)
-		return; 
-	free_dup_env(env->modified_env);
+		return;
+	free_dup_env(env->tab);
 	free(env);
 }
 
 void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 {
 	int	i;
-	
+
 	i = 0;
 	free_dup_env(data->env);
 	free_t_env(*env);
