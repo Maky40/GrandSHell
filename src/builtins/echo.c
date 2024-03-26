@@ -6,11 +6,57 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:52:55 by xav               #+#    #+#             */
-/*   Updated: 2024/03/25 10:58:03 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/25 13:34:17 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int check_option(t_command *cmd)
+{
+	int i; 
+
+	i = 0;
+	while (cmd->arguments[1][i])
+	{
+		if (cmd->arguments[1][i] == '-')
+			i++; 
+		else
+			return (1);
+		while (cmd->arguments[1][i] == 'n' && cmd->arguments[1][i])
+		{
+			if (cmd->arguments[1][i] == 'n')
+				i++;
+			else
+				return (1);
+		}	
+	}
+	return (0);
+}
+
+int skip_option(t_command *cmd, int i)
+{
+	int j; 
+
+	while (cmd->arguments[i])
+	{
+		j = 0;
+		if (cmd->arguments[i][j] == '-')
+			j++;
+		else
+			break;
+		while (cmd->arguments[i][j])
+		{
+			if (cmd->arguments[i][j] == 'n' && cmd->arguments[i][j])
+				j++;
+			else
+				break;
+		}
+		i++;
+	}
+	return (i);
+}
+
 
 int	echo_quotes(t_command *cmd, int i)
 {
@@ -30,15 +76,7 @@ int	echo_quotes(t_command *cmd, int i)
 	return (ret);
 }
 
-void print_end(int option, t_data *data)
-{
-	if (option == 0)
-		ft_printf("\n");
-	data->exit_status = 0;
-}
-
-
-void	builtin_echo(t_command *cmd, t_data *data)
+void	builtin_echo(t_command *cmd)
 {
 	int i;
 	int option;
@@ -47,12 +85,11 @@ void	builtin_echo(t_command *cmd, t_data *data)
 	option = 0;
 	while (cmd->arguments[i])
 	{
-		if (ft_strncmp(cmd->arguments[1], "-n", 3) == 0)
+		if (i == 1 && check_option(cmd) == 0)
 		{
 			option = 1;
-			if (cmd->arguments[i + 1] != NULL)
-				i++;
-			else
+			i = skip_option(cmd, i);
+			if (cmd->arguments[i] == NULL)
 				break;
 		}
 		if (echo_quotes(cmd, i) == 1)
@@ -61,5 +98,6 @@ void	builtin_echo(t_command *cmd, t_data *data)
 			ft_printf(" ");
 		i++;
 	}
-	print_end(option, data);
+	if (option == 0)
+		ft_printf("\n");
 }

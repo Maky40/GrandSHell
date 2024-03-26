@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/25 09:55:54 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/25 16:09:38 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	built_in_execute(t_command *cmd, t_data *data)
 {
 	(void)data;
 	if (check_command(cmd->command, "echo") == 0)
-		builtin_echo(cmd, data);
+		builtin_echo(cmd);
 	else if (check_command(cmd->command, "unset") == 0)
 		printf("unset\n");
 	else if (check_command(cmd->command, "cd") == 0)
-		printf("cd\n");
+		builtin_cd(cmd, data);
 	else if (check_command(cmd->command, "exit") == 0)
 		printf("exit\n");
 	else if (check_command(cmd->command, "pwd") == 0)

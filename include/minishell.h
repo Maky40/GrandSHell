@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/25 09:54:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 09:54:43 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_command
 	int		out_fd;
 	int		no_fd;
 	int		append_last;
+	int		builtin_process;
 }	t_command;
 
 typedef struct s_data
@@ -113,6 +114,7 @@ typedef struct s_table_command
 char	**dup_env(char **envp);
 char	**last_env(t_env **env);
 char	*ft_strdup_mshell(char *s);
+char	*get_env_value(char **envp, char *var_name);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -140,13 +142,16 @@ void	free_data(t_data *data);
 void	built_in_execute(t_command *cmd, t_data *data);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 void	builtin_pwd(t_command *cmd, t_data *data);
-void	builtin_echo(t_command *cmd, t_data *data);
+void 	builtin_cd(t_command *cmd, t_data *data);
+void	builtin_echo(t_command *cmd);
+void	free_builtin_process(t_table *tab_cmds, t_data *data);
+void	free_commands(t_command *cmd, int i);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
 int 	open_fd(t_command *command);
 int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
-int	single_process(char *cmd);
+int		single_process(char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
 #endif

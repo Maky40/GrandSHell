@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/24 10:46:27 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/26 09:46:40 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
 {
 	pid_t pid;
 	
+	tab_cmds->commands[i].builtin_process = 0;
     if (tab_cmds->num_commands == 1 &&
-		single_process(tab_cmds->commands[i].command) == 0)
+		is_builtin(tab_cmds->commands[i].command) == 0)
     {
         redirect_pipes(i, tab_cmds->num_commands, data);
         file_redirect(tab_cmds, i);
@@ -67,6 +68,7 @@ void execute_command(int i, t_table *tab_cmds, t_data *data)
     }
     else 
     {
+		tab_cmds->commands[i].builtin_process = 1;
 		pid = fork();
         if (pid == 0)
         {
@@ -83,6 +85,7 @@ void	executor(t_table *tab_cmds, t_data *data)
 	int	i;
 	int	status;
 	
+	status = 0;
 	pipe(data->prev_pipe);
 	i = -1;
 	while (++i < tab_cmds->num_commands)
