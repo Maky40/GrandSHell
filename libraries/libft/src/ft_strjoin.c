@@ -6,11 +6,12 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 11:46:46 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 00:04:45 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 13:57:34 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include <stdio.h>
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -25,6 +26,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	ft_strlcpy(new_text, s1, size_text_s1 + 1);
 	ft_strlcat(new_text, s2, size_text_s2 + size_text_s1 + 1);
-	free(s2);
+	// free(s2);
 	return (new_text);
 }

@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 11:35:29 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 15:27:04 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,6 @@ typedef struct s_data
     int curr_pipe[2];
 }	t_data;
 
-// typedef struct s_env
-// {
-// 	int		shel_lvl;
-// 	char	**vars_add;
-// 	char	**modified_env;
-// 	struct s_env	*next;
-// }	t_env;
-
 typedef struct s_env
 {
 	int		shel_lvl;
@@ -152,21 +144,10 @@ int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(t_env **env, char **envp);
-// void	export_simple(t_env **env);
-// int		ft_printf_error_export(char *str);
-// int		ft_error_export(char *str);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
-// int		search_variable(t_env *env, char *variable);
-// void	create_variable(t_env *env, char *variable);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
-// void	export_with_equal(t_env *env, char *str);
 void	do_unset(t_env **env, t_command *cmd);
-// void	do_unset2(t_env *env, char *arguments, int i);
-// void	delete_after_equal(char **env, int pos);
-// int		find_equal(char *str);
-// void	delete_after_equal(char **env, int pos);
-// char	*variable_without_equal(char *variable);
 void	find_and_remove(char **env, char *arguments);
 char	before_equal(char *str);
 int		search_variable(char **tab, char *variable);

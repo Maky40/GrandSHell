@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 13:32:32 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 15:14:37 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,15 @@ void	create_variable(t_env *env, char *str, int j)
 	len = 0;
 	while (env -> tab[len])
 		len++;
-	// ft_printf("------------------Dans CREATE VARIABLE : --------------\n");
 	new_tab = malloc(sizeof(char *) * (len + 2));
 	if (j == -1)
 		j = len;
-	// ft_printf ("On malloc : %d\n position a rajouter = %d\n", len + 2, j);
-	// ft_printf("i = %d, j = %d\n", i, j);
-	// ft_printf("tab[i] = %s\n", env -> tab[i]);
 	while (i < j)
 	{
 		new_tab[i] = ft_strdup(env -> tab[i]);
 		i++;
 	}
-	// ft_printf("Dernier NEW_TAB avant J : %s\n", new_tab[i - 1]);
 	new_tab[i] = ft_strdup(str);
-	// ft_printf("i + 1 = %d et len + 1 = %d\n", i + 1, len + 1);
 	while (i + 1 < len + 1)
 	{
 		new_tab[i + 1] = ft_strdup(env -> tab[i]);
@@ -60,9 +54,7 @@ void	add_tab_plus_equal(t_env *env, char *str)
 		return ;
 	}
 	str_search = variable_without_plus_equal(str);
-	printf("str_search = %s\n", str_search);
 	str_without_plus = variable_without_plus(str);
-	printf("str_without_plus = %s\n", str_without_plus);
 	if (search_variable(env -> tab, str_search) == -1)
 		create_variable(env, str_without_plus, -1);
 	else
@@ -114,6 +106,7 @@ void	do_export(t_command *cmd, t_data *data, t_env **env)
 
 	node = last_env(env);
 	i = 1;
+	ft_printf("ARGUMENTS = %s\n", cmd -> arguments[1]);
 	if (cmd -> arguments[i] == NULL)
 		export_simple(node -> tab);
 	while (cmd -> arguments[i])
