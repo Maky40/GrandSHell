@@ -1,0 +1,26 @@
+Execute a simple command with an absolute path like /bin/ls, or any other command without any options.
+/bin/ls = SUCCESS, LEAKS = NO
+/bin/cat src/heredoc.c = SUCCESS, LEAKS = NO
+/bin/cat = SUCCESS, LEAKS = NO
+/bin/ls -la = SUCCESS, LEAKS = NO
+/bin/wc -l Makefile =SUCCESS, LEAKS = NO
+
+Test an empty command = SUCCESS, LEAKS = NO
+Test only spaces or tabs =SUCCESS, LEAKS = NO 
+
+Execute the echo command with or without arguments, or the -n option : 
+
+echo = SUCCESS, LEAKS = NO
+echo -n = SUCCESS, LEAKS = NO
+echo -n -n -n = SUCCESS, LEAKS = NO
+echo -nnnnnnnnnnn = SUCCESS, LEAKS = NO
+echo -nnnn -nnnn = SUCCESS, LEAKS = NO
+echo -n toto = SUCCESS, LEAKS = NO
+echo '$USER' = SUCCESS, LEAKS = NO
+echo "$USER" = SUCCESS, LEAKS = NO
+echo "$USER$USER" = SUCCESS, LEAKS = NO
+echo $USER$USER = SUCCESS, LEAKS = NO
+echo "" "toto" "" = SUCCESS, LEAKS = YES, LEAKS = FIXED BY ADDING FREE DATA->QUOTE_SPACE
+echo '' 'toto' '' = NOT WORKING, OUTPUT = 'toto' instead of toto, LEAKS = NO
+echo "" = SUCCES, LEAKS = NO
+echo "        " = SUCCES, LEAKS = NO
