@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:33:02 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 11:52:17 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 13:40:30 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ char	*variable_without_equal(char *str)
 
 	i = 0;
 	len = 0;
+	if (find_equal(str) == 0)
+	{
+		new_str = ft_strdup(str);
+		return (new_str);
+	}
 	while (str[len] != '=')
 		len++;
 	new_str = malloc(sizeof(char) * (len + 1));

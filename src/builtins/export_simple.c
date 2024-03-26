@@ -6,13 +6,13 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:23:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/25 23:41:24 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 13:36:50 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*add_line_quote(char **tab_tmp, int i)
+char	*add_line_quote2(char **tab_tmp, int i)
 {
 	char	*new_line;
 	int		len;
@@ -39,33 +39,45 @@ char	*add_line_quote(char **tab_tmp, int i)
 	free(tab_tmp[i]);
 	return(new_line);
 }
+void	add_line_quote(char **tab_tmp)
+{
+	int		i;
 
+	i = 0;
+	while (tab_tmp[i])
+	{
+		if (find_equal(tab_tmp[i]) == 1)
+			tab_tmp[i] = add_line_quote2(tab_tmp, i);
+		if (ft_strncmp(tab_tmp[i], "_=", 2) != 0)
+			ft_printf("declare -x %s\n", tab_tmp[i]);
+		i++;
+	}
+}
 void	print_sort_env(char **tab_tmp)
 {
 	char	*swap;
 	int		i;
+	char	*str1;
+	char	*str2;
 
 	i = 0;
 	while (tab_tmp[i + 1])
 	{
-		if (ft_strncmp(tab_tmp[i], tab_tmp[i + 1], ft_strlen(tab_tmp[i])) > 0)
+		str1 = variable_without_equal(tab_tmp[i]);
+		str2 = variable_without_equal(tab_tmp[i + 1]);
+		if (ft_strncmp(str1, str2, ft_strlen(str1)) > 0)
 		{
 			swap = tab_tmp[i + 1];
 			tab_tmp[i + 1] = tab_tmp[i];
 			tab_tmp[i] = swap;
 			i = -1;
 		}
+		free (str1);
+		free (str2);
 		i++;
 	}
-	i = 0;
-	while (tab_tmp[i])
-	{
-		if (find_equal(tab_tmp[i]) == 1)
-			tab_tmp[i] = add_line_quote(tab_tmp, i);
-		if (ft_strncmp(tab_tmp[i], "_=", 2) != 0)
-			ft_printf("declare -x %s\n", tab_tmp[i]);
-		i++;
-	}
+	add_line_quote(tab_tmp);
+
 }
 
 void	export_simple(char **tab)

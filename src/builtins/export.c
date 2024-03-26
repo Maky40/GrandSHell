@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 11:46:23 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/26 13:32:32 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ void	add_tab_equal(t_env *env, char *str)
 		return ;
 	}
 	str_search = variable_without_equal(str);
-	if (search_variable(env -> tab, str_search))
+	if (search_variable(env -> tab, str_search) == -1)
+		create_variable(env, str, -1);
+	else
 	{
 		pos = search_variable(env -> tab, str_search);
 		find_and_remove(env -> tab, str_search);
 		create_variable(env, str, pos);
 	}
-	else
-		create_variable(env, str, -1);
 	free(str_search);
 }
 
