@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/28 12:01:47 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/28 15:43:47 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	handler_sig(int signal)
 {
 	if (signal == SIGINT)
 	{
-		ft_printf("\nminishell> ");
-		return ;
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 int	main(int argc, char **argv, char **envp)
