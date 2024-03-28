@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 17:41:16 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/28 12:01:47 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ void	handler_sig(int signal)
 		ft_printf("\nminishell> ");
 		return ;
 	}
-	if (signal == SIGSEGV)
-	{
-		// free_all();
-		exit (0);
-	}
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -43,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	lexer = NULL;
+	tab_cmds = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
@@ -51,11 +47,12 @@ int	main(int argc, char **argv, char **envp)
 	env_init(&env, envp);
 	while (1)
 	{
-		//do_func = 1;
+
 		signal(SIGINT, handler_sig);
-		signal(SIGSEGV, handler_sig);
 		signal(SIGQUIT, SIG_IGN);
 		display_prompt(&data);
+		if (data.line == NULL)
+			ft_exit(&env, &data, tab_cmds);
 		if (data.valid_line == 0)
 		{
 			identify_line(&data, &lexer);

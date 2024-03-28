@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 16:51:18 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/28 12:00:26 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
-
-//int	do_func = 1;
 
 typedef enum s_tokens
 {
@@ -168,4 +166,7 @@ char	*variable_without_plus_equal(char *str);
 char	*variable_without_plus(char *str);
 char	*add_variable(char **tab, char *str, int pos);
 void	export_simple(char **tab);
+int		ft_error_export(char *str, t_data *data);
+void	ft_error_export2(char *str, t_data *data);
+void	ft_exit(t_env **env, t_data *data, t_table *cmd);
 #endif

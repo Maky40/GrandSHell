@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 17:22:22 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/27 16:02:03 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,24 +105,25 @@ void	do_export(t_command *cmd, t_data *data, t_env **env)
 	t_env	*node;
 
 	node = last_env(env);
-	i = 1;
-	ft_printf("ARGUMENTS = %s\n", cmd -> arguments[1]);
-	if (cmd -> arguments[i] == NULL)
+	i = 0;
+	if (cmd -> arguments[i + 1] == NULL)
 		export_simple(node -> tab);
-	while (cmd -> arguments[i])
+	while (cmd -> arguments[++i])
 	{
+		if (ft_error_export(cmd -> arguments[i], data) == 1)
+			return ;
 		if (find_equal(cmd -> arguments[i]) == 0)
 			add_tab(node, cmd -> arguments[i]);
 		else if (before_equal(cmd -> arguments[i]) != '-' 	&& \
 		before_equal(cmd -> arguments[i]) != '+')
 			add_tab_equal(node, cmd -> arguments[i]);
 		else if (before_equal(cmd -> arguments[i]) == '-')
-			ft_printf("ERROR\n");
+			ft_error_export2("ERROR", data);
 		else
 			add_tab_plus_equal(node, cmd -> arguments[i]);
-		i++;
 	}
-	(void) data;
-	// free_dup_env(data -> env);
-	// data -> env = dup_env(node -> tab);
+	free_dup_env(data -> env);
+	data -> env = dup_env(node -> tab);
+	if (data -> exit_status != 1)
+		data -> exit_status = 0;
 }

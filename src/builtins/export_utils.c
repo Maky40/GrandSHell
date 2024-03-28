@@ -6,11 +6,41 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:20:40 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 10:41:49 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/27 16:02:41 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_error_export2(char *str, t_data *data)
+{
+	ft_printf("%s\n", str);
+	data -> exit_status = 1;
+}
+int		ft_error_export(char *str, t_data *data)
+{
+	if (ft_strlen(str) == 1 && str[0] == '$')
+	{
+		data -> exit_status = 1;
+		return (1);
+	}
+	if (ft_strchr(str, " ") == 1)
+	{
+		data -> exit_status = 1;
+		return (1);
+	}
+	if (ft_isdigit(str[0]) == 1)
+	{
+		data -> exit_status = 1;
+		return (1);
+	}
+	if (ft_strchr(str, "'") == 1)
+	{
+		data -> exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
 
 int		find_equal(char *str)
 {
