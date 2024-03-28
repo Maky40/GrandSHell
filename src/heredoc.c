@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/23 11:17:54 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/28 17:27:12 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,28 @@ size_t	len_heredoc_line(char *line)
 	len--;
 	return (len);
 }
+int	heredoc_conditions(char	*line, t_command *cmd, int i)
+{
+	size_t	len;
 
+	if (line == NULL)
+		{
+			ft_printf("bash: avertissement : « here-document » close \n");
+			return (1);
+		}
+	len = len_heredoc_line(line);
+	if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
+			&& len == ft_strlen(cmd->fd[i].str))
+		{
+			free(line);
+			return (1) ;
+		}
+	return (0);
+}
 void	heredoc_tmp_fd(t_command *cmd, int i)
 {
 	char		*line;
 	int			tmp_fd;
-	size_t		len;
 
 	tmp_fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000777);
 	if (tmp_fd < 0)
@@ -60,13 +76,8 @@ void	heredoc_tmp_fd(t_command *cmd, int i)
 	{
 		ft_printf("heredoc> ");
 		line = get_next_line(STDIN_FILENO);
-		len = len_heredoc_line(line);
-		if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
-			&& len == ft_strlen(cmd->fd[i].str))
-		{
-			free(line);
+		if (heredoc_conditions(line, cmd, i) == 1)
 			break ;
-		}
 		else
 			ft_putstr_fd(line, tmp_fd);
 		free(line);
