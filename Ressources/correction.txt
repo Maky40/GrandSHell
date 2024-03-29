@@ -24,3 +24,4 @@ echo "" "toto" "" = SUCCESS, LEAKS = YES, LEAKS = FIXED BY ADDING FREE DATA->QUO
 echo '' 'toto' '' = NOT WORKING, OUTPUT = 'toto' instead of toto, LEAKS = NO
 echo "" = SUCCES, LEAKS = NO
 echo "        " = SUCCES, LEAKS = NO
+data->exit_status ecrase dans les builtin par WIFEXISTED status par 0.

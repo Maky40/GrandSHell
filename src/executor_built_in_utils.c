@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 11:01:02 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/27 15:58:41 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ int	single_process(char *cmd)
 
 void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 {
-	(void)data;
 	(void)env;
-	
 	if (check_command(cmd->command, "echo") == 0)
 		builtin_echo(cmd, data);
 	else if (check_command(cmd->command, "unset") == 0)
