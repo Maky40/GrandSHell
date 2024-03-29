@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/29 15:35:51 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/29 15:43:06 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	single_process(char *cmd)
 
 void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 {
-	(void)env;
 	if (check_command(cmd->command, "echo") == 0)
 		builtin_echo(cmd, data);
 	else if (check_command(cmd->command, "unset") == 0)
@@ -45,9 +44,6 @@ void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
 		printf("env\n");
 	else if (check_command(cmd->command, "export") == 0)
 		do_export(cmd, data, env);
-	lst = *env;
-	while (lst -> next)
-		lst = lst -> next;
 }
 
 int check_command(char *str, char *cmd)
