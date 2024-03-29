@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:42:17 by xav               #+#    #+#             */
-/*   Updated: 2024/03/25 16:06:03 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/27 15:59:42 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	go_home(t_command *cmd, t_data *data)
 {
 	if (chdir(get_env_value(data->env, "HOME")) != 0)
 	{
-		printf("je suis cd ou cd ~ \n");
 		data->exit_status = 1;
 		ft_printf("cd: HOME not set %s\n", cmd->arguments[1]);
 		return ;
