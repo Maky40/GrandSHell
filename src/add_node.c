@@ -6,12 +6,13 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/09 12:18:04 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 14:35:01 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//test
 t_lexer	*lstlast(t_lexer *lst)
 {
 	if (!lst)
