@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 11:35:47 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 15:48:58 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_dup_env(char **dup_env)
 void	free_data(t_data *data)
 {
 	free(data -> line);
-	free(data -> quote_space);
+	// free(data -> quote_space);
 	free_dup_env(data -> env);
 }
 char 	**dup_env(char **envp)
