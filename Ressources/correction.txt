@@ -21,6 +21,8 @@ echo "$USER" = SUCCESS, LEAKS = NO
 echo "$USER$USER" = SUCCESS, LEAKS = NO
 echo $USER$USER = SUCCESS, LEAKS = NO
 echo "" "toto" "" = SUCCESS, LEAKS = YES, LEAKS = FIXED BY ADDING FREE DATA->QUOTE_SPACE
-echo '' 'toto' '' = NOT WORKING, OUTPUT = 'toto' instead of toto, LEAKS = NO
+echo '' 'toto' '' = SUCCESS, LEAKS = NO
 echo "" = SUCCES, LEAKS = NO
 echo "        " = SUCCES, LEAKS = NO
+echo "test"'de'"plusieurs"'quotes'"collees" = NOT WORKING, OUTPUT = test'de'plusieurs'quotes'collees instead of testdeplusieursquotescollees, LEAKS = NO
+echo 'test'"plusieurs"'quotes'sansespace = NOT WORKING, OUTPUT = test"plusieurs"quotessansespace instead of testplusieursquotessansespace
