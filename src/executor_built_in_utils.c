@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/30 10:55:13 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 11:55:16 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	built_in_execute(t_table *tab_cmds, t_data *data, t_env **env, int i)
 	else if (check_command(tab_cmds->commands[i].command, "pwd") == 0)
 		builtin_pwd(&tab_cmds->commands[i], data);
 	else if (check_command(tab_cmds->commands[i].command, "env") == 0)
-		printf("env\n");
+		print_env(&tab_cmds->commands[i], data);
 	else if (check_command(tab_cmds->commands[i].command, "export") == 0)
 		do_export(&tab_cmds->commands[i], data, env);
 }

@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/30 10:23:08 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 11:17:03 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 
+		data.quote_space = NULL;
 		display_prompt(&data);
 		if (data.line == NULL)
 			ft_exit(&env, &data, tab_cmds);

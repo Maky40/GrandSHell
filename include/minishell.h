@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/30 10:50:30 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 11:55:49 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void 	builtin_cd(t_command *cmd, t_data *data);
 void	builtin_echo(t_command *cmd, t_data *data);
 void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env);
 void	free_commands(t_command *cmd, int i);
+void	free_data_end(t_data *data);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
 int 	open_fd(t_command *command);
@@ -169,4 +170,5 @@ void	export_simple(char **tab);
 int		ft_error_export(char *str, t_data *data);
 void	ft_error_export2(char *str, t_data *data);
 void	ft_exit(t_env **env, t_data *data, t_table *cmd);
+void	print_env(t_command *cmd, t_data *data);
 #endif

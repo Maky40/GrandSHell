@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exit_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/28 12:02:09 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 11:36:39 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ void	free_last_env(t_env **env)
 void	ft_exit(t_env **env, t_data *data, t_table *cmd)
 {
 	t_env	*node;
-
+	(void) cmd;
 	node = last_env(env);
-	if (cmd == NULL)
+	/*
+	if (cmd != NULL)
+		free_table_cmd(cmd);
+	*/
+	if (node -> shel_lvl == 1)
 	{
-		free_last_env(env);
-		ft_putstr("exit\n");
-		 if (node -> shel_lvl == 1)
-			free_data(data);
+		free_data_end(data);
 	}
+	free_last_env(env);
+	ft_putstr("exit\n");
 	exit (0);
 }
 

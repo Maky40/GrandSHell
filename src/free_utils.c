@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 16:45:40 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 11:17:40 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env)
 void	free_data_end(t_data *data)
 {
 	free(data -> line);
-	free(data -> quote_space);
+	if (data->quote_space == 0)
+		free(data -> quote_space);
 	free_dup_env(data -> env);
-	free (data);
 }
 
 int	verify_line(t_lexer **lexer)
