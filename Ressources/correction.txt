@@ -26,3 +26,4 @@ echo "" = SUCCES, LEAKS = NO
 echo "        " = SUCCES, LEAKS = NO
 echo "test"'de'"plusieurs"'quotes'"collees" = NOT WORKING, OUTPUT = test'de'plusieurs'quotes'collees instead of testdeplusieursquotescollees, LEAKS = NO
 echo 'test'"plusieurs"'quotes'sansespace = NOT WORKING, OUTPUT = test"plusieurs"quotessansespace instead of testplusieursquotessansespace
+data->exit_status ecrase dans les builtin par WIFEXISTED status par 0.
