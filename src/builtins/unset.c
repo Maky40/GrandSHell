@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:41:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 16:50:34 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 10:44:44 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	find_and_remove(char **env, char *arguments)
 	}
 }
 
-void	do_unset(t_env **env, t_command *cmd)
+void	do_unset(t_env **env, t_command *cmd, t_data *data)
 {
 	int	i;
 	t_env *lst;
@@ -67,8 +67,7 @@ void	do_unset(t_env **env, t_command *cmd)
 	{
 		if (search_variable(lst -> tab, cmd -> arguments[i]))
 			find_and_remove(lst -> tab, cmd -> arguments[i]);
-		else
-			ft_printf("ERROR for %s, variable not found\n", cmd -> arguments[i]);
 		i++;
 	}
+	data->exit_status = 0;
 }

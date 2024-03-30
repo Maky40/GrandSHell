@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/03/29 15:43:06 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 10:55:13 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ int	single_process(char *cmd)
 	return (ret);
 }
 
-void	built_in_execute(t_command *cmd, t_data *data, t_env **env)
+void	built_in_execute(t_table *tab_cmds, t_data *data, t_env **env, int i)
 {
-	if (check_command(cmd->command, "echo") == 0)
-		builtin_echo(cmd, data);
-	else if (check_command(cmd->command, "unset") == 0)
-		printf("unset\n");
-	else if (check_command(cmd->command, "cd") == 0)
-		builtin_cd(cmd, data);
-	else if (check_command(cmd->command, "exit") == 0)
-		printf("exit\n");
-	else if (check_command(cmd->command, "pwd") == 0)
-		builtin_pwd(cmd, data);
-	else if (check_command(cmd->command, "env") == 0)
+	if (check_command(tab_cmds->commands[i].command, "echo") == 0)
+		builtin_echo(&tab_cmds->commands[i], data);
+	else if (check_command(tab_cmds->commands[i].command, "unset") == 0)
+		do_unset(env, &tab_cmds->commands[i], data);
+	else if (check_command(tab_cmds->commands[i].command, "cd") == 0)
+		builtin_cd(&tab_cmds->commands[i], data);
+	else if (check_command(tab_cmds->commands[i].command, "exit") == 0)
+		ft_exit(env, data, tab_cmds);
+	else if (check_command(tab_cmds->commands[i].command, "pwd") == 0)
+		builtin_pwd(&tab_cmds->commands[i], data);
+	else if (check_command(tab_cmds->commands[i].command, "env") == 0)
 		printf("env\n");
-	else if (check_command(cmd->command, "export") == 0)
-		do_export(cmd, data, env);
+	else if (check_command(tab_cmds->commands[i].command, "export") == 0)
+		do_export(&tab_cmds->commands[i], data, env);
 }
 
 int check_command(char *str, char *cmd)

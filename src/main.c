@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/28 15:43:47 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 10:23:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void display_prompt (t_data *data)
 	if (data->line && *data->line)
 		add_history(data->line);
 	check_invalid_line(data);
+}
+
+void handler_sigchld(int signal) 
+{
+    int status;
+
+	(void)signal;
+    waitpid(-1, &status, WNOHANG); 
 }
 
 void	handler_sig(int signal)
@@ -47,11 +55,12 @@ int	main(int argc, char **argv, char **envp)
 	data.exit_status = 0;
 	env = NULL;
 	env_init(&env, envp);
+	signal(SIGINT, handler_sig);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGCHLD, handler_sigchld);
 	while (1)
 	{
 
-		signal(SIGINT, handler_sig);
-		signal(SIGQUIT, SIG_IGN);
 		display_prompt(&data);
 		if (data.line == NULL)
 			ft_exit(&env, &data, tab_cmds);

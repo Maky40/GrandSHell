@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:37:56 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 16:21:29 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 10:49:11 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env)
 	{
 		if (is_builtin(tab_cmds->commands[i].command) == 0)
 		{
-			built_in_execute(&tab_cmds->commands[i], data, env);
+			built_in_execute(tab_cmds, data, env, i);
 			if (tab_cmds->commands[i].builtin_process == 1)
 				free_builtin_process(tab_cmds, data, env);
 		}

@@ -6,11 +6,12 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/29 15:35:19 by xav              ###   ########.fr       */
+/*   Updated: 2024/03/30 10:40:13 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 void	file_redirect(t_table *tab_cmds, int i)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/28 12:00:26 by mnie             ###   ########.fr       */
+/*   Updated: 2024/03/30 10:50:30 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		check_command(char *str, char *cmd);
 void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
-void	built_in_execute(t_command *cmd, t_data *data, t_env **env);
+void	built_in_execute(t_table *tab_cmds, t_data *data, t_env **env, int i);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 void	builtin_pwd(t_command *cmd, t_data *data);
 void 	builtin_cd(t_command *cmd, t_data *data);
@@ -156,7 +156,7 @@ void	env_init(t_env **env, char **envp);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
-void	do_unset(t_env **env, t_command *cmd);
+void	do_unset(t_env **env, t_command *cmd, t_data *data);
 void	find_and_remove(char **env, char *arguments);
 char	before_equal(char *str);
 int		search_variable(char **tab, char *variable);
