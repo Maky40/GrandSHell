@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/30 10:50:30 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 11:08:21 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,10 @@ typedef struct s_data
 	int		index_line;
 	int		*quote_space;
 	int		valid_line;
+	int		valid_lexer;
 	int prev_pipe[2];
     int curr_pipe[2];
 }	t_data;
-
-typedef struct s_env
-{
-	int		shel_lvl;
-	char	**tab;
-	struct s_env	*next;
-}	t_env;
 
 typedef struct s_expander
 {
@@ -111,7 +105,6 @@ typedef struct s_table_command
 }	t_table;
 
 char	**dup_env(char **envp);
-t_env	*last_env(t_env **env);
 char	*ft_strdup_mshell(char *s);
 char	*get_env_value(char **envp, char *var_name);
 void	free_dup_env(char **dup_env);
@@ -125,7 +118,7 @@ void	expander(t_data *data, t_lexer **lexer);
 void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
 void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void 	executor(t_table *tab_cmds, t_data *data, t_env **env);
+void 	executor(t_table *tab_cmds, t_data *data);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
@@ -135,16 +128,17 @@ void	heredoc_tmp_fd(t_command *cmd, int i);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
-void 	start_execute(t_data *data, t_table *tab_cmds, int i, t_env **env);
+void 	start_execute(t_data *data, t_table *tab_cmds, int i);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
-void	built_in_execute(t_table *tab_cmds, t_data *data, t_env **env, int i);
+void	built_in_execute(t_table *tab_cmds, t_data *data, int i);
 void 	purge_quotes(t_data *data, t_lexer **lexer);
 void	builtin_pwd(t_command *cmd, t_data *data);
 void 	builtin_cd(t_command *cmd, t_data *data);
 void	builtin_echo(t_command *cmd, t_data *data);
-void	free_builtin_process(t_table *tab_cmds, t_data *data, t_env **env);
+void	free_builtin_process(t_table *tab_cmds, t_data *data);
 void	free_commands(t_command *cmd, int i);
+void	free_data_end(t_data *data);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
 int 	open_fd(t_command *command);
@@ -152,11 +146,11 @@ int 	exec_open_output(t_table *tab_cmds, int i);
 int 	check_command(char *str, char *cmd);
 int		single_process(char *cmd);
 t_table	*table_command(t_lexer **lexer);
-void	env_init(t_env **env, char **envp);
+void	env_init(char **envp);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
-void	do_export(t_command *cmd, t_data *data, t_env **env);
-void	do_unset(t_env **env, t_command *cmd, t_data *data);
+void	do_export(t_command *cmd, t_data *data);
+void	do_unset(t_command *cmd, t_data *data);
 void	find_and_remove(char **env, char *arguments);
 char	before_equal(char *str);
 int		search_variable(char **tab, char *variable);
@@ -168,5 +162,8 @@ char	*add_variable(char **tab, char *str, int pos);
 void	export_simple(char **tab);
 int		ft_error_export(char *str, t_data *data);
 void	ft_error_export2(char *str, t_data *data);
-void	ft_exit(t_env **env, t_data *data, t_table *cmd);
+void	ft_exit(t_data *data, t_table *cmd);
+void	print_env(t_command *cmd, t_data *data);
+void	check_lexer(t_data *data, t_lexer **lexer);
+
 #endif

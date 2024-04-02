@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/27 16:02:03 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 11:14:58 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
+/*
 void	create_variable(t_env *env, char *str, int j)
 {
 	int		len;
@@ -127,3 +127,4 @@ void	do_export(t_command *cmd, t_data *data, t_env **env)
 	if (data -> exit_status != 1)
 		data -> exit_status = 0;
 }
+*/

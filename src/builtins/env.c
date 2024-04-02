@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_exit_env.c                                     :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 11:29:15 by xav              ###   ########.fr       */
+/*   Created: 2024/03/30 11:44:35 by xav               #+#    #+#             */
+/*   Updated: 2024/04/02 09:40:22 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_exit(t_data *data, t_table *cmd)
+void	print_env(t_command *cmd, t_data *data)
 {
-	(void) cmd;
-	/*
-	if (cmd != NULL)
-		free_table_cmd(cmd);
-	*/
-	free_data_end(data);
-	ft_putstr("exit\n");
-	exit (0);
+	int i;
+
+	i = 0; 
+	while (cmd->arguments[i] && i < 2)
+		i++;
+	if (i > 2)
+	{
+		ft_printf("env: '%s': No such file or directory\n", cmd->arguments[i]);
+		data->exit_status = 127;
+		return ;
+	}
+	i = 0;
+	while(data->env[i])
+	{
+		printf("%s\n", data->env[i]);
+		i++;
+	}
+	data->exit_status = 0;
 }
