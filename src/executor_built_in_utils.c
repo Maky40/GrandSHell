@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_built_in_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 11:15:18 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 13:59:16 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 		builtin_pwd(&tab_cmds->commands[i], data);
 	else if (ft_strncmp(tab_cmds->commands[i].command, "env", 3) == 0)
 		print_env(&tab_cmds->commands[i], data);
-//	else if (ft_strncmp(tab_cmds->commands[i].command, "export", 7) == 0)
-//		do_export(&tab_cmds->commands[i], data);
+	else if (ft_strncmp(tab_cmds->commands[i].command, "export", 7) == 0)
+		do_export(&tab_cmds->commands[i], data);
 }
 
 
