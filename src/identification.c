@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identification.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/20 15:36:51 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 13:24:38 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ void	identify_line(t_data *data, t_lexer **lexer)
 
 	i = 0;
 	j = 0;
-	data -> quote_space = NULL;
 	while (data -> line[j])
 	{
 		skip_whitespace(data, data -> line, j);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:41:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 16:50:34 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 10:34:16 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,20 @@
 
 char	**remove_variable(char **env, int j)
 {
-	int		len;
-	char	**new_env;
-
-	len = 0;
+	int	len;
+	int	k;
+	
+	len = 0; 
 	while (env[len])
 		len++;
-	new_env = malloc(sizeof(char *) * len);
-	new_env[len - 1] = NULL;
-	len = 0;
-	while (len < j)
+	free(env[j]);
+	k = j;
+	while (k < len -1)
 	{
-		new_env[len] = ft_strdup(env[len]);
-		len++;
+		env[k] = env[k + 1];
+		k++;
 	}
-	j++;
-	while (env[j])
-	{
-		new_env[len] = ft_strdup(env[j]);
-		j++;
-		len++;
-	}
-	free_dup_env(env);
-	env = dup_env(new_env);
+	env[len - 1] = NULL;
 	return (env);
 }
 void	find_and_remove(char **env, char *arguments)
@@ -49,6 +40,7 @@ void	find_and_remove(char **env, char *arguments)
 		if (ft_strncmp(arguments, env[j], ft_strlen(arguments)) == 0 \
 		&& arguments[0] != '_')
 		{
+			printf("je remove la variable\n");
 			env = remove_variable(env, j);
 			return ;
 		}
@@ -56,19 +48,16 @@ void	find_and_remove(char **env, char *arguments)
 	}
 }
 
-void	do_unset(t_env **env, t_command *cmd)
+void	do_unset(t_command *cmd, t_data *data)
 {
 	int	i;
-	t_env *lst;
-
-	lst = last_env(env);
+	
 	i = 1;
 	while (cmd -> arguments[i])
 	{
-		if (search_variable(lst -> tab, cmd -> arguments[i]))
-			find_and_remove(lst -> tab, cmd -> arguments[i]);
-		else
-			ft_printf("ERROR for %s, variable not found\n", cmd -> arguments[i]);
+		if (search_variable(data->env, cmd->arguments[i]))
+			find_and_remove(data->env, cmd->arguments[i]);
 		i++;
 	}
+	data->exit_status = 0;
 }

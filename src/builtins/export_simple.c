@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_simple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:23:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 13:36:50 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 11:13:53 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
+/*
 char	*add_line_quote2(char **tab_tmp, int i)
 {
 	char	*new_line;
@@ -88,3 +88,4 @@ void	export_simple(char **tab)
 	print_sort_env(tab_tmp);
 	free_dup_env(tab_tmp);
 }
+*/

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:20:40 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/27 16:02:41 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 11:31:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
+/*
 void	ft_error_export2(char *str, t_data *data)
 {
 	ft_printf("%s\n", str);
@@ -56,6 +56,8 @@ int		find_equal(char *str)
 	return (0);
 }
 
+*/
+
 int	search_variable(char **tab, char *variable)
 {
 	int		i;
@@ -70,7 +72,7 @@ int	search_variable(char **tab, char *variable)
 	}
 	return (-1);
 }
-
+/*
 char	before_equal(char *str)
 {
 	int	i;
@@ -80,3 +82,4 @@ char	before_equal(char *str)
 		i++;
 	return (str[i - 1]);
 }
+*/
