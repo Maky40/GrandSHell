@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:33:02 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 14:54:26 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 11:14:26 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
+/*
 char	*add_variable(char **tab, char *str, int pos)
 {
 	int		i;
@@ -110,3 +110,4 @@ char	*variable_without_equal(char *str)
 	new_str[i] = '\0';
 	return (new_str);
 }
+*/
