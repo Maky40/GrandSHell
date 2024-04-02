@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/30 11:55:49 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 10:11:45 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 	int		index_line;
 	int		*quote_space;
 	int		valid_line;
+	int		valid_lexer;
 	int prev_pipe[2];
     int curr_pipe[2];
 }	t_data;
@@ -157,7 +158,7 @@ void	env_init(t_env **env, char **envp);
 char	before_equal(char *str);
 char	*ft_dup_var(char *str);
 void	do_export(t_command *cmd, t_data *data, t_env **env);
-void	do_unset(t_env **env, t_command *cmd, t_data *data);
+void	do_unset(t_command *cmd, t_data *data);
 void	find_and_remove(char **env, char *arguments);
 char	before_equal(char *str);
 int		search_variable(char **tab, char *variable);
@@ -171,4 +172,6 @@ int		ft_error_export(char *str, t_data *data);
 void	ft_error_export2(char *str, t_data *data);
 void	ft_exit(t_env **env, t_data *data, t_table *cmd);
 void	print_env(t_command *cmd, t_data *data);
+void	add_env(t_env **env);
+void	check_lexer(t_data *data, t_lexer **lexer);
 #endif

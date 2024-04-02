@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   table_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/26 17:44:45 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 10:03:56 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 			tab_cmds -> commands[i].command = ft_strdup(lst -> str);
 		else
 			tab_cmds -> commands[i].command = NULL;
-		add_args(tab_cmds -> commands, lst, i);
+		if (tab_cmds -> commands[i].command != NULL)
+			add_args(tab_cmds -> commands, lst, i);
+		else
+			tab_cmds->commands[i].arguments = NULL;
+		
 		add_input_output(tab_cmds -> commands, lst, i);
 		i++;
 		lst = lst -> next;
@@ -114,10 +118,10 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 t_table	*table_command(t_lexer **lexer)
 {
 	t_table	*tab_cmds;
-	int		i;
-	int		j;
+	//int		i;
+	//int		j;
 
-	i = 0;
+	//i = 0;
 	tab_cmds = malloc(sizeof(t_table));
 	nb_command(tab_cmds, lexer);
 	if (tab_cmds -> num_commands > 0)
@@ -125,6 +129,7 @@ t_table	*table_command(t_lexer **lexer)
 		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
 		add_commands(tab_cmds, lexer);
 	}
+	/*
 	j = 0;
 	if (tab_cmds -> commands[i].arguments[j])
 	{
@@ -151,6 +156,7 @@ t_table	*table_command(t_lexer **lexer)
 		ft_printf("INPUT FILE = %s, OUTPUT FILE = %s\n", tab_cmds -> commands[i].input_file, tab_cmds -> commands[i].output_file);
 		i++;
 	}
+	*/
 	return (tab_cmds);
 	// ft_printf("la commande est : %s\n", tab_cmds -> commands[1].command);
 

@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/30 11:17:03 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/01 14:36:24 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,20 @@ int	main(int argc, char **argv, char **envp)
 		if (data.valid_line == 0)
 		{
 			identify_line(&data, &lexer);
-			tab_cmds = table_command(&lexer);
-			free_lexer(&lexer);
-			executor(tab_cmds, &data, &env);
-			free_table_cmd(tab_cmds);
+			check_lexer(&data, &lexer);
+			if (data.valid_lexer == 0)
+			{
+				free_lexer(&lexer);
+				ft_printf("bash: syntax error near unexpected token\n");
+				data.exit_status = 2;
+			}
+			else
+			{
+				tab_cmds = table_command(&lexer);
+				free_lexer(&lexer);
+				executor(tab_cmds, &data, &env);
+				free_table_cmd(tab_cmds);
+			}
 			free(data.line);
 			free(data.quote_space);
 		}

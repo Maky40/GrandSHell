@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/03/30 10:40:13 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/01 15:46:11 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void execute_command(int i, t_table *tab_cmds, t_data *data, t_env **env)
 {
 	pid_t pid;
 
+	if (tab_cmds->commands[i].command == NULL)
+		return;
 	tab_cmds->commands[i].builtin_process = 0;
     if (tab_cmds->num_commands == 1 &&
 		is_builtin(tab_cmds->commands[i].command) == 0)
