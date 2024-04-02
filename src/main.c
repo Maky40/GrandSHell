@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 11:09:48 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 13:42:25 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void display_prompt (t_data *data)
 		add_history(data->line);
 	check_invalid_line(data);
 }
-
+void	handler_sig_cmd(int signal)
+{
+	if (signal == SIGINT)
+		write(1, "\n", 1);
+}
 void	handler_sig(int signal)
 {
 	if (signal == SIGINT)
@@ -37,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
-
+	
 	(void)argv;
 	lexer = NULL;
 	tab_cmds = NULL;
@@ -68,6 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				tab_cmds = table_command(&lexer);
 				free_lexer(&lexer);
+				signal(SIGINT, handler_sig_cmd);
 				executor(tab_cmds, &data);
 				free_table_cmd(tab_cmds);
 			}
