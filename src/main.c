@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:42:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 15:13:40 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-
 		data.quote_space = NULL;
 		display_prompt(&data);
 		if (data.line == NULL)
@@ -72,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				tab_cmds = table_command(&lexer);
 				free_lexer(&lexer);
-				signal(SIGINT, handler_sig_cmd);
+				//signal(SIGINT, handler_sig_cmd);
 				executor(tab_cmds, &data);
 				free_table_cmd(tab_cmds);
 			}

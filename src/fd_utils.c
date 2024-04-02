@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/03/24 10:42:14 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 15:07:22 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	open_append(t_command *command, int i)
 	int	fd;
 
 	printf("Append file :%s\n", command->fd[i].str);
-	fd = open(command->fd[i].str, O_CREAT | O_RDWR, O_APPEND, 0777);
+	fd = open(command->fd[i].str, O_CREAT | O_RDWR, O_APPEND, 0666);
 	close(fd);
 }
 
@@ -26,7 +26,7 @@ void	open_output(t_command *command, int i)
 	int	fd;
 
 	printf("Output file :%s\n", command->fd[i].str);
-	fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	close(fd);
 }
 
@@ -44,6 +44,7 @@ int	open_input(t_command *command,  int i)
 
 int	open_last(t_command *command, int i)
 {
+	command->fd[i].heredoc_last = 0;
 	if (command->fd[i].token == 2)
 		open_input(command, i);
 	else if ((command->fd[i].token == 3))
@@ -71,7 +72,7 @@ int	open_fd(t_command *command)
 		return (0);
 	while (command->fd[i].last != 1)
 	{
-		command->fd[i].heredoc_last = 1;
+		command->fd[i].heredoc_last = 0;
 		if (command->fd[i].token == 2)
 			open_input(command, i);
 		else if ((command->fd[i].token == 3))

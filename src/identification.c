@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:24:38 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 14:27:15 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,30 +105,39 @@ void	str_operators(t_data *data, int j, int i, t_lexer **lexer)
 		data -> index_line = j;
 	}
 }
-
+void process_other_cases(t_data *data, int j, int i, t_lexer **lexer)
+{
+	if (data->line[j] && search_operators(data->line[j]) == 0)
+	{
+		str_operators(data, j, i, lexer);
+		j = data->index_line;
+		i = j;
+	}
+	if (search_operators(data->line[j]) == 1 && j == 0)
+	{
+		add_node(data, i, j, lexer);
+		j = data->index_line;
+		j++;
+		data->index_line = j;
+	}
+	else if (search_operators(data->line[j]) == 1 && (data->line[j - 1] != '"' || \
+	data->line[j - 1] != 39))
+	{
+		if (data->line[j] == '\0' || data->line[j] == ' ')
+			return ;
+		add_node(data, i, j, lexer);
+		j = data->index_line;
+		j++;
+		data->index_line = j;
+	}
+}
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer)
 {
 	if (data -> line[j] == '"')
 		process_double_quotes(data, &j, i, lexer);
 	if (data -> line[j] == 39)
 		process_single_quotes(data, &j, i, lexer);
-	if (data ->line[j] && search_operators(data ->line[j]) == 0)
-	{
-		str_operators(data, j, i, lexer);
-		j = data -> index_line;
-		i = j;
-	}
-	if (search_operators(data -> line[j]) == 1 && (data -> line[j - 1] != '"' || \
-	data -> line[j - 1] != 39))
-	{
-		if (data -> line[j] == '\0' || data -> line[j] == ' ')
-			return ;
-		add_node(data, i, j, lexer);
-		j = data -> index_line;
-		j++;
-		data -> index_line = j;
-		i = j;
-	}
+	process_other_cases(data, j, i, lexer);
 }
 void	identify_line(t_data *data, t_lexer **lexer)
 {

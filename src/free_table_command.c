@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:45:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 10:08:11 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 15:22:46 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	free_args(char **args)
 void	free_commands(t_command *cmd, int i)
 {
 	free(cmd[i].command);
-	free(cmd[i].input_file);
+	if (cmd[i].input_file != NULL && cmd[i].fd->heredoc_last != 1)
+		free(cmd[i].input_file);
 	free(cmd[i].output_file);
 	if (cmd[i].fd != NULL)
 		free_fd(cmd[i].fd);
