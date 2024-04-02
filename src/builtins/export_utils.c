@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:20:40 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:55:25 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:40:46 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,18 @@ void	ft_error_export2(char *str, t_data *data)
 	ft_printf("%s\n", str);
 	data -> exit_status = 1;
 }
-int		ft_error_export(char *str, t_data *data)
+int		ft_error_export(char *str)
 {
 	if (ft_strlen(str) == 1 && str[0] == '$')
-	{
-		data -> exit_status = 1;
 		return (1);
-	}
 	if (ft_strchr(str, " ") == 1)
-	{
-		data -> exit_status = 1;
 		return (1);
-	}
 	if (ft_isdigit(str[0]) == 1)
-	{
-		data -> exit_status = 1;
 		return (1);
-	}
 	if (ft_strchr(str, "'") == 1)
-	{
-		data -> exit_status = 1;
 		return (1);
-	}
+	if (ft_error_while(str) == 1)
+		return (1);
 	return (0);
 }
 

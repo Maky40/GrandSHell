@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:33:02 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:26:08 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:27:21 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*add_variable(char **tab, char *str, int pos)
 
 	if (find_equal(tab[pos]) == 1)
 	{
-		ft_printf("JE RENTRE DANS FIND EQUAL\n");
 		i = 0;
 		while (str[i] != '=')
 			i++;

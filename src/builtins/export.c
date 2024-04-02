@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 14:56:00 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:41:10 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,11 @@ void	do_export(t_command *cmd, t_data *data)
 		export_simple(data -> env);
 	while (cmd -> arguments[++i])
 	{
-		if (ft_error_export(cmd -> arguments[i], data) == 1)
+		if (ft_error_export(cmd -> arguments[i]) == 1)
+		{
+			ft_error_export2("ERROR", data);
 			return ;
+		}
 		if (find_equal(cmd -> arguments[i]) == 0)
 			add_tab(data, cmd -> arguments[i]);
 		else if (before_equal(cmd -> arguments[i]) != '-' 	&& \

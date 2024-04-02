@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 14:00:11 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:39:35 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,10 @@ char	*variable_without_plus_equal(char *str);
 char	*variable_without_plus(char *str);
 char	*add_variable(char **tab, char *str, int pos);
 void	export_simple(char **tab);
-int		ft_error_export(char *str, t_data *data);
+int		ft_error_export(char *str);
 void	ft_error_export2(char *str, t_data *data);
 void	ft_exit(t_data *data, t_table *cmd);
 void	print_env(t_command *cmd, t_data *data);
 void	check_lexer(t_data *data, t_lexer **lexer);
-
+int		ft_error_while(char *str);
 #endif
