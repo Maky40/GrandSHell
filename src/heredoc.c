@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:25:20 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:17:37 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,26 @@ size_t	len_heredoc_line(char *line)
 	len--;
 	return (len);
 }
+
 int	heredoc_conditions(char	*line, t_command *cmd, int i)
 {
 	size_t	len;
 
 	if (line == NULL)
-		{
-			ft_printf("bash: avertissement : « here-document » close \n");
-			return (1);
-		}
+	{
+		ft_printf("bash: avertissement : « here-document » close \n");
+		return (1);
+	}
 	len = len_heredoc_line(line);
 	if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
-			&& len == ft_strlen(cmd->fd[i].str))
-		{
-			free(line);
-			return (1) ;
-		}
+		&& len == ft_strlen(cmd->fd[i].str))
+	{
+		free(line);
+		return (1);
+	}
 	return (0);
 }
+
 void	heredoc_tmp_fd(t_command *cmd, int i)
 {
 	char		*line;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_simple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:23:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:55:32 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 15:30:49 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ char	*add_line_quote2(char **tab_tmp, int i)
 	new_line[j + 1] = '"';
 	new_line[j + 2] = '\0';
 	free(tab_tmp[i]);
-	return(new_line);
+	return (new_line);
 }
+
 void	add_line_quote(char **tab_tmp)
 {
 	int		i;
@@ -53,6 +54,7 @@ void	add_line_quote(char **tab_tmp)
 		i++;
 	}
 }
+
 void	print_sort_env(char **tab_tmp)
 {
 	char	*swap;
@@ -77,7 +79,6 @@ void	print_sort_env(char **tab_tmp)
 		i++;
 	}
 	add_line_quote(tab_tmp);
-
 }
 
 void	export_simple(char **tab)

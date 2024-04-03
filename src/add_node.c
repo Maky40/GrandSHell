@@ -6,40 +6,11 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 14:17:11 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:20:33 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//test
-t_lexer	*lstlast(t_lexer *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst -> next)
-		lst = lst -> next;
-	return (lst);
-}
-
-void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
-{
-	t_lexer	*last;
-
-	if (!new)
-		return ;
-	if (*lst == NULL)
-	{
-		new -> prev = NULL;
-		new -> next = NULL;
-		*lst = new;
-		return ;
-	}
-	last = lstlast(*lst);
-	last -> next = new;
-	new -> prev = last;
-	new -> next = NULL;
-}
 
 void	identify_type_operators_2(t_data *data, int j, t_lexer *node)
 {
@@ -68,6 +39,7 @@ void	identify_type_operators_2(t_data *data, int j, t_lexer *node)
 			ft_printf("ERROR");
 	}
 }
+
 void	identify_type_operators(t_data *data, int j, t_lexer *node)
 {
 	if (data -> line[j] == '|')
@@ -84,6 +56,7 @@ void	identify_type_operators(t_data *data, int j, t_lexer *node)
 			node -> token = INPUT;
 	}
 }
+
 void	identify_type_command(t_lexer *node)
 {
 	if (node -> token != NUL)
@@ -105,7 +78,6 @@ void	identify_type_command(t_lexer *node)
 void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 {
 	t_lexer	*node;
-	//t_lexer *print;
 	int		k;
 
 	k = 0;
@@ -125,12 +97,4 @@ void	add_node(t_data *data, int i, int j, t_lexer **lexer)
 	identify_type_operators_2(data, j, node);
 	identify_type_command(node);
 	j = data -> index_line;
-	/*
-	print = *lexer;
-	while(print)
-	{
-		ft_printf("str = %s, type = %d\n", print -> str, print -> token);
-		print = print -> next;
-	}
-	*/
 }

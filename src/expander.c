@@ -6,16 +6,16 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/03/20 11:56:46 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:54:22 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-// retourne la valeur de la variable d'environnement
+
 char	*get_env_value(char **envp, char *var_name)
 {
 	if (!envp)
-		return NULL;
+		return (NULL);
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(*envp, var_name, ft_strlen(var_name)) == 0
@@ -25,7 +25,7 @@ char	*get_env_value(char **envp, char *var_name)
 	}
 	return (NULL);
 }
-// calcule la taille du nom de l'expansion pour pouvoir ensuite malloc expander->name qui recevra par exemple USER ou encore PATH.
+
 void	find_expander_len(char *ptr, t_expander *expander)
 {
 	if (ptr[1] > '0' && ptr[1] <= '9')
@@ -38,7 +38,7 @@ void	find_expander_len(char *ptr, t_expander *expander)
 		expander->end++;
 	expander->len = expander->end - expander->start;
 }
-// on copie a l'aide de memcpy le nom de l'expansion et on la traite selon 3 cas differents : variable environnement, chiffres, ou $?
+
 void	get_value(t_data *data, t_lexer *dup, t_expander *expander, char **ptr)
 {
 	expander->name = malloc(sizeof(char *) * (expander->len + 1));
@@ -64,7 +64,7 @@ void	get_value(t_data *data, t_lexer *dup, t_expander *expander, char **ptr)
 	if (expander->name[0] == '?')
 		free(expander->value);
 }
-// check noeud par noeud la valeur de l'expansion ou des expansions
+
 void	expand_variable(t_data *data, t_lexer *dup)
 {
 	char		*ptr;
@@ -73,7 +73,8 @@ void	expand_variable(t_data *data, t_lexer *dup)
 	ptr = dup->str;
 	while (*ptr)
 	{
-		if (*ptr == '$' && (ptr[1] != '\0' && ptr[1] != ' ' && ptr[1] != '.' && ptr[1] != '"'))
+		if (*ptr == '$' && (ptr[1] != '\0' && ptr[1] != ' '
+				&& ptr[1] != '.' && ptr[1] != '"'))
 		{
 			find_expander_len(ptr, &expander);
 			get_value(data, dup, &expander, &ptr);

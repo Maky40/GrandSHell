@@ -6,12 +6,25 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 11:34:29 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:03:31 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	exec_open_output(t_table *tab_cmds, int i)
+{
+	if (tab_cmds->commands->append_last == 1)
+	{
+		return (open(tab_cmds->commands[i].output_file,
+				O_CREAT | O_RDWR | O_APPEND, 0777));
+	}
+	else
+	{
+		return (open(tab_cmds->commands[i].output_file,
+				O_CREAT | O_RDWR | O_TRUNC, 0777));
+	}
+}
 
 void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 {
@@ -34,15 +47,13 @@ void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 		do_export(&tab_cmds->commands[i], data);
 }
 
-
-
 int	is_builtin(char *cmd)
 {
-	int ret;
+	int	ret;
 
 	ret = 1;
 	if (cmd == NULL)
-		return ret;
+		return (ret);
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = 0;
 	else if (ft_strncmp(cmd, "unset", 6) == 0)

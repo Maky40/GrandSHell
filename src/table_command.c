@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 10:03:56 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:00:34 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 {
-	t_lexer *lst2;
+	t_lexer	*lst2;
 	int		j;
 
 	lst2 = lst;
@@ -35,7 +35,6 @@ int	malloc_fd(t_command *cmd, t_lexer *lst, int i)
 	if (j > 0)
 		cmd[i].fd = malloc(sizeof(t_fd) * j);
 	return (j);
-
 }
 
 void	add_input_output(t_command *cmd, t_lexer *lst, int i)
@@ -85,6 +84,7 @@ void	add_args(t_command *cmd, t_lexer *lst, int i)
 	}
 	cmd[i].arguments[j] = NULL;
 }
+
 void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 {
 	int		i;
@@ -102,7 +102,6 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 			add_args(tab_cmds -> commands, lst, i);
 		else
 			tab_cmds->commands[i].arguments = NULL;
-		
 		add_input_output(tab_cmds -> commands, lst, i);
 		i++;
 		lst = lst -> next;
@@ -118,46 +117,14 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 t_table	*table_command(t_lexer **lexer)
 {
 	t_table	*tab_cmds;
-	//int		i;
-	//int		j;
 
-	//i = 0;
 	tab_cmds = malloc(sizeof(t_table));
 	nb_command(tab_cmds, lexer);
 	if (tab_cmds -> num_commands > 0)
 	{
-		tab_cmds -> commands = malloc(sizeof(t_command) * (tab_cmds -> num_commands));
+		tab_cmds->commands = malloc(sizeof(t_command)
+				* (tab_cmds->num_commands));
 		add_commands(tab_cmds, lexer);
 	}
-	/*
-	j = 0;
-	if (tab_cmds -> commands[i].arguments[j])
-	{
-		while (tab_cmds -> commands[i].arguments[j])
-		{
-			ft_printf("args %d = %s\n", j, tab_cmds -> commands[i].arguments[j]);
-			j++;
-		}
-	}
-	while (i < tab_cmds -> num_commands)
-	{
-		j = 0;
-		ft_printf("la commande %d est : %s\n", i, tab_cmds -> commands[i].command);
-		j = 0;
-		if (tab_cmds -> commands[i].fd)
-		{
-			while (tab_cmds -> commands[i].fd[j].last != 1)
-			{
-				ft_printf("Pour fd = %d :\nToken = %d\nSTR = %s\n\n", j, tab_cmds -> commands[i].fd[j].token, tab_cmds -> commands[i].fd[j].str);
-				j++;
-			}
-			ft_printf("Pour fd = %d :\nToken = %d\nSTR = %s\n\n", j, tab_cmds -> commands[i].fd[j].token, tab_cmds -> commands[i].fd[j].str);
-		}
-		ft_printf("INPUT FILE = %s, OUTPUT FILE = %s\n", tab_cmds -> commands[i].input_file, tab_cmds -> commands[i].output_file);
-		i++;
-	}
-	*/
 	return (tab_cmds);
-	// ft_printf("la commande est : %s\n", tab_cmds -> commands[1].command);
-
 }

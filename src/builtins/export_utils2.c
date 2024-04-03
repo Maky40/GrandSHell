@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:33:02 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:27:21 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 15:27:52 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*ft_spe_strjoin(char *s1, char *s2)
 	free(s2);
 	return (new_text);
 }
+
 char	*add_variable(char **tab, char *str, int pos)
 {
 	int		i;
@@ -54,6 +55,7 @@ char	*add_variable(char **tab, char *str, int pos)
 	}
 	return (ft_strdup(str));
 }
+
 char	*variable_without_plus(char *str)
 {
 	int		i;
@@ -79,9 +81,9 @@ char	*variable_without_plus(char *str)
 	i = i - 1;
 	while (++i < len)
 		new_str[i] = str[i + 1];
-	// new_str[i] = '\0';
 	return (new_str);
 }
+
 char	*variable_without_plus_equal(char *str)
 {
 	int		i;

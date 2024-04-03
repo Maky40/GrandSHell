@@ -6,10 +6,9 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 11:33:31 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 16:12:14 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -45,13 +44,13 @@ typedef enum s_tokens
 
 typedef struct s_lexer
 {
-	char	*str;
-	t_tokens token;
-	int	index;
-	int	in_dq;
-	int	in_sq;
-	struct s_lexer *next;
-	struct s_lexer *prev;
+	char			*str;
+	t_tokens		token;
+	int				index;
+	int				in_dq;
+	int				in_sq;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
 }	t_lexer;
 
 typedef struct s_fd
@@ -59,12 +58,12 @@ typedef struct s_fd
 	char		*str;
 	t_tokens	token;
 	int			last;
-	int		heredoc_last;
+	int			heredoc_last;
 }	t_fd;
 
 typedef struct s_command
 {
-	char 	*command;
+	char	*command;
 	char	**arguments;
 	t_fd	*fd;
 	char	*input_file;
@@ -87,8 +86,8 @@ typedef struct s_data
 	int		valid_lexer;
 	int		sh_lvl;
 	int		exit;
-	int 	prev_pipe[2];
-    int 	curr_pipe[2];
+	int		prev_pipe[2];
+	int		curr_pipe[2];
 }	t_data;
 
 typedef struct s_expander
@@ -102,8 +101,8 @@ typedef struct s_expander
 
 typedef struct s_table_command
 {
-	t_command *commands;
-	int num_commands;
+	t_command	*commands;
+	int			num_commands;
 }	t_table;
 
 char	**dup_env(char **envp);
@@ -118,10 +117,10 @@ void	process_single_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	process_double_quotes(t_data *data, int *j, int i, t_lexer **lexer);
 void	check_invalid_line(t_data *data);
 void	expander(t_data *data, t_lexer **lexer);
-void 	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
-void 	new_str(t_lexer *dup, t_expander *expander, char **ptr);
-void 	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
-void 	executor(t_table *tab_cmds, t_data *data);
+void	new_str_null(t_lexer *dup, t_expander *expander, char **ptr);
+void	new_str(t_lexer *dup, t_expander *expander, char **ptr);
+void	new_str_number(t_lexer *dup, t_expander *expander, char **ptr);
+void	executor(t_table *tab_cmds, t_data *data);
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len);
 void	set_input_output(t_command *cmd, int i, int len);
 void	nb_command(t_table *tab_cmds, t_lexer **lexer);
@@ -131,22 +130,23 @@ void	heredoc_tmp_fd(t_command *cmd, int i);
 int		search_operators(char c);
 int		verify_line(t_lexer **lexer);
 int		check_command(char *str, char *cmd);
-void 	start_execute(t_data *data, t_table *tab_cmds, int i);
+void	start_execute(t_data *data, t_table *tab_cmds, int i);
 void	free_table_cmd(t_table *tab_cmd);
 void	free_data(t_data *data);
 void	built_in_execute(t_table *tab_cmds, t_data *data, int i);
-void 	purge_quotes(t_data *data, t_lexer **lexer);
+void	purge_quotes(t_data *data, t_lexer **lexer);
 void	builtin_pwd(t_command *cmd, t_data *data);
-void 	builtin_cd(t_command *cmd, t_data *data);
+void	builtin_cd(t_command *cmd, t_data *data);
 void	builtin_echo(t_command *cmd, t_data *data);
 void	free_builtin_process(t_table *tab_cmds, t_data *data);
+void	skip_whitespace(t_data *data, char *str, int j);
 void	free_commands(t_command *cmd, int i);
 void	free_data_end(t_data *data);
 int		search_operators(char c);
 int		is_builtin(char *cmd);
-int 	open_fd(t_command *command);
-int 	exec_open_output(t_table *tab_cmds, int i);
-int 	check_command(char *str, char *cmd);
+int		open_fd(t_command *command);
+int		exec_open_output(t_table *tab_cmds, int i);
+int		check_command(char *str, char *cmd);
 int		single_process(char *cmd);
 t_table	*table_command(t_lexer **lexer);
 void	env_init(char **envp);

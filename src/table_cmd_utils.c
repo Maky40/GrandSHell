@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/03/22 11:25:27 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:03:25 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	set_input_output(t_command *cmd, int i, int len)
 	cmd[i].output_file = NULL;
 	if (len > 0)
 	{
-		while(j < len)
+		while (j < len)
 		{
-			if (cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT || cmd[i].fd[j].token == APPEND)
+			if (cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT
+				|| cmd[i].fd[j].token == APPEND)
 			{
 				if (cmd[i].fd[j].token == INPUT)
 					cmd[i].input_file = ft_strdup(cmd[i].fd[j].str);
@@ -32,8 +33,6 @@ void	set_input_output(t_command *cmd, int i, int len)
 				if (cmd[i].fd[j].token == APPEND)
 					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
 			}
-			//if (j == len - 1 && cmd[i].fd[j].token == HEREDOC)
-				//cmd -> heredoc_last = 1;
 			j++;
 		}
 	}
@@ -41,7 +40,7 @@ void	set_input_output(t_command *cmd, int i, int len)
 
 void	add_fd(t_command *cmd, t_lexer *lst, int i, int len)
 {
-	t_lexer *lst2;
+	t_lexer	*lst2;
 	int		j;
 
 	j = 0;
@@ -50,7 +49,8 @@ void	add_fd(t_command *cmd, t_lexer *lst, int i, int len)
 	{
 		cmd[i].fd[j].str = NULL;
 		cmd[i].fd[j].token = NUL;
-		if (lst2 -> token == INPUT || lst2 -> token == OUTPUT || lst2 -> token == HEREDOC || lst2 -> token == APPEND)
+		if (lst2 -> token == INPUT || lst2 -> token == OUTPUT
+			|| lst2 -> token == HEREDOC || lst2 -> token == APPEND)
 		{
 			cmd[i].fd[j].last = 0;
 			cmd[i].fd[j].token = lst2 -> token;
@@ -88,7 +88,7 @@ void	nb_command(t_table *tab_cmds, t_lexer **lexer)
 
 	i = 1;
 	lst = *lexer;
-	while(lst)
+	while (lst)
 	{
 		if (lst -> token == PIPE)
 			i++;

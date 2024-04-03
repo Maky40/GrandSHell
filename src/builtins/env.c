@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:44:35 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 09:40:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:31:42 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	print_env(t_command *cmd, t_data *data)
 {
-	int i;
+	int	i;
 
-	i = 0; 
+	i = 0;
 	while (cmd->arguments[i] && i < 2)
 		i++;
 	if (i > 2)
@@ -26,7 +26,7 @@ void	print_env(t_command *cmd, t_data *data)
 		return ;
 	}
 	i = 0;
-	while(data->env[i])
+	while (data->env[i])
 	{
 		printf("%s\n", data->env[i]);
 		i++;

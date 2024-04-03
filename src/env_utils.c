@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:48:46 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 15:04:31 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	free_dup_env(char **dup_env)
 	return ;
 }
 
-
 void	free_data(t_data *data)
 {
 	free(data -> line);
@@ -35,7 +34,8 @@ void	free_data(t_data *data)
 		free(data -> quote_space);
 	free_dup_env(data -> env);
 }
-char 	**dup_env(char **envp)
+
+char	**dup_env(char **envp)
 {
 	int		i;
 	char	**env_dup;

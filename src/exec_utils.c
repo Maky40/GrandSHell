@@ -6,25 +6,11 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:37:56 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 11:52:36 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:03:54 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	exec_open_output(t_table *tab_cmds, int i)
-{
-	if (tab_cmds->commands->append_last == 1)
-	{
-		return (open(tab_cmds->commands[i].output_file,
-				O_CREAT | O_RDWR | O_APPEND, 0777));
-	}
-	else
-	{
-		return (open(tab_cmds->commands[i].output_file,
-				O_CREAT | O_RDWR | O_TRUNC, 0777));
-	}
-}
 
 char	*find_command_path(char *cmd, char **paths)
 {
@@ -56,7 +42,6 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
-
 void	*find_path(char *cmd, char **env)
 {
 	char	**paths;
@@ -71,7 +56,7 @@ void	*find_path(char *cmd, char **env)
 		if (ft_strnstr(env[i], "PATH", 4) != NULL)
 		{
 			bool = 1;
-			break;
+			break ;
 		}
 	}
 	if (bool == 1)
@@ -79,7 +64,7 @@ void	*find_path(char *cmd, char **env)
 		paths = ft_split(env[i] + 5, ':');
 		path = find_command_path(cmd, paths);
 		free_paths(paths);
-		return (path);	
+		return (path);
 	}
 	else
 		path = NULL;

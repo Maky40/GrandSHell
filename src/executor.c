@@ -6,12 +6,11 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 11:18:26 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:01:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 void	file_redirect(t_table *tab_cmds, int i)
 {
@@ -55,32 +54,32 @@ void	redirect_pipes(int i, int num_commands, t_data *data)
 	}
 }
 
-void execute_command(int i, t_table *tab_cmds, t_data *data)
+void	execute_command(int i, t_table *tab_cmds, t_data *data)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	if (tab_cmds->commands[i].command == NULL)
-		return;
+		return ;
 	tab_cmds->commands[i].builtin_process = 0;
-    if (tab_cmds->num_commands == 1 &&
-		is_builtin(tab_cmds->commands[i].command) == 0)
-    {
-        redirect_pipes(i, tab_cmds->num_commands, data);
-        file_redirect(tab_cmds, i);
-        start_execute(data, tab_cmds, i);
-    }
-    else
-    {
+	if (tab_cmds->num_commands == 1
+		&& is_builtin(tab_cmds->commands[i].command) == 0)
+	{
+		redirect_pipes(i, tab_cmds->num_commands, data);
+		file_redirect(tab_cmds, i);
+		start_execute(data, tab_cmds, i);
+	}
+	else
+	{
 		tab_cmds->commands[i].builtin_process = 1;
 		pid = fork();
-        if (pid == 0)
-        {
-            redirect_pipes(i, tab_cmds->num_commands, data);
-            file_redirect(tab_cmds, i);
-            start_execute(data, tab_cmds, i);
-            exit(EXIT_SUCCESS);
-        }
-    }
+		if (pid == 0)
+		{
+			redirect_pipes(i, tab_cmds->num_commands, data);
+			file_redirect(tab_cmds, i);
+			start_execute(data, tab_cmds, i);
+			exit(EXIT_SUCCESS);
+		}
+	}
 }
 
 void	executor(t_table *tab_cmds, t_data *data)
@@ -103,8 +102,8 @@ void	executor(t_table *tab_cmds, t_data *data)
 	while (++i < tab_cmds->num_commands)
 	{
 		wait(&status);
-		if (WIFEXITED(status) &&
-			!(is_builtin(tab_cmds->commands[i].command) == 0))
+		if (WIFEXITED(status)
+			&& !(is_builtin(tab_cmds->commands[i].command) == 0))
 			data->exit_status = WEXITSTATUS(status);
 	}
 }

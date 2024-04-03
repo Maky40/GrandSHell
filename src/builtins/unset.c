@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:41:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 10:49:21 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:25:34 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	**remove_variable(char **env, int j)
 {
 	int	len;
 	int	k;
-	
-	len = 0; 
+
+	len = 0;
 	while (env[len])
 		len++;
 	free(env[j]);
@@ -30,6 +30,7 @@ char	**remove_variable(char **env, int j)
 	env[len - 1] = NULL;
 	return (env);
 }
+
 void	find_and_remove(char **env, char *arguments)
 {
 	int	j;
@@ -50,7 +51,7 @@ void	find_and_remove(char **env, char *arguments)
 void	do_unset(t_command *cmd, t_data *data)
 {
 	int	i;
-	
+
 	i = 1;
 	while (cmd -> arguments[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 15:07:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:52:20 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	open_output(t_command *command, int i)
 	close(fd);
 }
 
-int	open_input(t_command *command,  int i)
+int	open_input(t_command *command, int i)
 {
 	int	fd;
 

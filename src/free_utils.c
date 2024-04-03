@@ -6,13 +6,11 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 11:28:48 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:51:06 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 void	free_builtin_process(t_table *tab_cmds, t_data *data)
 {
