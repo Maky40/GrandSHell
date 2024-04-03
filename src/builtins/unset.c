@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:41:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 10:34:16 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 10:49:21 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	find_and_remove(char **env, char *arguments)
 		if (ft_strncmp(arguments, env[j], ft_strlen(arguments)) == 0 \
 		&& arguments[0] != '_')
 		{
-			printf("je remove la variable\n");
 			env = remove_variable(env, j);
 			return ;
 		}

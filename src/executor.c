@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 11:09:05 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 11:18:26 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	executor(t_table *tab_cmds, t_data *data)
 	while (++i < tab_cmds->num_commands)
 	{
 		wait(&status);
-		if (WIFEXITED(status) && !(is_builtin(tab_cmds->commands[i].command) == 0))
+		if (WIFEXITED(status) &&
+			!(is_builtin(tab_cmds->commands[i].command) == 0))
 			data->exit_status = WEXITSTATUS(status);
 	}
 }

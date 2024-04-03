@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:13:40 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 11:34:01 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
 	data.exit_status = 0;
+	data.sh_lvl = 1;
+	data.exit = 0;
 	signal(SIGINT, handler_sig);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

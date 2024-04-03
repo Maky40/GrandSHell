@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:39:35 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 11:33:31 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,10 @@ typedef struct s_data
 	int		*quote_space;
 	int		valid_line;
 	int		valid_lexer;
-	int prev_pipe[2];
-    int curr_pipe[2];
+	int		sh_lvl;
+	int		exit;
+	int 	prev_pipe[2];
+    int 	curr_pipe[2];
 }	t_data;
 
 typedef struct s_expander
@@ -105,6 +107,7 @@ typedef struct s_table_command
 }	t_table;
 
 char	**dup_env(char **envp);
+char	**remove_variable(char **env, int j);
 char	*ft_strdup_mshell(char *s);
 char	*get_env_value(char **envp, char *var_name);
 void	free_dup_env(char **dup_env);
@@ -160,10 +163,12 @@ char	*variable_without_plus_equal(char *str);
 char	*variable_without_plus(char *str);
 char	*add_variable(char **tab, char *str, int pos);
 void	export_simple(char **tab);
+void	sh_lvl_inc(t_data *data);
 int		ft_error_export(char *str);
 void	ft_error_export2(char *str, t_data *data);
 void	ft_exit(t_data *data, t_table *cmd);
 void	print_env(t_command *cmd, t_data *data);
 void	check_lexer(t_data *data, t_lexer **lexer);
+void	create_variable(t_data *data, char *str, int j);
 int		ft_error_while(char *str);
 #endif
