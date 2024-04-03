@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 13:42:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/02 23:34:11 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void display_prompt (t_data *data)
 {
-	
+
 	data->valid_line = 0;
 	data->line = readline("minishell> ");
 	if (data->line && *data->line)
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_lexer	*lexer;
 	t_table	*tab_cmds;
-	
+
 	(void)argv;
 	lexer = NULL;
 	tab_cmds = NULL;
@@ -49,11 +49,10 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
 	data.exit_status = 0;
-	signal(SIGINT, handler_sig);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-
+		signal(SIGINT, handler_sig);
+		signal(SIGQUIT, SIG_IGN);
 		data.quote_space = NULL;
 		display_prompt(&data);
 		if (data.line == NULL)
