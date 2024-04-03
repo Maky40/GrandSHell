@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 10:07:10 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 10:11:57 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,6 @@ int	ft_strchr_heredoc(char *str, char *cmp)
 	return (0);
 }
 
-size_t	len_heredoc_line(char *line)
-{
-	size_t	len;
-
-	len = 0;
-	while (line[len] != '\0')
-	{
-		len++;
-	}
-	return (len);
-}
 int	heredoc_conditions(char	*line, t_command *cmd, int i)
 {
 	size_t	len;
@@ -64,7 +53,7 @@ int	heredoc_conditions(char	*line, t_command *cmd, int i)
 			ft_printf("bash: avertissement : « here-document » close \n");
 			return (1);
 		}
-	len = len_heredoc_line(line);
+	len = ft_strlen(line);
 	if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
 			&& len == ft_strlen(cmd->fd[i].str))
 		{
