@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 12:53:46 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 17:18:10 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strchr_heredoc(char *str, char *cmp)
 
 	i = 0;
 	y = 0;
-	if (cmp[y] == '\0' && str[i] == '\n')
+	if (cmp[y] == '\0' && str[i] == '\0')
 		return (1);
 	while (str[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 09:56:06 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 19:21:24 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,7 @@ void	print_env(t_command *cmd, t_data *data);
 void	check_lexer(t_data *data, t_lexer **lexer);
 int		ft_error_while(char *str);
 char	*ft_spe_strjoin(char *s1, char *s2);
+void	maj_shlvl(t_data *data, char **envp);
+void	create_variable(t_data *data, char *str, int j);
+int		ft_alldigit(char *str);
 #endif

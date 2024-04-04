@@ -6,11 +6,13 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 23:34:11 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 21:50:34 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	g_signal;
 
 void display_prompt (t_data *data)
 {
@@ -24,7 +26,10 @@ void display_prompt (t_data *data)
 void	handler_sig_cmd(int signal)
 {
 	if (signal == SIGINT)
+	{
 		write(1, "\n", 1);
+		g_signal = 130;
+	}
 }
 void	handler_sig(int signal)
 {
@@ -34,6 +39,7 @@ void	handler_sig(int signal)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_signal = 130;
 	}
 }
 int	main(int argc, char **argv, char **envp)
@@ -48,9 +54,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
 	data.env = dup_env(envp);
+	maj_shlvl(&data, envp);
 	data.exit_status = 0;
 	while (1)
 	{
+		g_signal = -1;
 		signal(SIGINT, handler_sig);
 		signal(SIGQUIT, SIG_IGN);
 		data.quote_space = NULL;

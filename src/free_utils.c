@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:28:18 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 11:28:48 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 16:09:37 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
+void	free_data(t_data *data)
+{
+	free(data -> line);
+	if (data->quote_space)
+		free(data -> quote_space);
+	free_dup_env(data -> env);
+}
 
 void	free_builtin_process(t_table *tab_cmds, t_data *data)
 {
