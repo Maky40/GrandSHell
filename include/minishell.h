@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 15:46:55 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 15:47:59 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char	*ft_strdup_mshell(char *s);
 char	*get_env_value(char **envp, char *var_name);
 char	*new_oldpwd(char **env, int pos_pwd);
 char	*new_pwd(char *pwd, char *cwd);
+char	*get_exit_status(t_data *data);
 void	maj_export_pwd(t_data *data);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);

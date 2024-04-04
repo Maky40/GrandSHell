@@ -6,11 +6,24 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:59:50 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 15:03:08 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 15:45:28 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern int g_signal;
+
+char	*get_exit_status(t_data *data)
+{
+	char  *ret; 
+	
+	if (g_signal != -1)
+		ret = ft_itoa(130);
+	else
+		ret = ft_itoa(data->exit_status);
+	return (ret);
+}
 
 void	free_and_null(t_lexer *dup)
 {

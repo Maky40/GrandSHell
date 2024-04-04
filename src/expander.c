@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 15:02:45 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 15:44:40 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	get_value(t_data *data, t_lexer *dup, t_expander *expander, char **ptr)
 		expander->name[expander->len] = '\0';
 	}
 	if (expander->name[0] == '?')
-		expander->value = ft_itoa(data->exit_status);
+		expander->value = get_exit_status(data);
 	else if (expander->name[0] > '0' && expander->name[0] <= '9')
 		expander->value = expander->name;
 	else
