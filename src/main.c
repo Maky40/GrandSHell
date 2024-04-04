@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 14:18:05 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 15:56:23 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,28 @@ void	handler_sig(int signal)
 	}
 }
 
+void	do_data_line_ok(t_data *data, t_lexer **lexer, t_table *tab_cmds)
+{
+	identify_line(data, lexer);
+	check_lexer(data, lexer);
+	if (data -> valid_lexer == 0)
+	{
+		free_lexer(lexer);
+		ft_printf("bash: syntax error near unexpected token\n");
+		data -> exit_status = 2;
+	}
+	else
+	{
+		tab_cmds = table_command(lexer);
+		free_lexer(lexer);
+		signal(SIGINT, handler_sig_cmd);
+		executor(tab_cmds, data);
+		free_table_cmd(tab_cmds);
+	}
+	free(data -> line);
+	free(data -> quote_space);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -69,25 +91,6 @@ int	main(int argc, char **argv, char **envp)
 		if (data.line == NULL)
 			ft_exit(&data, tab_cmds);
 		if (data.valid_line == 0)
-		{
-			identify_line(&data, &lexer);
-			check_lexer(&data, &lexer);
-			if (data.valid_lexer == 0)
-			{
-				free_lexer(&lexer);
-				ft_printf("bash: syntax error near unexpected token\n");
-				data.exit_status = 2;
-			}
-			else
-			{
-				tab_cmds = table_command(&lexer);
-				free_lexer(&lexer);
-				signal(SIGINT, handler_sig_cmd);
-				executor(tab_cmds, &data);
-				free_table_cmd(tab_cmds);
-			}
-			free(data.line);
-			free(data.quote_space);
-		}
+			do_data_line_ok(&data, &lexer, tab_cmds);
 	}
 }

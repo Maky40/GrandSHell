@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:59:50 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 15:45:28 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 15:57:36 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern int g_signal;
+extern int	g_signal;
 
 char	*get_exit_status(t_data *data)
 {
-	char  *ret; 
-	
+	char	*ret;
+
 	if (g_signal != -1)
 		ret = ft_itoa(130);
 	else
