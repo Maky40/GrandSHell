@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 10:04:51 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 16:21:03 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,14 @@ void	execute_command(int i, t_table *tab_cmds, t_data *data)
 	if (tab_cmds->commands[i].command == NULL)
 		return ;
 	tab_cmds->commands[i].builtin_process = 0;
-	if (tab_cmds->num_commands == 1
-		&& is_builtin(tab_cmds->commands[i].command) == 0)
+	tab_cmds->commands[i].builtin_process = 1;
+	pid = fork();
+	if (pid == 0)
 	{
 		redirect_pipes(i, tab_cmds->num_commands, data);
 		file_redirect(tab_cmds, i);
 		start_execute(data, tab_cmds, i);
-	}
-	else
-	{
-		tab_cmds->commands[i].builtin_process = 1;
-		pid = fork();
-		if (pid == 0)
-		{
-			redirect_pipes(i, tab_cmds->num_commands, data);
-			file_redirect(tab_cmds, i);
-			start_execute(data, tab_cmds, i);
-			exit(EXIT_SUCCESS);
-		}
+		exit(EXIT_SUCCESS);
 	}
 }
 
