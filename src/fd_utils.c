@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: xberger <xberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 14:52:20 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 13:34:51 by xberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_last(t_command *command, int i)
 	command->fd[i].heredoc_last = 0;
 	if (command->fd[i].token == 2)
 		open_input(command, i);
-	else if ((command->fd[i].token == 3))
+	else if (command->fd[i].token == 3)
 		open_output(command, i);
 	else if (command->fd[i].token == 4)
 	{
@@ -75,7 +75,7 @@ int	open_fd(t_command *command)
 		command->fd[i].heredoc_last = 0;
 		if (command->fd[i].token == 2)
 			open_input(command, i);
-		else if ((command->fd[i].token == 3))
+		else if (command->fd[i].token == 3)
 			open_output(command, i);
 		else if (command->fd[i].token == 4)
 			open_append(command, i);
