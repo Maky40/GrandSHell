@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:20:40 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 15:40:46 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/03 15:30:07 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	ft_error_export2(char *str, t_data *data)
 	ft_printf("%s\n", str);
 	data -> exit_status = 1;
 }
-int		ft_error_export(char *str)
+
+int	ft_error_export(char *str)
 {
 	if (ft_strlen(str) == 1 && str[0] == '$')
 		return (1);
@@ -32,7 +33,7 @@ int		ft_error_export(char *str)
 	return (0);
 }
 
-int		find_equal(char *str)
+int	find_equal(char *str)
 {
 	int	i;
 
@@ -54,8 +55,9 @@ int	search_variable(char **tab, char *variable)
 	while (tab[i])
 	{
 		if ((ft_strncmp(variable, tab[i], ft_strlen(variable)) == 0) && \
-		(tab[i][ft_strlen(variable)] == '=' || tab[i][ft_strlen(variable)] == '\0'))
-				return (i);
+			(tab[i][ft_strlen(variable)] == '='
+			|| tab[i][ft_strlen(variable)] == '\0'))
+			return (i);
 		i++;
 	}
 	return (-1);

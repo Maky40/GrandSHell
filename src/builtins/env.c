@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:44:35 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 19:44:13 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:04:53 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_env2(char *str)
 
 void	print_env(t_command *cmd, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd->arguments[i] && i < 2)
@@ -73,7 +73,7 @@ void	print_env(t_command *cmd, t_data *data)
 		return ;
 	}
 	i = 0;
-	while(data->env[i])
+	while (data->env[i])
 	{
 		print_env2(data -> env[i]);
 		i++;

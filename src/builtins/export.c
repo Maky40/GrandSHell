@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:21:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 20:00:49 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:04:52 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	create_variable(t_data *data, char *str, int j)
 	free_dup_env(data -> env);
 	data -> env = new_tab;
 }
+
 void	add_tab_plus_equal(t_data *data, char *str)
 {
 	char	*str_search;
@@ -168,7 +169,7 @@ void	do_export(t_command *cmd, t_data *data)
 		}
 		if (find_equal(cmd -> arguments[i]) == 0)
 			add_tab(data, cmd -> arguments[i]);
-		else if (before_equal(cmd -> arguments[i]) != '-' 	&& \
+		else if (before_equal(cmd -> arguments[i]) != '-' && \
 		before_equal(cmd -> arguments[i]) != '+')
 			add_tab_equal(data, cmd -> arguments[i]);
 		else if (before_equal(cmd -> arguments[i]) == '-')

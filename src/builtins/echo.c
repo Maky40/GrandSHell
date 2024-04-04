@@ -6,21 +6,21 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:52:55 by xav               #+#    #+#             */
-/*   Updated: 2024/03/26 17:42:01 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 15:35:42 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int check_option(t_command *cmd)
+int	check_option(t_command *cmd)
 {
-	int i; 
+	int	i;
 
 	i = 0;
 	while (cmd->arguments[1][i])
 	{
 		if (cmd->arguments[1][i] == '-')
-			i++; 
+			i++;
 		else
 			return (1);
 		while (cmd->arguments[1][i] == 'n' && cmd->arguments[1][i])
@@ -29,14 +29,14 @@ int check_option(t_command *cmd)
 				i++;
 			else
 				return (1);
-		}	
+		}
 	}
 	return (0);
 }
 
-int skip_option(t_command *cmd, int i)
+int	skip_option(t_command *cmd, int i)
 {
-	int j; 
+	int	j;
 
 	while (cmd->arguments[i])
 	{
@@ -44,43 +44,42 @@ int skip_option(t_command *cmd, int i)
 		if (cmd->arguments[i][j] == '-')
 			j++;
 		else
-			break;
+			break ;
 		while (cmd->arguments[i][j])
 		{
 			if (cmd->arguments[i][j] == 'n' && cmd->arguments[i][j])
 				j++;
 			else
-				break;
+				break ;
 		}
 		i++;
 	}
 	return (i);
 }
 
-
 int	echo_quotes(t_command *cmd, int i)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
-	if (ft_strncmp(cmd->arguments[i], "\"\"", 3) == 0 
+	if (ft_strncmp(cmd->arguments[i], "\"\"", 3) == 0
 		|| ft_strncmp(cmd->arguments[i], "\'\'", 3) == 0)
 	{
 		if (cmd->arguments[i + 1] == NULL)
 			ret = 1;
 		else
 			printf(" ");
-		}
-		else
-			ft_printf("%s", cmd->arguments[i]);
+	}
+	else
+		ft_printf("%s", cmd->arguments[i]);
 	return (ret);
 }
 
 void	builtin_echo(t_command *cmd, t_data *data)
 {
-	int i;
-	int option;
-	
+	int	i;
+	int	option;
+
 	i = 1;
 	option = 0;
 	while (cmd->arguments[i])
@@ -90,10 +89,10 @@ void	builtin_echo(t_command *cmd, t_data *data)
 			option = 1;
 			i = skip_option(cmd, i);
 			if (cmd->arguments[i] == NULL)
-				break;
+				break ;
 		}
 		if (echo_quotes(cmd, i) == 1)
-			break;
+			break ;
 		if (cmd->arguments[i + 1] != NULL)
 			ft_printf(" ");
 		i++;

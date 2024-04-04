@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 17:18:10 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:03:06 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int	heredoc_conditions(char	*line, t_command *cmd, int i)
 		}
 	len = ft_strlen(line);
 	if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
-			&& len == ft_strlen(cmd->fd[i].str))
-		{
-			free(line);
-			return (1) ;
-		}
+		&& len == ft_strlen(cmd->fd[i].str))
+	{
+		free(line);
+		return (1);
+	}
 	return (0);
 }
+
 void	heredoc_tmp_fd(t_command *cmd, int i)
 {
 	char		*line;

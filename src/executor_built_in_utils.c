@@ -6,12 +6,25 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/04/02 23:33:19 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:04:51 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	exec_open_output(t_table *tab_cmds, int i)
+{
+	if (tab_cmds->commands->append_last == 1)
+	{
+		return (open(tab_cmds->commands[i].output_file,
+				O_CREAT | O_RDWR | O_APPEND, 0777));
+	}
+	else
+	{
+		return (open(tab_cmds->commands[i].output_file,
+				O_CREAT | O_RDWR | O_TRUNC, 0777));
+	}
+}
 
 void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 {
@@ -22,7 +35,10 @@ void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 	else if (ft_strncmp(tab_cmds->commands[i].command, "cd", 3) == 0)
 		builtin_cd(&tab_cmds->commands[i], data);
 	else if (ft_strncmp(tab_cmds->commands[i].command, "exit", 5) == 0)
+	{
+		data->exit = 1;
 		ft_exit(data, tab_cmds);
+	}
 	else if (ft_strncmp(tab_cmds->commands[i].command, "pwd", 4) == 0)
 		builtin_pwd(&tab_cmds->commands[i], data);
 	else if (ft_strncmp(tab_cmds->commands[i].command, "env", 3) == 0)
@@ -31,15 +47,13 @@ void	built_in_execute(t_table *tab_cmds, t_data *data, int i)
 		do_export(&tab_cmds->commands[i], data);
 }
 
-
-
 int	is_builtin(char *cmd)
 {
-	int ret;
+	int	ret;
 
 	ret = 1;
 	if (cmd == NULL)
-		return ret;
+		return (ret);
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = 0;
 	else if (ft_strncmp(cmd, "unset", 6) == 0)

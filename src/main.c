@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 21:50:34 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:04:30 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	g_signal;
 
 void display_prompt (t_data *data)
 {
-
 	data->valid_line = 0;
 	data->line = readline("minishell> ");
 	if (data->line && *data->line)
@@ -49,13 +48,14 @@ int	main(int argc, char **argv, char **envp)
 	t_table	*tab_cmds;
 
 	(void)argv;
-	lexer = NULL;
-	tab_cmds = NULL;
 	if (argc != 1)
 		return (ft_printf("Error, no argument needed\n"),1);
+	lexer = NULL;
+	tab_cmds = NULL;
 	data.env = dup_env(envp);
 	maj_shlvl(&data, envp);
 	data.exit_status = 0;
+	data.exit = 0;
 	while (1)
 	{
 		g_signal = -1;

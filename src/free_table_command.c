@@ -6,7 +6,7 @@
 /*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:45:48 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/02 16:26:25 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:04:50 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_fd(t_fd *fd)
 	free(fd[i].str);
 	free(fd);
 	fd = NULL;
-
 }
 
 void	free_args(char **args)
@@ -45,7 +44,8 @@ void	free_args(char **args)
 void	free_commands(t_command *cmd, int i)
 {
 	free(cmd[i].command);
-	// free(cmd[i].input_file);
+	if (cmd[i].input_file != NULL && cmd[i].fd->heredoc_last != 1)
+		free(cmd[i].input_file);
 	free(cmd[i].output_file);
 	if (cmd[i].fd != NULL)
 		free_fd(cmd[i].fd);

@@ -6,13 +6,13 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:29:25 by xav               #+#    #+#             */
-/*   Updated: 2024/03/04 10:32:57 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 14:13:04 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		*add_quote_space(t_data *data, int j)
+int	*add_quote_space(t_data *data, int j)
 {
 	int	i;
 	int	*new;
@@ -38,9 +38,9 @@ int		*add_quote_space(t_data *data, int j)
 	}
 	return (new);
 }
+
 void	skip_whitespace(t_data *data, char *str, int j)
 {
-
 	while ((str[j] >= 7 && str[j] <= 13) || str[j] == ' ')
 		j++;
 	data -> index_line = j;
@@ -49,7 +49,7 @@ void	skip_whitespace(t_data *data, char *str, int j)
 	return ;
 }
 
-int		search_operators(char c)
+int	search_operators(char c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == '&' || c == ' ' || c == '\0')
 		return (1);
