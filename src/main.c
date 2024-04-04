@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 10:44:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 13:11:33 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	lexer = NULL;
 	tab_cmds = NULL;
 	data.env = dup_env(envp);
-	maj_shlvl(&data, envp);
+	//maj_shlvl(&data, envp);
 	data.exit_status = 0;
 	data.exit = 0;
 	while (1)

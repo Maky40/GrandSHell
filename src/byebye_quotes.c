@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:40:45 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 15:13:07 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 13:18:41 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,10 @@ void	purge_quotes(t_data *data, t_lexer **lexer)
 	dup = *lexer;
 	while (dup)
 	{
-		dup->in_dq = 0;
-		dup->in_sq = 0;
+		if (dup->str == NULL)
+			dup = dup->next;
+		if (dup == NULL)
+			break ;
 		while (((dup->str[0] == '"' && dup->str[1] == '"')
 				|| (dup->str[0] == '\'' && dup->str[1] == '\''))
 			&& dup->next != NULL)
