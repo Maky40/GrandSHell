@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 16:16:51 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/03 16:30:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void display_prompt (t_data *data)
 {
-	
 	data->valid_line = 0;
 	data->line = readline("minishell> ");
 	if (data->line && *data->line)
