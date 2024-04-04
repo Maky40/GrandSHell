@@ -25,7 +25,8 @@ GNL_LIB	=	$(addprefix $(GNL_PATH), $(GNL_FILE))
 C_FILE		=	main.c identification.c add_node.c quotes_utils.c check_line.c expander.c expander_utils.c executor.c table_cmd_utils.c \
 				table_command.c fd_utils.c free_table_command.c executor_built_in_utils.c byebye_quotes.c env_utils.c heredoc.c builtins/export.c \
 				exec_utils.c builtins/pwd.c builtins/echo.c builtins/cd.c free_utils.c  builtins/export_utils.c builtins/export_simple.c \
-				builtins/export_utils2.c builtins/unset.c builtins/add_exit_env.c builtins/env.c valid_lexer.c id_utils.c
+				builtins/export_utils2.c builtins/unset.c builtins/add_exit_env.c builtins/env.c valid_lexer.c id_utils.c \
+				builtins/cd_utils.c env_utils2.c add_node_utils.c builtins/export_utils3.c
 
 SRC_DIR		=	./src/
 

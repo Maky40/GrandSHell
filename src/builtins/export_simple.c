@@ -3,37 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export_simple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 22:23:55 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 10:04:53 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 11:06:38 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	modif_shlvl2(char **tab_tmp, int i, char *str_search)
+void	modif_shlvl(char **tab_tmp)
 {
-	int		j;
-	int		num;
-	char	*new_str;
-
-	j = 0;
-	while ((tab_tmp[i][j] < '0' || tab_tmp[i][j] > '9') && tab_tmp[i][j])
-			j++;
-	if (tab_tmp[i][j] == '\0')
-		return ;
-	num = ft_atoi((tab_tmp[i] + j)) - 1;
-	new_str = ft_itoa(num);
-	new_str = ft_spe_strjoin(str_search, new_str);
-	free(tab_tmp[i]);
-	tab_tmp[i] = ft_strdup(new_str);
-	free(new_str);
-}
-
-void modif_shlvl(char **tab_tmp)
-{
-	int	i;
+	int		i;
 	char	*str_search;
 
 	i = 0;
@@ -48,12 +29,13 @@ void modif_shlvl(char **tab_tmp)
 	while (tab_tmp[i])
 	{
 		if (ft_strncmp(str_search, tab_tmp[i], ft_strlen(str_search)) == 0 && \
-		ft_strlen(tab_tmp[i]) > 6  && ft_alldigit(tab_tmp[i] + 6) == 1)
+		ft_strlen(tab_tmp[i]) > 6 && ft_alldigit(tab_tmp[i] + 6) == 1)
 			modif_shlvl2(tab_tmp, i, str_search);
 		i++;
 	}
 	free(str_search);
 }
+
 char	*add_line_quote2(char **tab_tmp, int i)
 {
 	char	*new_line;

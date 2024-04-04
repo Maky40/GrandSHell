@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:52:36 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 10:03:06 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:40:28 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handler_heredoc(int signal)
 		rl_redisplay();
 	}
 }
+
 int	ft_strchr_heredoc(char *str, char *cmp)
 {
 	int		i;
@@ -49,10 +50,10 @@ int	heredoc_conditions(char	*line, t_command *cmd, int i)
 	size_t	len;
 
 	if (line == NULL)
-		{
-			ft_printf("bash: avertissement : « here-document » close \n");
-			return (1);
-		}
+	{
+		ft_printf("bash: avertissement : « here-document » close \n");
+		return (1);
+	}
 	len = ft_strlen(line);
 	if (ft_strchr_heredoc(line, cmd->fd[i].str) == 1
 		&& len == ft_strlen(cmd->fd[i].str))

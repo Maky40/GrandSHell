@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 10:04:42 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 11:09:44 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ char	**dup_env(char **envp);
 char	**remove_variable(char **env, int j);
 char	*ft_strdup_mshell(char *s);
 char	*get_env_value(char **envp, char *var_name);
+char	*new_oldpwd(char **env, int pos_pwd);
+char	*new_pwd(char *pwd, char *cwd);
+void	maj_export_pwd(t_data *data);
 void	free_dup_env(char **dup_env);
 void	identify_line(t_data *data, t_lexer **lexer);
 void	str_quotes_operators(t_data *data, int j, int i, t_lexer **lexer);
@@ -173,5 +176,9 @@ int		ft_error_while(char *str);
 char	*ft_spe_strjoin(char *s1, char *s2);
 void	maj_shlvl(t_data *data, char **envp);
 void	create_variable(t_data *data, char *str, int j);
+void	add_node_to_lexer(t_lexer **lst, t_lexer *new);
+void	modif_shlvl2(char **tab_tmp, int i, char *str_search);
+char	*modified_str_shlvl(char *str, char *str_search);
+char	*add_str(char *str);
 int		ft_alldigit(char *str);
 #endif

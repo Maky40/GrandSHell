@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:14:57 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 10:04:30 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 10:44:25 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_signal;
 
-void display_prompt (t_data *data)
+void	display_prompt(t_data *data)
 {
 	data->valid_line = 0;
 	data->line = readline("minishell> ");
@@ -22,6 +22,7 @@ void display_prompt (t_data *data)
 		add_history(data->line);
 	check_invalid_line(data);
 }
+
 void	handler_sig_cmd(int signal)
 {
 	if (signal == SIGINT)
@@ -30,6 +31,7 @@ void	handler_sig_cmd(int signal)
 		g_signal = 130;
 	}
 }
+
 void	handler_sig(int signal)
 {
 	if (signal == SIGINT)
@@ -41,6 +43,7 @@ void	handler_sig(int signal)
 		g_signal = 130;
 	}
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -49,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	if (argc != 1)
-		return (ft_printf("Error, no argument needed\n"),1);
+		return (ft_printf("Error, no argument needed\n"), 1);
 	lexer = NULL;
 	tab_cmds = NULL;
 	data.env = dup_env(envp);
