@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:21:27 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 16:15:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 14:44:08 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	free_lexer(t_lexer **lexer)
 	while (lst)
 	{
 		next_node = lst->next;
-		free(lst->str);
+		if (lst->str != NULL)
+			free(lst->str);
 		free(lst);
 		lst = next_node;
 	}

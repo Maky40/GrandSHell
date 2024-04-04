@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xberger <xberger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:03:53 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 13:35:41 by xberger          ###   ########.fr       */
+/*   Updated: 2024/04/04 14:20:41 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	create_variable_shlvl(t_data *data, char *str, int j)
 		new_tab[i + 1] = ft_strdup(data -> env[i]);
 		i++;
 	}
-	new_tab[i + 1] = "\0";
+	new_tab[i + 1] = NULL;
 	free_dup_env(data -> env);
 	data -> env = new_tab;
 }

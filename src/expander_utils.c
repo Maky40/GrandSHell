@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:44:56 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 14:57:35 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 14:50:46 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	new_str_null(t_lexer *dup, t_expander *expander, char **ptr)
 	new_str[new_len] = '\0';
 	free(dup->str);
 	dup->str = new_str;
-	printf("dup->str : %s\n", dup->str);
+	printf("je suis new_str_null dup->str : %s\n", dup->str);
 	*ptr = new_str;
 }
 

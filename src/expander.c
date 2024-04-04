@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 14:54:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 15:02:45 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,14 @@ void	expand_variable(t_data *data, t_lexer *dup)
 				if (dup->str[0] == '"')
 					new_str_null(dup, &expander, &ptr);
 				else
-					dup->str = NULL;
+				{
+					free_and_null(dup);
+					break ;
+				}
 			}
 		}
 		ptr++;
 	}
-	printf("dup->str : %s\n", dup->str);
 }
 
 void	expander(t_data *data, t_lexer **lexer)
