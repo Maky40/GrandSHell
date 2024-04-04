@@ -6,11 +6,39 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:42:13 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 15:20:33 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 10:14:32 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+t_lexer	*lstlast(t_lexer *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
+}
+
+void	add_node_to_lexer(t_lexer **lst, t_lexer *new)
+{
+	t_lexer	*last;
+
+	if (!new)
+		return ;
+	if (*lst == NULL)
+	{
+		new -> prev = NULL;
+		new -> next = NULL;
+		*lst = new;
+		return ;
+	}
+	last = lstlast(*lst);
+	last -> next = new;
+	new -> prev = last;
+	new -> next = NULL;
+}
 
 void	identify_type_operators_2(t_data *data, int j, t_lexer *node)
 {
