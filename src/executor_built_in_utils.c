@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   executor_built_in_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:50:43 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 10:04:51 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/04 16:33:20 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	is_builtin_first(char *cmd)
+{
+	int	ret;
+
+	ret = 1;
+	if (cmd == NULL)
+		return (ret);
+	if (ft_strncmp(cmd, "unset", 6) == 0)
+		ret = 0;
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
+		ret = 0;
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
+		ret = 0;
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		ret = 0;
+	return (ret);
+}
 
 int	exec_open_output(t_table *tab_cmds, int i)
 {
