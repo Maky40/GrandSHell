@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   add_exit_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 14:58:22 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/04 17:40:20 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	find_cmd_exit(t_table *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd -> num_commands)
+	{
+		if (ft_strncmp(cmd->commands[i].command, "exit", 5) == 0)
+			return (i);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_error_while(char *str)
 {
@@ -32,10 +46,25 @@ int	ft_error_while(char *str)
 
 void	ft_exit(t_data *data, t_table *cmd)
 {
-	(void) cmd;
+	int	i;
+	int	pos;
+
+	i = 1;
 	if (data->exit == 1)
+	{
+		pos = find_cmd_exit(cmd);
+		while (cmd -> commands[pos].arguments[i])
+			i++;
+		if (pos == 0)
+			ft_putstr("exit\n");
+		if (i > 2)
+			ft_putstr("bash : exit : too many arguments\n");
+		if (i - 1 == 1 && ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 0)
+			ft_putstr("bash : exit : numeric argument require\n");
 		free_table_cmd(cmd);
+	}
+	else
+		ft_putstr("exit\n");
 	free_data_end(data);
-	ft_putstr("exit\n");
 	exit (0);
 }
