@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exit_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/05 09:37:52 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 11:41:57 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,27 @@ int	ft_error_while(char *str)
 	}
 	return (0);
 }
+int		modified_num(t_table *cmd, int pos, int i)
+{
+	if (i > 2)
+		return (1);
+	else if (i - 1 == 1 \
+			&& ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 0)
+		return (2);
+	else if (i - 1 == 1 \
+			&& ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 1)
+		return (ft_atoi(cmd -> commands[pos].arguments[i - 1]));
+	return (0);
+}
 
 void	ft_exit(t_data *data, t_table *cmd)
 {
 	int	i;
 	int	pos;
+	int	num;
 
 	i = 1;
+	num = 0;
 	if (data->exit == 1)
 	{
 		pos = find_cmd_exit(cmd);
@@ -59,13 +73,14 @@ void	ft_exit(t_data *data, t_table *cmd)
 			ft_putstr("exit\n");
 		if (i > 2)
 			ft_putstr("bash : exit : too many arguments\n");
-		if (i - 1 == 1
+		if (i - 1 == 1 \
 			&& ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 0)
 			ft_putstr("bash : exit : numeric argument require\n");
+		num = modified_num(cmd, pos, i);
 		free_table_cmd(cmd);
 	}
 	else
 		ft_putstr("exit\n");
 	free_data_end(data);
-	exit (0);
+	exit (num);
 }

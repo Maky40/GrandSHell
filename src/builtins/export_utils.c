@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:20:40 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 15:30:07 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 11:30:31 by mnie             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_error_export(char *str)
 		return (1);
 	if (ft_strchr(str, " ") == 1)
 		return (1);
-	if (ft_isdigit(str[0]) == 1)
+	if (ft_isalpha(str[0]) == 0)
 		return (1);
 	if (ft_strchr(str, "'") == 1)
 		return (1);
