@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:52:55 by xav               #+#    #+#             */
-/*   Updated: 2024/04/05 09:59:02 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 12:35:36 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_option(t_command *cmd)
 	int	i;
 
 	i = 0;
+	if (!cmd->arguments[1][i])
+		return (1);
 	while (cmd->arguments[1][i])
 	{
 		if (cmd->arguments[1][i] == '-')
@@ -67,8 +69,6 @@ int	echo_quotes(t_command *cmd, int i)
 	{
 		if (cmd->arguments[i + 1] == NULL)
 			ret = 1;
-		else
-			ft_printf(" ");
 	}
 	else
 		ft_printf("%s", cmd->arguments[i]);
@@ -84,7 +84,7 @@ void	builtin_echo(t_command *cmd, t_data *data)
 	option = 0;
 	while (cmd->arguments[i])
 	{
-		if (i == 1 && check_option(cmd) == 0)
+		if (i == 1 && check_option(cmd) == 0 && cmd->arguments[i] != NULL)
 		{
 			option = 1;
 			i = skip_option(cmd, i);

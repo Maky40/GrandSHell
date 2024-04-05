@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/04/05 09:57:39 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 12:21:43 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	open_output(t_command *command, int i)
 	close(fd);
 }
 
-int	open_input(t_command *command, int i)
+int	open_input(t_command *command, int i, t_data *data)
 {
 	int	fd;
 
@@ -36,18 +36,19 @@ int	open_input(t_command *command, int i)
 	if (fd < 0)
 	{
 		ft_printf("bash: %s: No such file or directory\n", command->fd[i].str);
+		data->exit_status = 1;
 		return (1);
 	}
 	close(fd);
 	return (0);
 }
 
-int	open_last(t_command *command, int i)
+int	open_last(t_command *command, int i, t_data *data)
 {
 	command->fd[i].heredoc_last = 0;
 	if (command->fd[i].token == 2)
 	{
-		if (open_input(command, i) == 1)
+		if (open_input(command, i, data) == 1)
 			return (1);
 	}
 	else if (command->fd[i].token == 3)
@@ -65,7 +66,7 @@ int	open_last(t_command *command, int i)
 	return (0);
 }
 
-int	open_fd(t_command *command)
+int	open_fd(t_command *command, t_data *data)
 {
 	int	i;
 
@@ -78,7 +79,7 @@ int	open_fd(t_command *command)
 		command->fd[i].heredoc_last = 0;
 		if (command->fd[i].token == 2)
 		{
-			if (open_input(command, i) == 1)
+			if (open_input(command, i, data) == 1)
 				return (1);
 		}
 		else if (command->fd[i].token == 3)
@@ -89,7 +90,7 @@ int	open_fd(t_command *command)
 			heredoc_tmp_fd(command, i);
 		i++;
 	}
-	if (open_last(command, i) == 1)
+	if (open_last(command, i, data) == 1)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:18:42 by xav               #+#    #+#             */
-/*   Updated: 2024/04/04 16:25:57 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 12:22:22 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	executor(t_table *tab_cmds, t_data *data)
 	{
 		if (i < tab_cmds->num_commands - 1)
 			pipe(data->curr_pipe);
-		if (open_fd(&tab_cmds->commands[i]) == 0)
+		if (open_fd(&tab_cmds->commands[i], data) == 0)
 			execute_command(i, tab_cmds, data);
 		close_and_update_pipes(i, data);
 	}

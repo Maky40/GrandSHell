@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exit_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/05 11:41:57 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:41:20 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	ft_error_while(char *str)
 	}
 	return (0);
 }
-int		modified_num(t_table *cmd, int pos, int i)
+
+int	modified_num(t_table *cmd, int pos, int i)
 {
 	if (i > 2)
 		return (1);
