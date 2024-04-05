@@ -6,11 +6,33 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:11:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 14:03:25 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 09:49:27 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	set_str_redirect(t_command *cmd, int i, int j)
+{
+	if (cmd[i].fd[j].token == INPUT)
+	{
+		if (cmd[i].input_file != NULL)
+			free(cmd[i].input_file);
+		cmd[i].input_file = ft_strdup(cmd[i].fd[j].str);
+	}
+	else if (cmd[i].fd[j].token == OUTPUT)
+	{
+		if (cmd[i].output_file != NULL)
+			free(cmd[i].output_file);
+		cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
+	}
+	else if (cmd[i].fd[j].token == APPEND)
+	{
+		if (cmd[i].output_file != NULL)
+			free(cmd[i].output_file);
+		cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
+	}
+}
 
 void	set_input_output(t_command *cmd, int i, int len)
 {
@@ -26,12 +48,7 @@ void	set_input_output(t_command *cmd, int i, int len)
 			if (cmd[i].fd[j].token == INPUT || cmd[i].fd[j].token == OUTPUT
 				|| cmd[i].fd[j].token == APPEND)
 			{
-				if (cmd[i].fd[j].token == INPUT)
-					cmd[i].input_file = ft_strdup(cmd[i].fd[j].str);
-				if (cmd[i].fd[j].token == OUTPUT)
-					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
-				if (cmd[i].fd[j].token == APPEND)
-					cmd[i].output_file = ft_strdup(cmd[i].fd[j].str);
+				set_str_redirect(cmd, i, j);
 			}
 			j++;
 		}

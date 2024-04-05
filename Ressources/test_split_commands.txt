@@ -1,8 +1,0 @@
-( (ls -l | grep " < pattern" | sort > sorted_output.txt) || (cat input.txt | grep ">> another_pattern" && echo " ||Success") && echo "  > Done") || echo "Failed"
-ps aux | grep "process_name"
-cat file1.txt file2.txt | sort > sorted_files.txt
-grep 'pattern' 'file with spaces.txt' | sort > 'output file.txt'
-echo '$NAME'
-echo "$NAME"
-echo '$.194t59569"
-echo "$1234"
