@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 16:33:28 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 09:38:13 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,5 @@ void	modif_shlvl2(char **tab_tmp, int i, char *str_search);
 char	*modified_str_shlvl(char *str, char *str_search);
 char	*add_str(char *str);
 int		ft_alldigit(char *str);
-int	is_builtin_first(char *cmd);
+int		is_builtin_first(char *cmd);
 #endif

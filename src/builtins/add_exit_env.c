@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exit_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnie <mnie@student.42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 11:07:35 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/04 17:40:20 by mnie             ###   ########.fr       */
+/*   Updated: 2024/04/05 09:37:52 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	ft_exit(t_data *data, t_table *cmd)
 			ft_putstr("exit\n");
 		if (i > 2)
 			ft_putstr("bash : exit : too many arguments\n");
-		if (i - 1 == 1 && ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 0)
+		if (i - 1 == 1
+			&& ft_alldigit(cmd -> commands[pos].arguments[i - 1]) == 0)
 			ft_putstr("bash : exit : numeric argument require\n");
 		free_table_cmd(cmd);
 	}
