@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:12:30 by xav               #+#    #+#             */
-/*   Updated: 2024/04/05 09:36:41 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 09:57:39 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	open_append(t_command *command, int i)
 {
 	int	fd;
 
-	printf("Append file :%s\n", command->fd[i].str);
 	fd = open(command->fd[i].str, O_CREAT | O_RDWR, O_APPEND, 0666);
 	close(fd);
 }
@@ -25,7 +24,6 @@ void	open_output(t_command *command, int i)
 {
 	int	fd;
 
-	printf("Output file :%s\n", command->fd[i].str);
 	fd = open(command->fd[i].str, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	close(fd);
 }
@@ -37,7 +35,7 @@ int	open_input(t_command *command, int i)
 	fd = open(command->fd[i].str, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("bash: %s: No such file or directory\n", command->fd[i].str);
+		ft_printf("bash: %s: No such file or directory\n", command->fd[i].str);
 		return (1);
 	}
 	close(fd);

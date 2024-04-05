@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:52:55 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 15:35:42 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 09:59:02 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	echo_quotes(t_command *cmd, int i)
 		if (cmd->arguments[i + 1] == NULL)
 			ret = 1;
 		else
-			printf(" ");
+			ft_printf(" ");
 	}
 	else
 		ft_printf("%s", cmd->arguments[i]);
