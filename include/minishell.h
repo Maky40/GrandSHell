@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:15:38 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/05 12:21:01 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:29:21 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 extern int	g_signal;
 
@@ -186,4 +187,5 @@ char	*modified_str_shlvl(char *str, char *str_search);
 char	*add_str(char *str);
 int		ft_alldigit(char *str);
 int		is_builtin_first(char *cmd);
+void	set_command(t_lexer *lst, t_table *tab_cmds, int i);
 #endif

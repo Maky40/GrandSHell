@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 15:40:11 by mnie              #+#    #+#             */
-/*   Updated: 2024/04/03 14:00:34 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:29:44 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	add_commands(t_table *tab_cmds, t_lexer **lexer)
 	while (i < tab_cmds -> num_commands)
 	{
 		if (lst -> token == COMMANDE)
-			tab_cmds -> commands[i].command = ft_strdup(lst -> str);
+			set_command(lst, tab_cmds, i);
 		else
 			tab_cmds -> commands[i].command = NULL;
 		if (tab_cmds -> commands[i].command != NULL)

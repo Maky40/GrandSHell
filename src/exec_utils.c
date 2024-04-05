@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:37:56 by xav               #+#    #+#             */
-/*   Updated: 2024/04/03 15:03:54 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/05 14:25:39 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,17 @@ void	*find_path(char *cmd, char **env)
 
 void	execute(t_table *tab_cmds, t_data *data, int i)
 {
-	char	*path;
+	char		*path;
+	struct stat	info;
 
 	if (access(tab_cmds->commands[i].command, F_OK | X_OK) == 0)
-		path = tab_cmds->commands[i].command;
+	{
+		if (stat(tab_cmds->commands[i].command, &info) == 0
+			&& !S_ISDIR(info.st_mode))
+			path = tab_cmds->commands[i].command;
+		else
+			path = NULL;
+	}
 	else
 		path = find_path(tab_cmds->commands[i].command, data->env);
 	if (!path)
