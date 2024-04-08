@@ -6,7 +6,7 @@
 /*   By: xav <xav@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:21:17 by xav               #+#    #+#             */
-/*   Updated: 2024/04/05 15:15:17 by xav              ###   ########.fr       */
+/*   Updated: 2024/04/08 14:06:20 by xav              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	expand_variable(t_data *data, t_lexer *dup)
 			free(expander.name);
 			if (expander.value == NULL)
 			{
-				if (dup->str[0] == '"')
+				if (dup->str[0])
 					new_str_null(dup, &expander, &ptr);
 				else
 				{
